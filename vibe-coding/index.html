@@ -22,6 +22,7 @@ header{background:var(--navy);position:sticky;top:0;z-index:20;box-shadow:0 2px 
 .wrap{max-width:1180px;margin:auto;padding:24px 20px 60px}
 .hero{border-radius:18px;overflow:hidden;position:relative;background:var(--navy)}
 .hero img{width:100%;display:block}
+.introv{margin-top:20px;background:#fff;border:1px solid var(--line);border-radius:14px;padding:16px}.introv h2{font-size:17px;margin-bottom:10px}.introv video{width:100%;max-width:820px;margin:0 auto;border-radius:10px;display:block;aspect-ratio:16/9;background:#0b1533}
 .hero .go{position:absolute;left:4.6%;bottom:12%;background:var(--gold);color:var(--navy);font-weight:900;border:0;font-size:clamp(14px,1.6vw,20px);padding:.8em 1.5em;border-radius:10px;cursor:pointer;font-family:inherit;box-shadow:0 6px 20px rgba(0,0,0,.3)}
 .grid{display:grid;grid-template-columns:1fr 320px;gap:24px;margin-top:24px}
 .part{background:#fff;border:1px solid var(--line);border-radius:14px;margin-bottom:18px;overflow:hidden}
@@ -95,7 +96,7 @@ async function doLogin(ev){ev.preventDefault();const f=ev.target,m=f.querySelect
 async function doReset(){const f=document.getElementById('lf'),m=f.querySelector('.msg');if(!f.email.value){m.textContent='Nhập email đã đăng ký trước, rồi bấm lại "Quên mật khẩu".';return}
  m.className='msg';m.textContent='Đang gửi…';try{const r=await api({action:'reset',email:f.email.value});m.className='msg ok';m.textContent=r.msg}catch(e){m.textContent='Không kết nối được, anh/chị thử lại.'}}
 function gate(){document.getElementById('crumb').innerHTML='<b>28 NGÀY VIBE CODING</b> · Khu vực học viên';
- let h=`<div class="hero"><img src="/vibe-coding/img/hero.jpg" alt="28 NGÀY VIBE CODING – Tự làm Bot CSKH Zalo & Facebook bằng AI"></div><div class="gate"><main>`;
+ let h=`<div class="hero"><img src="/vibe-coding/img/hero.jpg" alt="28 NGÀY VIBE CODING – Tự làm Bot CSKH Zalo & Facebook bằng AI"></div><div class="introv"><h2>Video giới thiệu khoá học</h2><video  controls playsinline preload="metadata" poster="/video/poster-vibe-coding.jpg"><source src="/video/gioi-thieu-28-ngay-vibe-coding.mp4" type="video/mp4"></video></div><div class="gate"><main>`;
  C.parts.forEach(pt=>{h+=`<div class="part"><h2>${pt.name}</h2>`;pt.lessons.forEach(i=>{const L=C.lessons[i];
   h+=`<div class="ls lock" onclick="const f=document.getElementById('lf');if(f)f.email.focus()"><img src="/vibe-coding/img/bai-${pad(i)}.jpg" alt="Bài ${pad(i)}" loading="lazy"><div style="flex:1"><h3>${L.day}. ${L.title}</h3><p>Sau bài này: ${strip(L.goal)}</p></div></div>`});h+=`</div>`});
  h+=`</main><aside>${NOTOWN?`<div class="login"><h2>Xin chào ${WHO} 👋</h2><div class="small">Tài khoản của anh/chị chưa mở khoá này. Đăng ký bằng đúng email này, thanh toán xong khoá sẽ tự mở.</div><button class="btn" onclick="logout()" style="background:#5d6785">Đăng nhập tài khoản khác</button></div>`:`<form class="login" id="lf" onsubmit="doLogin(event)"><h2>Đăng nhập để học</h2><div class="small">Dùng email và mật khẩu trong thư chào mừng.</div>
@@ -114,7 +115,7 @@ function sidebar(){const d=getDone(),p=Math.round(d.length/19*100);
  <a class="btn" href="${C.zalo}" target="_blank" rel="noopener">Vào nhóm Zalo hỏi đáp</a></div></aside>`}
 function nextIdx(){const d=getDone();for(let i=1;i<=19;i++)if(!d.includes(i))return i;return 1}
 function home(){document.getElementById('crumb').innerHTML='<b>28 NGÀY VIBE CODING</b> · Bot CSKH Zalo & Facebook';
- let h=`<div class="hero"><img src="/vibe-coding/img/hero.jpg" alt="28 NGÀY VIBE CODING – Tự làm Bot CSKH Zalo & Facebook bằng AI"><button class="go" onclick="go('bai-'+${nextIdx()})">${getDone().length?'Học tiếp ▶':'Bắt đầu khoá học ▶'}</button></div><div class="grid"><main>`;
+ let h=`<div class="hero"><img src="/vibe-coding/img/hero.jpg" alt="28 NGÀY VIBE CODING – Tự làm Bot CSKH Zalo & Facebook bằng AI"><button class="go" onclick="go('bai-'+${nextIdx()})">${getDone().length?'Học tiếp ▶':'Bắt đầu khoá học ▶'}</button></div><div class="introv"><h2>Video giới thiệu khoá học</h2><video  controls playsinline preload="metadata" poster="/video/poster-vibe-coding.jpg"><source src="/video/gioi-thieu-28-ngay-vibe-coding.mp4" type="video/mp4"></video></div><div class="grid"><main>`;
  const d=getDone();
  C.parts.forEach(pt=>{h+=`<div class="part"><h2>${pt.name}</h2>`;pt.lessons.forEach(i=>{const L=C.lessons[i];
   h+=`<div class="ls" onclick="go('bai-${i}')"><img src="/vibe-coding/img/bai-${pad(i)}.jpg" alt="Bài ${pad(i)}" loading="lazy"><div style="flex:1"><h3>${L.day}. ${L.title}</h3><p>Sau bài này: ${strip(L.goal)}</p></div><span class="dn ${d.includes(i)?'on':''}"></span></div>`});h+=`</div>`});
