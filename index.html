@@ -5,7 +5,7 @@
 <meta name="description" content="Các khoá học cầm tay chỉ việc của Đại Lê AI: VẬN HÀNH AGENT và 28 NGÀY VIBE CODING. Đăng nhập một lần, học mọi khoá bạn đã sở hữu.">
 <meta property="og:title" content="Khoá học của Đại Lê AI">
 <meta property="og:description" content="Tự làm ra sản phẩm với AI, ngay cả khi bạn không phải lập trình viên.">
-<meta property="og:image" content="/img/hero.jpg">
+<meta property="og:image" content="/img/hero.jpg?v=20261105">
 <link rel="icon" href="/img/cover-square.jpg">
 <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 <style>
@@ -58,26 +58,26 @@ footer img{height:26px;filter:invert(1) brightness(.3);margin-bottom:6px}
 @media(max-width:720px){.top .in{flex-direction:column-reverse;align-items:flex-start;padding:30px 20px 80px}.top img.me{width:110px}.loginbox{grid-template-columns:1fr}.hd .who{display:none}}
 </style></head>
 <body>
-<header><div class="hd"><a href="/"><img src="/img/logo-am.png" alt="ĐẠI LÊ AI"></a><div class="sp"></div><div class="who" id="who"></div><span id="hbtn"></span></div></header>
+<header><div class="hd"><a href="/"><img src="/img/logo-am.png?v=20261105" alt="ĐẠI LÊ AI"></a><div class="sp"></div><div class="who" id="who"></div><span id="hbtn"></span></div></header>
 <section class="top"><div class="in"><div>
 <h1>Khoá học của <span>Đại Lê AI</span></h1>
 <p>Tự làm ra sản phẩm với AI, ngay cả khi bạn không phải lập trình viên. Đăng nhập một lần, vào học mọi khoá bạn đã sở hữu.</p>
 </div><img class="me" src="/img/dai-1.jpg" alt="Đại Lê"></div></section>
 <div class="wrap">
 <div class="cards" id="cards"></div>
-<div class="vids"><h3>Video giới thiệu khoá học</h3><div class="vc"><video controls playsinline preload="metadata" poster="https://hoc.lequydai.com/video/poster-van-hanh.jpg"><source src="https://hoc.lequydai.com/video/gioi-thieu-van-hanh-agent.mp4" type="video/mp4"></video><div class="vt"><b>VẬN HÀNH AGENT</b><a href="/dang-ky/">Xem khoá →</a></div></div><div class="vc"><video controls playsinline preload="metadata" poster="https://hoc.lequydai.com/video/poster-vibe-coding.jpg"><source src="https://hoc.lequydai.com/video/gioi-thieu-28-ngay-vibe-coding.mp4" type="video/mp4"></video><div class="vt"><b>28 NGÀY VIBE CODING</b><a href="/vibe-coding/dang-ky/">Xem khoá →</a></div></div></div>
+<div class="vids"><h3>Video giới thiệu khoá học</h3><div class="vc"><video controls playsinline preload="metadata" poster="https://hoc.lequydai.com/video/poster-van-hanh.jpg?v=20261105"><source src="https://hoc.lequydai.com/video/gioi-thieu-van-hanh-agent.mp4?v=20261105" type="video/mp4"></video><div class="vt"><b>VẬN HÀNH AGENT</b><a href="/dang-ky/">Xem khoá →</a></div></div><div class="vc"><video controls playsinline preload="metadata" poster="https://hoc.lequydai.com/video/poster-vibe-coding.jpg?v=20261105"><source src="https://hoc.lequydai.com/video/gioi-thieu-28-ngay-vibe-coding.mp4?v=20261105" type="video/mp4"></video><div class="vt"><b>28 NGÀY VIBE CODING</b><a href="/vibe-coding/dang-ky/">Xem khoá →</a></div></div></div>
 <div class="loginbox" id="loginbox">
  <div><h3>Đã mua khoá học?</h3><div class="small">Đăng nhập bằng email và mật khẩu đã gửi vào hộp thư sau khi anh/chị thanh toán. Đăng nhập xong, khoá nào đã sở hữu sẽ hiện nút <b>VÀO HỌC</b>.</div>
  <div class="small" style="margin-top:10px">Cần hỗ trợ: Zalo <b>0972 782 782</b></div></div>
  <form id="lf" onsubmit="login(event)"><input name="email" type="email" placeholder="Email đã đăng ký" required autocomplete="email"><input name="pw" type="password" placeholder="Mật khẩu" required autocomplete="current-password"><button class="btn" id="lb">ĐĂNG NHẬP</button><div class="msg" id="lm"></div><button type="button" class="forgot" onclick="forgot()">Quên mật khẩu?</button></form>
 </div>
 </div>
-<footer><img src="/img/logo-am.png" alt="ĐẠI LÊ AI"><div>© 2026 ĐẠI LÊ AI · <a href="https://lequydai.com">Về Đại Lê AI</a> · Zalo 0972 782 782</div></footer>
+<footer><img src="/img/logo-am.png?v=20261105" alt="ĐẠI LÊ AI"><div>© 2026 ĐẠI LÊ AI · <a href="https://lequydai.com">Về Đại Lê AI</a> · Zalo 0972 782 782</div></footer>
 <script src="/config.js"></script>
 <script>
 const COURSES=[
- {id:'vanhanh',name:'VẬN HÀNH AGENT',meta:'16 bài · Cầm tay chỉ việc',desc:'Dựng đội nhân viên AI tự làm việc cho bạn: cài app VẬN HÀNH, giao việc, hẹn giờ, chatbot khách hàng và chạy 24/7 với tên miền riêng.',img:'/img/hero.jpg',learn:'/van-hanh/',buy:'/dang-ky/',price:'1.990.000đ',total:16,done:'vanhanh-agent-done'},
- {id:'vibe',name:'28 NGÀY VIBE CODING',meta:'28 ngày · Bot CSKH Zalo & Facebook',desc:'Tự làm bot chăm sóc khách hàng tự trả lời trên Zalo và Facebook bằng AI, không cần biết code. Mỗi ngày một bước nhỏ, làm là chạy.',img:'/vibe-coding/img/hero.jpg',learn:'/vibe-coding/',buy:'/vibe-coding/dang-ky/',price:'2.990.000đ',total:19,done:'vibe-coding-done'}
+ {id:'vanhanh',name:'VẬN HÀNH AGENT',meta:'16 bài · Cầm tay chỉ việc',desc:'Dựng đội nhân viên AI tự làm việc cho bạn: cài app VẬN HÀNH, giao việc, hẹn giờ, chatbot khách hàng và chạy 24/7 với tên miền riêng.',img:'/img/hero.jpg?v=20261105',learn:'/van-hanh/',buy:'/dang-ky/',price:'1.990.000đ',total:16,done:'vanhanh-agent-done'},
+ {id:'vibe',name:'28 NGÀY VIBE CODING',meta:'28 ngày · Bot CSKH Zalo & Facebook',desc:'Tự làm bot chăm sóc khách hàng tự trả lời trên Zalo và Facebook bằng AI, không cần biết code. Mỗi ngày một bước nhỏ, làm là chạy.',img:'/vibe-coding/img/hero.jpg?v=20261105',learn:'/vibe-coding/',buy:'/vibe-coding/dang-ky/',price:'2.990.000đ',total:19,done:'vibe-coding-done'}
 ];
 const TK='vh-token';let ME=null;
 function ls(k,v){try{if(v===undefined)return localStorage.getItem(k);if(v===null)localStorage.removeItem(k);else localStorage.setItem(k,v)}catch(e){if(v===undefined)return window['__'+k];window['__'+k]=v}}

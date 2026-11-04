@@ -5,7 +5,7 @@
 <meta name="description" content="Khoá học 16 bài cầm tay chỉ việc: cài VẬN HÀNH, dựng đội nhân viên AI, hẹn giờ, chatbot khách hàng và chạy 24/7 với tên miền riêng.">
 <meta property="og:title" content="VẬN HÀNH AGENT – Trợ lý AI làm việc tự động theo não của bạn">
 <meta property="og:description" content="16 bài cầm tay chỉ việc cùng Đại Lê AI.">
-<meta property="og:image" content="/img/hero.jpg">
+<meta property="og:image" content="/img/hero.jpg?v=20261105">
 <link rel="icon" href="/img/cover-square.jpg">
 <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 <style>
@@ -78,9 +78,9 @@ footer img{height:30px;margin-bottom:8px}
 @media(max-width:860px){.grid{grid-template-columns:1fr}aside{order:-1}aside .box{position:static}.ls img{width:120px}.lesson{padding:18px}.hd .crumb{display:none}.hero .go{font-size:13px}}
 </style></head>
 <body>
-<header><div class="hd"><img src="/img/logo-am.png" alt="ĐẠI LÊ AI" onclick="go('')"><div class="crumb" id="crumb"></div><a class="zl" id="zl" target="_blank" rel="noopener">Nhóm Zalo học viên</a><button class="out" id="out" onclick="logout()">Đăng xuất</button></div></header>
+<header><div class="hd"><img src="/img/logo-am.png?v=20261105" alt="ĐẠI LÊ AI" onclick="go('')"><div class="crumb" id="crumb"></div><a class="zl" id="zl" target="_blank" rel="noopener">Nhóm Zalo học viên</a><button class="out" id="out" onclick="logout()">Đăng xuất</button></div></header>
 <div class="wrap" id="app"></div>
-<footer><img src="/img/logo-am.png" alt="ĐẠI LÊ AI"><div>VẬN HÀNH AGENT · Khoá học của Đại Lê AI · <a href="/">Tất cả khoá học</a> · App: <a href="https://vanhanh.lequydai.com" target="_blank">vanhanh.lequydai.com</a></div><div style="margin-top:4px">© 2026 ĐẠI LÊ AI · hoc.lequydai.com</div></footer>
+<footer><img src="/img/logo-am.png?v=20261105" alt="ĐẠI LÊ AI"><div>VẬN HÀNH AGENT · Khoá học của Đại Lê AI · <a href="/">Tất cả khoá học</a> · App: <a href="https://vanhanh.lequydai.com" target="_blank">vanhanh.lequydai.com</a></div><div style="margin-top:4px">© 2026 ĐẠI LÊ AI · hoc.lequydai.com</div></footer>
 <script src="/config.js"></script>
 <script src="lessons.js"></script>
 <script>
@@ -96,7 +96,7 @@ async function doLogin(ev){ev.preventDefault();const f=ev.target,m=f.querySelect
 async function doReset(){const f=document.getElementById('lf'),m=f.querySelector('.msg');if(!f.email.value){m.textContent='Nhập email đã đăng ký trước, rồi bấm lại "Quên mật khẩu".';return}
  m.className='msg';m.textContent='Đang gửi…';try{const r=await api({action:'reset',email:f.email.value});m.className='msg ok';m.textContent=r.msg}catch(e){m.textContent='Không kết nối được, anh/chị thử lại.'}}
 function gate(){document.getElementById('crumb').innerHTML='<b>VẬN HÀNH AGENT</b> · Khu vực học viên';
- let h=`<div class="hero"><img src="/img/hero.jpg" alt="VẬN HÀNH AGENT – Trợ lý AI làm việc tự động theo não của bạn"></div><div class="introv"><h2>Video giới thiệu khoá học</h2><video  controls playsinline preload="metadata" poster="/video/poster-van-hanh.jpg"><source src="/video/gioi-thieu-van-hanh-agent.mp4" type="video/mp4"></video></div><div class="gate"><main>`;
+ let h=`<div class="hero"><img src="/img/hero.jpg?v=20261105" alt="VẬN HÀNH AGENT – Trợ lý AI làm việc tự động theo não của bạn"></div><div class="introv"><h2>Video giới thiệu khoá học</h2><video  controls playsinline preload="metadata" poster="/video/poster-van-hanh.jpg?v=20261105"><source src="/video/gioi-thieu-van-hanh-agent.mp4?v=20261105" type="video/mp4"></video></div><div class="gate"><main>`;
  C.parts.forEach(pt=>{h+=`<div class="part"><h2>${pt.name}</h2>`;pt.lessons.forEach(i=>{const L=C.lessons[i];
   h+=`<div class="ls lock" onclick="const f=document.getElementById('lf');if(f)f.email.focus()"><img src="/img/bai-${pad(i)}.jpg" alt="Bài ${pad(i)}" loading="lazy"><div style="flex:1"><h3>Bài ${pad(i)}. ${L.title}</h3><p>Sau bài này: ${strip(L.goal)}</p></div></div>`});h+=`</div>`});
  h+=`</main><aside>${NOTOWN?`<div class="login"><h2>Xin chào ${WHO} 👋</h2><div class="small">Tài khoản của anh/chị chưa mở khoá này. Đăng ký bằng đúng email này, thanh toán xong khoá sẽ tự mở.</div><button class="btn" onclick="logout()" style="background:#5d6785">Đăng nhập tài khoản khác</button></div>`:`<form class="login" id="lf" onsubmit="doLogin(event)"><h2>Đăng nhập để học</h2><div class="small">Dùng email và mật khẩu trong thư chào mừng.</div>
@@ -115,7 +115,7 @@ function sidebar(){const d=getDone(),p=Math.round(d.length/16*100);
  <a class="btn" href="${C.zalo}" target="_blank" rel="noopener">Vào nhóm Zalo hỏi đáp</a></div></aside>`}
 function nextIdx(){const d=getDone();for(let i=1;i<=16;i++)if(!d.includes(i))return i;return 1}
 function home(){document.getElementById('crumb').innerHTML='<b>VẬN HÀNH AGENT</b> · Trợ lý AI làm việc tự động theo não của bạn';
- let h=`<div class="hero"><img src="/img/hero.jpg" alt="VẬN HÀNH AGENT – Trợ lý AI làm việc tự động theo não của bạn"><button class="go" onclick="go('bai-'+${nextIdx()})">${getDone().length?'Học tiếp ▶':'Bắt đầu khoá học ▶'}</button></div><div class="introv"><h2>Video giới thiệu khoá học</h2><video  controls playsinline preload="metadata" poster="/video/poster-van-hanh.jpg"><source src="/video/gioi-thieu-van-hanh-agent.mp4" type="video/mp4"></video></div><div class="grid"><main>`;
+ let h=`<div class="hero"><img src="/img/hero.jpg?v=20261105" alt="VẬN HÀNH AGENT – Trợ lý AI làm việc tự động theo não của bạn"><button class="go" onclick="go('bai-'+${nextIdx()})">${getDone().length?'Học tiếp ▶':'Bắt đầu khoá học ▶'}</button></div><div class="introv"><h2>Video giới thiệu khoá học</h2><video  controls playsinline preload="metadata" poster="/video/poster-van-hanh.jpg?v=20261105"><source src="/video/gioi-thieu-van-hanh-agent.mp4?v=20261105" type="video/mp4"></video></div><div class="grid"><main>`;
  const d=getDone();
  C.parts.forEach(pt=>{h+=`<div class="part"><h2>${pt.name}</h2>`;pt.lessons.forEach(i=>{const L=C.lessons[i];
   h+=`<div class="ls" onclick="go('bai-${i}')"><img src="/img/bai-${pad(i)}.jpg" alt="Bài ${pad(i)}" loading="lazy"><div style="flex:1"><h3>Bài ${pad(i)}. ${L.title}</h3><p>Sau bài này: ${strip(L.goal)}</p></div><span class="dn ${d.includes(i)?'on':''}"></span></div>`});h+=`</div>`});
