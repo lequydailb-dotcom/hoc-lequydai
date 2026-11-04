@@ -1,0 +1,220 @@
+<!doctype html>
+<html lang="vi"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>VẬN HÀNH AGENT - Dựng đội nhân viên AI tự làm việc cho anh/chị | Đại Lê AI</title>
+<meta name="description" content="16 bài cầm tay chỉ việc: cài trợ lý AI VẬN HÀNH, nạp kiến thức, giao việc qua Zalo, hẹn giờ tự làm, chatbot trả lời khách và chạy 24/7.">
+<meta property="og:title" content="VẬN HÀNH AGENT - Dựng đội nhân viên AI tự làm việc cho anh/chị">
+<meta property="og:description" content="16 bài cầm tay chỉ việc cùng Đại Lê AI. Không cần biết code.">
+<meta property="og:image" content="https://lequydai.com/img/hero.jpg">
+<link rel="icon" href="/img/cover-square.jpg">
+<style>
+:root{--red:#D32F2F;--red2:#B71C1C;--y:#FFD700;--y2:#FFC107;--navy:#0d1838;--ink:#333;--mut:#666;--cream:#FFF8E1;--ok:#388E3C}
+*{box-sizing:border-box;margin:0}
+body{font-family:-apple-system,"Segoe UI",Roboto,Arial,sans-serif;color:var(--ink);font-size:19px;line-height:1.6;background:#fff}
+.w{max-width:720px;margin:auto;padding:0 20px}
+section{padding:60px 0}
+.top{background:linear-gradient(#fffbe6,#fff);padding-top:28px}
+.brand{display:flex;justify-content:center;margin-bottom:22px}.brand img{height:34px;background:var(--navy);padding:7px 12px;border-radius:8px}
+.pre{font-style:italic;font-size:17px;color:var(--mut);text-align:center;margin-bottom:14px}
+h1{font-size:44px;line-height:1.2;font-weight:800;color:var(--red);text-align:center;letter-spacing:-.5px}
+.hl{background:var(--y);color:#1A1A1A;padding:0 6px;border-radius:4px}
+.sub{font-size:24px;color:#444;text-align:center;margin-top:18px;font-weight:600}
+.heroimg{margin-top:28px;border-radius:14px;width:100%;display:block;box-shadow:0 10px 30px rgba(0,0,0,.15)}
+h2{font-size:30px;line-height:1.3;font-weight:800;color:var(--navy);margin-bottom:20px}
+p{margin-bottom:20px}
+.dark{background:var(--navy);color:#fff}.dark h2{color:var(--y)}.dark p,.dark li{color:#e8ecf7}
+.dark ul{padding-left:22px;margin-bottom:20px}.dark li{margin-bottom:10px}
+.cta{display:block;text-align:center;background:var(--y);color:var(--red);font-weight:900;font-size:24px;text-transform:uppercase;border:4px solid #1A1A1A;border-radius:12px;padding:22px 16px;text-decoration:none;box-shadow:0 6px 0 #1A1A1A,0 12px 24px rgba(0,0,0,.2);animation:pulse 1.5s infinite;margin:30px 0 14px;line-height:1.25;cursor:pointer;font-family:inherit;width:100%}
+.cta:hover{color:var(--red2)}
+@keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.03)}}
+.safe{text-align:center;font-size:15px;color:var(--mut)}
+.ticks{list-style:none;padding:0}.ticks li{padding-left:34px;position:relative;margin-bottom:12px}
+.ticks li:before{content:"✓";position:absolute;left:0;top:0;color:#fff;background:var(--ok);width:24px;height:24px;border-radius:50%;font-size:15px;font-weight:900;text-align:center;line-height:24px}
+.mech{display:grid;gap:14px}.mech div{background:#f4f6fb;border-left:5px solid var(--y2);border-radius:10px;padding:16px 18px}
+.mech b{color:var(--navy)}
+.pack{border:3px solid var(--navy);border-radius:14px;overflow:hidden}
+.pack .ph{background:var(--navy);color:var(--y);font-weight:900;padding:14px 18px;font-size:20px}
+.pack .row{padding:14px 18px;border-top:1px solid #e3e8f2}
+.pack .row b{color:var(--navy)}
+.part{font-size:16px;color:var(--mut);margin-top:4px}
+.price{text-align:center;background:var(--cream);border:3px dashed var(--y2);border-radius:14px;padding:26px 18px}
+.price .big{font-size:44px;font-weight:900;color:var(--red);line-height:1.1}
+.price .lbl{font-weight:800;color:#1A1A1A;font-size:18px}
+.note{background:#f4f6fb;border-radius:10px;padding:14px 18px;font-size:16px;color:#444}
+.steps{counter-reset:s;list-style:none;padding:0;margin:10px 0 0}
+.steps li{counter-increment:s;padding-left:46px;position:relative;margin-bottom:14px}
+.steps li:before{content:counter(s);position:absolute;left:0;top:-2px;width:34px;height:34px;border-radius:50%;background:var(--navy);color:var(--y);font-weight:900;text-align:center;line-height:34px}
+.who{display:flex;gap:18px;align-items:center;background:#f4f6fb;border-radius:14px;padding:16px}
+.who img{width:110px;height:110px;object-fit:cover;object-position:60% 25%;border-radius:50%;flex:none}
+/* checkout */
+#mua{background:#f4f6fb}
+.box{background:#fff;border-radius:16px;padding:24px;box-shadow:0 8px 30px rgba(13,24,56,.12);border:1px solid #e3e8f2}
+.box label{display:block;font-weight:700;font-size:16px;margin:14px 0 6px;color:var(--navy)}
+.box input{width:100%;padding:14px;border:2px solid #dfe5f1;border-radius:10px;font-size:18px;font-family:inherit}
+.box input:focus{outline:none;border-color:var(--y2)}
+.err{color:var(--red);font-size:15px;min-height:20px;margin-top:10px}
+.pay{display:none;text-align:center}
+.pay img{width:260px;max-width:100%;border-radius:12px;border:1px solid #e3e8f2}
+.pay table{width:100%;border-collapse:collapse;margin:14px 0;font-size:17px;text-align:left}
+.pay td{padding:9px 10px;border:1px solid #e3e8f2}.pay td:first-child{color:var(--mut);width:42%}
+.code{color:var(--red);font-weight:900;font-size:22px;letter-spacing:1px}
+.cp{background:var(--navy);color:#fff;border:0;border-radius:6px;padding:4px 10px;font-size:13px;cursor:pointer;margin-left:6px;font-family:inherit}
+.wait{display:flex;align-items:center;justify-content:center;gap:10px;color:var(--navy);font-weight:700;font-size:16px;margin-top:8px}
+.spin{width:18px;height:18px;border:3px solid #dfe5f1;border-top-color:var(--navy);border-radius:50%;animation:sp 1s linear infinite}@keyframes sp{to{transform:rotate(360deg)}}
+.done{display:none;text-align:center}.done .ic{font-size:56px}
+.ps p{font-size:18px}.ps b{color:var(--red)}
+footer{background:var(--navy);color:#c9d4f2;text-align:center;padding:26px 16px;font-size:14px}
+footer a{color:#fff}
+@media(max-width:768px){body{font-size:17px}h1{font-size:32px}.sub{font-size:20px}h2{font-size:25px}.cta{font-size:20px;padding:18px 12px}section{padding:40px 0}.price .big{font-size:36px}.who{flex-direction:column;text-align:center}}
+</style></head>
+<body>
+
+<section class="top"><div class="w">
+ <div class="brand"><img src="/img/logo-am.png" alt="ĐẠI LÊ AI"></div>
+ <p class="pre">Dành riêng cho chủ shop, người kinh doanh một mình đang tự ôm hết báo cáo, viết bài, trả lời tin nhắn mỗi ngày...</p>
+ <h1>Cách dựng một <span class="hl">đội nhân viên AI</span> tự làm việc cho anh/chị trong 16 bài - mà không cần biết code</h1>
+ <p class="sub">Giao việc bằng một tin nhắn Zalo, hẹn giờ cho AI tự làm, có chatbot trả lời khách đúng bảng giá - ngay cả khi anh/chị chưa từng cài một phần mềm nào.</p>
+ <img class="heroimg" src="/img/hero.jpg" alt="Khoá học VẬN HÀNH AGENT cùng Đại Lê AI">
+ <a class="cta" href="#mua">Tôi muốn có đội nhân viên AI - Bắt đầu ngay</a>
+ <p class="safe">🔒 Chuyển khoản QR an toàn · ⚡ Tự nhận tài khoản học qua email sau vài phút</p>
+</div></section>
+
+<section class="dark"><div class="w">
+ <h2>Anh/chị có đang thế này không?</h2>
+ <ul>
+  <li>Sáng mở 3-4 phần mềm chỉ để xem hôm qua bán được bao nhiêu.</li>
+  <li>Khách nhắn hỏi giá lúc 11 giờ đêm, trả lời chậm là mất đơn.</li>
+  <li>Muốn đăng bài đều mà ngồi trước máy cả buổi vẫn chưa xong một bài.</li>
+  <li>Đã dùng ChatGPT, nhưng lần nào cũng phải giải thích lại từ đầu mình bán gì, giọng văn ra sao.</li>
+ </ul>
+ <h2>Nếu cứ tiếp tục như vậy...</h2>
+ <ul>
+  <li>Việc lặp lại ăn hết thời gian, không còn sức nghĩ cách bán thêm.</li>
+  <li>Khách chờ lâu, chuyển sang shop khác trả lời nhanh hơn.</li>
+  <li>Muốn nghỉ một ngày là mọi thứ đứng hết, vì chỉ có mình anh/chị làm.</li>
+  <li>Năm sau nhìn lại, vẫn đúng là mình, vẫn ôm đúng những việc đó.</li>
+ </ul>
+ <h2>Hầu hết mọi người nghĩ AI chỉ là khung chat để hỏi đáp. Sai.</h2>
+ <p>Vấn đề thật là AI của anh/chị <b>không có trí nhớ, không nối với dữ liệu thật và không tự làm khi anh/chị vắng mặt</b>. Thiếu 3 thứ đó, AI mãi chỉ là cái máy trả lời, không phải nhân viên.</p>
+</div></section>
+
+<section><div class="w">
+ <h2>Đó là lý do Đại Lê làm khoá VẬN HÀNH AGENT</h2>
+ <p>16 bài cầm tay chỉ việc để anh/chị cài <b>VẬN HÀNH</b> - một trợ lý AI chạy trên máy của mình hoặc máy chủ riêng - rồi biến nó thành một đội nhân viên: người viết bài, người làm báo cáo, người trả lời khách.</p>
+ <div class="who"><img src="/img/dai-1.jpg" alt="Đại Lê"><div><b>Đại Lê - Đại Lê AI</b><br><span style="color:var(--mut);font-size:16px">Người dùng AI mỗi ngày cho việc kinh doanh của mình và chia sẻ lại cách làm dễ, tự động, tiết kiệm thời gian cho người không biết code.</span></div></div>
+</div></section>
+
+<section style="padding-top:0"><div class="w">
+ <h2>Bí mật nằm ở 4 thứ chạy cùng nhau</h2>
+ <div class="mech">
+  <div><b>1. Bộ não nhớ lâu.</b> Tài liệu gốc, kiến thức đã tiêu hoá và trí nhớ về anh/chị được lưu thành file trên máy. Đổi Claude sang ChatGPT, trí nhớ vẫn còn nguyên.</div>
+  <div><b>2. Nối dữ liệu thật.</b> AI đọc số từ phần mềm bán hàng, lịch, email đã nối, nên báo cáo bằng số thật chứ không đoán.</div>
+  <div><b>3. Nhân viên chuyên môn.</b> Mỗi "cộng sự" giỏi một việc, có kỹ năng và luật riêng do anh/chị dặn, càng làm càng đúng ý.</div>
+  <div><b>4. Tự chạy theo giờ.</b> Hẹn giờ một lần, AI tự làm và báo kết quả về Zalo hoặc Telegram, kể cả lúc anh/chị đang ngủ.</div>
+ </div>
+ <p style="margin-top:20px">Khi 4 thứ này nối vào nhau, việc lặp lại tự chạy. Anh/chị chỉ còn duyệt kết quả.</p>
+</div></section>
+
+<section style="padding-top:0"><div class="w">
+ <h2>Học xong anh/chị sẽ biết</h2>
+ <ul class="ticks">
+  <li>Cách cài trợ lý AI lên máy chỉ bằng 1 dòng lệnh copy - dán</li>
+  <li>Cách khoá cửa AI bằng mật khẩu và xác thực 2 lớp để không ai sai khiến được</li>
+  <li>Lý do tại sao dùng gói Claude/ChatGPT cá nhân chạy 24/7 là rủi ro - và cách chia việc cho an toàn</li>
+  <li>Cách giao việc cho AI bằng một tin nhắn Zalo từ điện thoại</li>
+  <li>Một câu bắt đầu bằng 3 chữ khiến AI nhớ mãi điều anh/chị dặn</li>
+  <li>Cách để AI đọc doanh thu thật từ phần mềm bán hàng thay vì nói chung chung</li>
+  <li>Cách tạo một "nhân viên" viết bài đúng giọng anh/chị chỉ bằng một câu chat</li>
+  <li>Cách viết một "kỹ năng" dưới 150 ký tự mà cả đội AI cùng dùng lại được</li>
+  <li>3 kiểu hẹn giờ để 8h sáng báo cáo tự về điện thoại</li>
+  <li>Mức quyền mặc định mà người mới hay quên đổi - và vì sao phải đổi ngay</li>
+  <li>Cách giao việc nền rồi đi làm việc khác, xong AI tự báo</li>
+  <li>Cách nối nhiều nhân viên thành dây chuyền có bước tự kiểm tra, chưa đạt thì làm lại</li>
+  <li>Cách dựng chatbot trả lời khách đúng bảng giá mà không lộ dữ liệu nội bộ</li>
+  <li>Cách đưa AI lên máy chủ chạy 24/7 và gắn tên miền riêng có https</li>
+  <li>Cách biến trợ lý thành app trên điện thoại và sao lưu cả bộ não</li>
+ </ul>
+ <a class="cta" href="#mua">Tôi muốn AI làm thay việc lặp lại - Đăng ký ngay</a>
+ <p class="safe">🔒 Chuyển khoản QR an toàn · ⚡ Tự nhận tài khoản học qua email sau vài phút</p>
+</div></section>
+
+<section style="padding-top:0"><div class="w">
+ <h2>Trong khoá có gì</h2>
+ <div class="pack">
+  <div class="ph">VẬN HÀNH AGENT - 16 bài, 4 phần</div>
+  <div class="row"><b>Phần 1: Làm quen và cài VẬN HÀNH</b><div class="part">Bài 01-03 · VẬN HÀNH là gì · Cài lên máy · Mật khẩu và xác thực 2 lớp</div></div>
+  <div class="row"><b>Phần 2: Bộ não và kênh nhắn tin</b><div class="part">Bài 04-05 · Chọn model AI · Nhắn cho AI từ Zalo, Telegram</div></div>
+  <div class="row"><b>Phần 3: Dựng đội nhân viên AI</b><div class="part">Bài 06-13 · Nạp kiến thức · Nối phần mềm · Cộng sự · Kỹ năng · Hẹn giờ · AI tự vận hành · Dây chuyền · Chatbot khách hàng</div></div>
+  <div class="row"><b>Phần 4: Chạy 24/7 với tên miền riêng</b><div class="part">Bài 14-16 · Lên VPS · Tên miền và thương hiệu riêng · Dùng trên điện thoại, sao lưu, bài kiểm tra cuối khoá</div></div>
+  <div class="row">✓ Mỗi bài có <b>bài tập và danh sách tự kiểm tra</b> - học tới đâu giao được việc tới đó</div>
+  <div class="row">✓ <b>Tài khoản học riêng</b> tại lequydai.com, học trên máy tính hoặc điện thoại</div>
+  <div class="row">✓ <b>App VẬN HÀNH</b> dùng miễn phí cho thành viên cộng đồng</div>
+  <div class="row">✓ <b>Nhóm Zalo học viên</b> để hỏi đáp khi bị vướng</div>
+ </div>
+ <p class="note" style="margin-top:20px">Chi phí ngoài khoá (trả trực tiếp cho nhà cung cấp, không qua Đại Lê): model AI anh/chị chọn (gói Claude hoặc ChatGPT đang dùng, hoặc API key) và tiền thuê VPS nếu muốn chạy 24/7. Máy Windows 10/11 hoặc Mac là đủ để học.</p>
+</div></section>
+
+<section id="mua"><div class="w">
+ <div class="price"><div class="lbl">HỌC PHÍ TRỌN KHOÁ 16 BÀI</div><div class="big">1.990.000đ</div><div style="color:var(--mut);font-size:16px;margin-top:6px">Chuyển khoản một lần · Nhận tài khoản qua email</div></div>
+ <h2 style="margin-top:36px;text-align:center">3 bước để vào học</h2>
+ <ol class="steps"><li>Điền họ tên, email, số điện thoại bên dưới.</li><li>Quét mã QR bằng app ngân hàng (số tiền và nội dung đã điền sẵn).</li><li>Vài phút sau tiền vào, email tài khoản học tự gửi về - anh/chị vào lequydai.com là học.</li></ol>
+
+ <div class="box" id="ck">
+  <form id="of" onsubmit="order(event)">
+   <label for="n">Họ và tên</label><input id="n" name="name" required autocomplete="name" placeholder="Nguyễn Văn A">
+   <label for="e">Email (nhận tài khoản học)</label><input id="e" name="email" type="email" required autocomplete="email" placeholder="email@gmail.com">
+   <label for="p">Số điện thoại / Zalo</label><input id="p" name="phone" type="tel" required autocomplete="tel" placeholder="09xx xxx xxx">
+   <button class="cta" type="submit" id="ob">Giữ chỗ và nhận mã QR thanh toán</button>
+   <div class="err" id="oe"></div>
+   <p class="safe">🔒 Thông tin chỉ dùng để cấp tài khoản học · ⚡ Mã QR hiện ngay sau khi bấm</p>
+  </form>
+  <div class="pay" id="pay">
+   <h2 style="font-size:24px;margin-bottom:10px">Quét mã để thanh toán</h2>
+   <img id="qr" alt="Mã QR chuyển khoản">
+   <table>
+    <tr><td>Ngân hàng</td><td id="bk"></td></tr>
+    <tr><td>Số tài khoản</td><td><b id="ac"></b> <button class="cp" onclick="cp('ac',this)">Chép</button></td></tr>
+    <tr><td>Chủ tài khoản</td><td id="ho"></td></tr>
+    <tr><td>Số tiền</td><td><b>1.990.000đ</b></td></tr>
+    <tr><td>Nội dung</td><td><span class="code" id="cd"></span> <button class="cp" onclick="cp('cd',this)">Chép</button></td></tr>
+   </table>
+   <p style="font-size:16px">⚠ Ghi đúng nội dung <b class="code" id="cd2" style="font-size:16px"></b> để hệ thống tự nhận ra đơn. Hướng dẫn chuyển khoản cũng đã gửi vào email của anh/chị.</p>
+   <div class="wait"><span class="spin"></span> Đang chờ tiền vào... (trang tự cập nhật)</div>
+  </div>
+  <div class="done" id="done">
+   <div class="ic">🎉</div><h2 style="font-size:26px">Đã nhận thanh toán!</h2>
+   <p>Email chứa tài khoản học đang trên đường tới hộp thư của anh/chị (xem cả mục Spam/Quảng cáo nếu chưa thấy).</p>
+   <a class="cta" href="/">Vào trang học ngay</a>
+  </div>
+ </div>
+ <p class="safe" style="margin-top:16px">Cần hỗ trợ: Zalo <b>0972 782 782</b></p>
+</div></section>
+
+<section class="ps"><div class="w">
+ <p><b>P.S.</b> Thứ anh/chị nhận được không phải thêm một khung chat, mà là một trợ lý nhớ mình là ai, đọc được số thật và tự làm việc đúng giờ - học xong 16 bài là dựng được.</p>
+ <p><b>P.P.S.</b> Mỗi ngày trôi qua chưa có đội nhân viên AI là thêm một ngày tự tay làm lại đúng những việc hôm qua. Quyết định là của anh/chị.</p>
+ <a class="cta" href="#mua">Tôi sẵn sàng giao việc cho AI - Đăng ký ngay</a>
+ <p class="safe">🔒 Chuyển khoản QR an toàn · ⚡ Tự nhận tài khoản học qua email sau vài phút</p>
+</div></section>
+
+<footer>© 2026 Đại Lê AI · <a href="/">Đã có tài khoản? Đăng nhập học</a> · Zalo 0972 782 782</footer>
+
+<script src="/config.js"></script>
+<script>
+const K='vh-order';
+function st(k,v){try{if(v===undefined)return localStorage.getItem(k);if(v===null)localStorage.removeItem(k);else localStorage.setItem(k,v)}catch(e){}}
+async function api(b){const r=await fetch(window.API_URL,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify(b)});return r.json()}
+function show(o){document.getElementById('of').style.display='none';const p=document.getElementById('pay');p.style.display='block';
+ document.getElementById('qr').src=o.qr;document.getElementById('bk').textContent=o.bank;document.getElementById('ac').textContent=o.acc;document.getElementById('ho').textContent=o.holder;
+ document.getElementById('cd').textContent=o.code;document.getElementById('cd2').textContent=o.code;poll(o.code)}
+async function order(ev){ev.preventDefault();const f=ev.target,b=document.getElementById('ob'),er=document.getElementById('oe');er.textContent='';b.disabled=true;b.textContent='Đang tạo mã QR...';
+ try{const r=await api({action:'order',name:f.name.value,email:f.email.value,phone:f.phone.value});
+  if(!r.ok){er.textContent=r.msg;b.disabled=false;b.textContent='Giữ chỗ và nhận mã QR thanh toán';return}
+  st(K,JSON.stringify(r));show(r);document.getElementById('ck').scrollIntoView({behavior:'smooth'})}
+ catch(e){er.textContent='Không kết nối được. Anh/chị thử lại hoặc nhắn Zalo 0972 782 782.';b.disabled=false;b.textContent='Giữ chỗ và nhận mã QR thanh toán'}}
+let timer;function poll(code){clearTimeout(timer);timer=setTimeout(async()=>{try{const r=await api({action:'status',code});
+ if(r.ok&&r.paid){st(K,null);document.getElementById('pay').style.display='none';document.getElementById('done').style.display='block';return}}catch(e){}poll(code)},6000)}
+function cp(id,b){const t=document.getElementById(id).textContent;(navigator.clipboard?navigator.clipboard.writeText(t):Promise.reject()).then(()=>b.textContent='Đã chép',()=>b.textContent='Bôi đen để chép')}
+try{const o=JSON.parse(st(K)||'null');if(o&&o.code)show(o)}catch(e){}
+</script>
+</body></html>
