@@ -13,8 +13,8 @@ const PRODUCTS = {
   vibe: { name: '28 NGÀY VIBE CODING – Bot CSKH Zalo & Facebook', price: 2990000, prefix: 'VC', file: 'vibecoding-lessons.json', path: '/vibe-coding/' }
 };
 const CFG = {
-  BANK: 'MBBank',
-  ACC: '0972782782',
+  BANK: 'VietinBank',
+  ACC: '104880553933',
   HOLDER: 'LE QUY DAI',
   PREFIX: 'VH',
   SITE: 'https://lequydai.com',
