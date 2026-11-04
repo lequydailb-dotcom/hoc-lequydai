@@ -1,137 +1,108 @@
 <!doctype html>
 <html lang="vi"><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>VẬN HÀNH AGENT – Trợ lý AI làm việc tự động theo não của bạn | Đại Lê AI</title>
-<meta name="description" content="Khoá học 16 bài cầm tay chỉ việc: cài VẬN HÀNH, dựng đội nhân viên AI, hẹn giờ, chatbot khách hàng và chạy 24/7 với tên miền riêng.">
-<meta property="og:title" content="VẬN HÀNH AGENT – Trợ lý AI làm việc tự động theo não của bạn">
-<meta property="og:description" content="16 bài cầm tay chỉ việc cùng Đại Lê AI.">
-<meta property="og:image" content="img/hero.jpg">
-<link rel="icon" href="img/cover-square.jpg">
+<title>Khoá học của Đại Lê AI – Tự làm ra sản phẩm với AI</title>
+<meta name="description" content="Các khoá học cầm tay chỉ việc của Đại Lê AI: VẬN HÀNH AGENT và 28 NGÀY VIBE CODING. Đăng nhập một lần, học mọi khoá bạn đã sở hữu.">
+<meta property="og:title" content="Khoá học của Đại Lê AI">
+<meta property="og:description" content="Tự làm ra sản phẩm với AI, ngay cả khi bạn không phải lập trình viên.">
+<meta property="og:image" content="/img/hero.jpg">
+<link rel="icon" href="/img/cover-square.jpg">
 <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 <style>
-:root{--navy:#0d1838;--navy2:#16285a;--gold:#FFC83D;--ink:#1b2236;--mut:#5d6785;--bg:#f4f6fb;--line:#e3e8f2;--ok:#16a34a}
+:root{--navy:#0d1838;--navy2:#16285a;--gold:#FFC83D;--ink:#1b2236;--mut:#5d6785;--bg:#f4f6fb;--line:#e3e8f2;--ok:#16a34a;--red:#D32F2F}
 *{box-sizing:border-box;margin:0}
 body{font-family:'Be Vietnam Pro',system-ui,sans-serif;background:var(--bg);color:var(--ink);line-height:1.6}
 a{color:inherit}
 header{background:var(--navy);position:sticky;top:0;z-index:20;box-shadow:0 2px 12px rgba(0,0,0,.2)}
-.hd{max-width:1180px;margin:auto;display:flex;align-items:center;gap:16px;padding:10px 20px}
-.hd img{height:28px;cursor:pointer}
-.hd .crumb{color:#c9d4f2;font-size:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;flex:1}
-.hd .crumb b{color:#fff}
-.hd a.zl{background:var(--gold);color:var(--navy);font-weight:800;font-size:14px;padding:8px 14px;border-radius:8px;text-decoration:none;white-space:nowrap}
-.wrap{max-width:1180px;margin:auto;padding:24px 20px 60px}
-.hero{border-radius:18px;overflow:hidden;position:relative;background:var(--navy)}
-.hero img{width:100%;display:block}
-.hero .go{position:absolute;left:4.6%;bottom:12%;background:var(--gold);color:var(--navy);font-weight:900;border:0;font-size:clamp(14px,1.6vw,20px);padding:.8em 1.5em;border-radius:10px;cursor:pointer;font-family:inherit;box-shadow:0 6px 20px rgba(0,0,0,.3)}
-.grid{display:grid;grid-template-columns:1fr 320px;gap:24px;margin-top:24px}
-.part{background:#fff;border:1px solid var(--line);border-radius:14px;margin-bottom:18px;overflow:hidden}
-.part h2{font-size:17px;padding:14px 18px;border-bottom:1px solid var(--line);background:#fafbfe}
-.ls{display:flex;gap:16px;padding:14px 18px;border-bottom:1px solid var(--line);cursor:pointer;align-items:center}
-.ls:last-child{border-bottom:0}.ls:hover{background:#f7f9ff}
-.ls img{width:190px;border-radius:8px;flex:none}
-.ls h3{font-size:16px;margin-bottom:4px}
-.ls p{font-size:14px;color:var(--mut);display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
-.ls .dn{flex:none;width:26px;height:26px;border-radius:50%;border:2px solid var(--line)}
-.ls .dn.on{background:var(--ok);border-color:var(--ok);position:relative}
-.ls .dn.on:after{content:"✓";color:#fff;font-weight:900;position:absolute;inset:0;text-align:center;line-height:22px;font-size:14px}
-aside .box{background:#fff;border:1px solid var(--line);border-radius:14px;padding:16px;margin-bottom:18px;position:sticky;top:76px}
-aside .box img{width:100%;border-radius:10px}
-.prog{height:8px;background:var(--line);border-radius:4px;margin:12px 0 6px;overflow:hidden}.prog i{display:block;height:100%;background:var(--ok);width:0}
-.small{font-size:13px;color:var(--mut)}
-.btn{display:block;text-align:center;background:var(--navy);color:#fff;font-weight:800;padding:11px;border-radius:10px;text-decoration:none;margin-top:12px;border:0;width:100%;font-family:inherit;font-size:15px;cursor:pointer}
-.btn.y{background:var(--gold);color:var(--navy)}
-.teacher{display:flex;gap:12px;align-items:center;margin-top:6px}.teacher img{width:56px!important;height:56px;object-fit:cover;object-position:60% 30%;border-radius:50%!important}
-/* lesson */
-.lesson{background:#fff;border:1px solid var(--line);border-radius:14px;padding:28px 32px}
-.lesson .cv{width:100%;border-radius:12px;margin-bottom:20px}
-.lesson h1{font-size:26px;line-height:1.3;margin-bottom:14px}
-.goal{background:#fff8e1;border-left:5px solid var(--gold);padding:12px 16px;border-radius:8px;margin-bottom:18px}
-.lesson h3{font-size:19px;margin:24px 0 8px;color:var(--navy2)}
-.lesson p,.lesson li{font-size:16px;margin-bottom:6px}
-.lesson ol,.lesson ul{padding-left:22px;margin-bottom:8px}
-.lesson ul ul{margin-top:6px}
-pre{background:#0d1838;color:#ffe08a;padding:12px 70px 12px 14px;border-radius:8px;white-space:pre-wrap;word-break:break-all;font-size:14px;margin:8px 0;position:relative;font-family:ui-monospace,Consolas,monospace}
-pre .cp{position:absolute;right:6px;top:6px;background:var(--gold);color:var(--navy);border:0;border-radius:6px;font-size:12px;font-weight:800;padding:3px 8px;cursor:pointer;font-family:'Be Vietnam Pro'}
-code{background:#eef2fb;padding:1px 6px;border-radius:4px;font-size:.92em;word-break:break-all}
-table{border-collapse:collapse;width:100%;margin:10px 0;font-size:15px}td,th{border:1px solid var(--line);padding:8px 10px;text-align:left;vertical-align:top}th{background:#f2f5fc}
-.note{background:#eef4ff;border:1px solid #cddcff;padding:12px 14px;border-radius:10px;margin:14px 0;font-size:15px}
-.task{background:#f3fbf5;border:1px solid #cfead6;border-radius:12px;padding:14px 18px;margin-top:24px}
-.task h3{margin-top:0!important;color:#166534!important}
-.chk label{display:flex;gap:10px;align-items:flex-start;margin:6px 0;cursor:pointer;font-size:16px}
-.chk input{width:18px;height:18px;margin-top:4px;accent-color:var(--ok)}
-.nav{display:flex;gap:12px;margin-top:26px;flex-wrap:wrap}
-.nav button{flex:1;min-width:160px}
-.done{background:var(--ok)!important}
-.hd .out{background:transparent;border:1px solid #5d6785;color:#c9d4f2;border-radius:8px;padding:7px 10px;font-family:inherit;font-size:13px;cursor:pointer;display:none}
-.gate{display:grid;grid-template-columns:1fr 400px;gap:24px;margin-top:24px;align-items:start}
-.login{background:#fff;border:1px solid var(--line);border-radius:14px;padding:22px}
-.login h2{font-size:20px;margin-bottom:6px}.login input{width:100%;padding:12px;border:1px solid var(--line);border-radius:10px;font-size:16px;font-family:inherit;margin-top:10px}
-.login .msg{margin-top:10px;font-size:14px;color:#b91c1c;min-height:18px}.login .msg.ok{color:#166534}
-.login a.lk{color:var(--navy2);font-weight:700;cursor:pointer;text-decoration:underline;font-size:14px}
-.buy{background:#fff8e1;border:2px dashed #FFC107;border-radius:14px;padding:18px;margin-top:16px;text-align:center}
-.buy b{color:#D32F2F;font-size:22px}
-.lock{opacity:.85}.lock h3:after{content:" 🔒";font-size:13px}
-@media(max-width:860px){.gate{grid-template-columns:1fr}}
-footer{background:var(--navy);color:#c9d4f2;text-align:center;padding:26px 16px;font-size:14px}
-footer img{height:30px;margin-bottom:8px}
-@media(max-width:860px){.grid{grid-template-columns:1fr}aside{order:-1}aside .box{position:static}.ls img{width:120px}.lesson{padding:18px}.hd .crumb{display:none}.hero .go{font-size:13px}}
+.hd{max-width:1180px;margin:auto;display:flex;align-items:center;gap:14px;padding:10px 20px}
+.hd img{height:28px}
+.hd .sp{flex:1}
+.hd .who{color:#c9d4f2;font-size:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.hd .who b{color:#fff}
+.hd button,.hd a.btn2{background:transparent;color:#fff;border:1px solid rgba(255,255,255,.35);font:inherit;font-size:14px;font-weight:700;padding:7px 14px;border-radius:8px;cursor:pointer;text-decoration:none;white-space:nowrap}
+.hd .gold{background:var(--gold);color:var(--navy);border-color:var(--gold)}
+.top{background:linear-gradient(135deg,var(--navy),var(--navy2));color:#fff}
+.top .in{max-width:1180px;margin:auto;padding:46px 20px 90px;display:flex;gap:32px;align-items:center}
+.top h1{font-size:clamp(26px,4vw,42px);line-height:1.2;font-weight:900}
+.top h1 span{color:var(--gold)}
+.top p{color:#c9d4f2;font-size:17px;margin-top:12px;max-width:620px}
+.top img.me{width:170px;border-radius:16px;flex:none;border:3px solid rgba(255,200,61,.6)}
+.wrap{max-width:1180px;margin:-60px auto 0;padding:0 20px 60px}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:24px}
+.card{background:#fff;border:1px solid var(--line);border-radius:18px;overflow:hidden;display:flex;flex-direction:column;box-shadow:0 8px 28px rgba(13,24,56,.08)}
+.card .pic{position:relative;background:var(--navy)}
+.card .pic img{width:100%;display:block}
+.badge{position:absolute;top:12px;left:12px;font-size:13px;font-weight:800;padding:5px 12px;border-radius:20px}
+.badge.own{background:var(--ok);color:#fff}
+.badge.lock{background:rgba(13,24,56,.85);color:#fff}
+.card .bd{padding:20px 22px 22px;display:flex;flex-direction:column;flex:1}
+.card h2{font-size:21px;line-height:1.3}
+.card .meta{font-size:13px;color:var(--mut);margin:6px 0 10px;font-weight:600}
+.card p{color:var(--mut);font-size:15px;flex:1}
+.prog{height:8px;background:var(--line);border-radius:4px;margin:14px 0 4px;overflow:hidden}.prog i{display:block;height:100%;background:var(--ok)}
+.act{display:flex;gap:10px;align-items:center;margin-top:16px;flex-wrap:wrap}
+.btn{display:inline-block;background:var(--gold);color:var(--navy);font-weight:900;font-size:16px;padding:12px 22px;border-radius:10px;text-decoration:none;border:0;cursor:pointer;font-family:inherit}
+.btn.go{background:var(--ok);color:#fff}
+.price{font-weight:900;color:var(--red);font-size:18px}
+.link{font-size:14px;color:var(--mut);font-weight:600}
+.loginbox{background:#fff;border:1px solid var(--line);border-radius:18px;padding:26px;margin-top:28px;display:grid;grid-template-columns:1fr 1fr;gap:28px}
+.loginbox h3{font-size:20px;margin-bottom:6px}
+.loginbox .small{font-size:14px;color:var(--mut)}
+form input{width:100%;padding:12px 14px;border:1px solid var(--line);border-radius:10px;font:inherit;font-size:15px;margin-top:10px}
+form .btn{width:100%;margin-top:12px}
+.msg{font-size:14px;margin-top:8px;color:var(--red)}.msg.ok{color:var(--ok)}
+.forgot{background:none;border:0;color:var(--mut);font:inherit;font-size:14px;text-decoration:underline;cursor:pointer;margin-top:10px;padding:0}
+footer{text-align:center;color:var(--mut);font-size:13px;padding:26px 20px 40px}
+footer img{height:26px;filter:invert(1) brightness(.3);margin-bottom:6px}
+@media(max-width:720px){.top .in{flex-direction:column-reverse;align-items:flex-start;padding:30px 20px 80px}.top img.me{width:110px}.loginbox{grid-template-columns:1fr}.hd .who{display:none}}
 </style></head>
 <body>
-<header><div class="hd"><img src="img/logo-am.png" alt="ĐẠI LÊ AI" onclick="go('')"><div class="crumb" id="crumb"></div><a class="zl" id="zl" target="_blank" rel="noopener">Nhóm Zalo học viên</a><button class="out" id="out" onclick="logout()">Đăng xuất</button></div></header>
-<div class="wrap" id="app"></div>
-<footer><img src="img/logo-am.png" alt="ĐẠI LÊ AI"><div>VẬN HÀNH AGENT · Khoá học của Đại Lê AI · App: <a href="https://vanhanh.lequydai.com" target="_blank">vanhanh.lequydai.com</a></div><div style="margin-top:4px">© 2026 Đại Lê · lequydai.com</div></footer>
-<script src="config.js"></script>
-<script src="lessons.js"></script>
+<header><div class="hd"><a href="/"><img src="/img/logo-am.png" alt="ĐẠI LÊ AI"></a><div class="sp"></div><div class="who" id="who"></div><span id="hbtn"></span></div></header>
+<section class="top"><div class="in"><div>
+<h1>Khoá học của <span>Đại Lê AI</span></h1>
+<p>Tự làm ra sản phẩm với AI, ngay cả khi bạn không phải lập trình viên. Đăng nhập một lần, vào học mọi khoá bạn đã sở hữu.</p>
+</div><img class="me" src="/img/dai-1.jpg" alt="Đại Lê"></div></section>
+<div class="wrap">
+<div class="cards" id="cards"></div>
+<div class="loginbox" id="loginbox">
+ <div><h3>Đã mua khoá học?</h3><div class="small">Đăng nhập bằng email và mật khẩu đã gửi vào hộp thư sau khi anh/chị thanh toán. Đăng nhập xong, khoá nào đã sở hữu sẽ hiện nút <b>VÀO HỌC</b>.</div>
+ <div class="small" style="margin-top:10px">Cần hỗ trợ: Zalo <b>0972 782 782</b></div></div>
+ <form id="lf" onsubmit="login(event)"><input name="email" type="email" placeholder="Email đã đăng ký" required autocomplete="email"><input name="pw" type="password" placeholder="Mật khẩu" required autocomplete="current-password"><button class="btn" id="lb">ĐĂNG NHẬP</button><div class="msg" id="lm"></div><button type="button" class="forgot" onclick="forgot()">Quên mật khẩu?</button></form>
+</div>
+</div>
+<footer><img src="/img/logo-am.png" alt="ĐẠI LÊ AI"><div>© 2026 Đại Lê AI · lequydai.com · Zalo 0972 782 782</div></footer>
+<script src="/config.js"></script>
 <script>
-const C=window.COURSE;document.getElementById('zl').href=C.zalo;
-const KEY='vanhanh-agent-done',TK='vh-token';let FULL=null,WHO='',NOTOWN=false;
-function ls(k,v){try{if(v===undefined)return localStorage.getItem(k);if(v===null)localStorage.removeItem(k);else localStorage.setItem(k,v)}catch(e){return window['__'+k]}}
-async function api(body){const r=await fetch(window.API_URL,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify(body)});return r.json()}
-async function boot(){const t=ls(TK);if(t){try{const r=await api({action:'content',token:t,course:'vanhanh'});if(r.ok){FULL=r.lessons;WHO=r.name;NOTOWN=false}else if(r.notOwned){NOTOWN=true;WHO=r.name}else ls(TK,null)}catch(e){}}
- document.getElementById('out').style.display=(FULL||NOTOWN)?'inline-block':'none';render()}
-function logout(){ls(TK,null);FULL=null;NOTOWN=false;document.getElementById('out').style.display='none';go('');render()}
-async function doLogin(ev){ev.preventDefault();const f=ev.target,m=f.querySelector('.msg'),b=f.querySelector('button');m.className='msg';m.textContent='Đang đăng nhập…';b.disabled=true;
- try{const r=await api({action:'login',email:f.email.value,password:f.pw.value});if(!r.ok){m.textContent=r.msg;b.disabled=false;return}ls(TK,r.token);m.className='msg ok';m.textContent='Đăng nhập thành công!';await boot()}catch(e){m.textContent='Không kết nối được, anh/chị thử lại.';b.disabled=false}}
-async function doReset(){const f=document.getElementById('lf'),m=f.querySelector('.msg');if(!f.email.value){m.textContent='Nhập email đã đăng ký trước, rồi bấm lại "Quên mật khẩu".';return}
+const COURSES=[
+ {id:'vanhanh',name:'VẬN HÀNH AGENT',meta:'16 bài · Cầm tay chỉ việc',desc:'Dựng đội nhân viên AI tự làm việc cho bạn: cài app VẬN HÀNH, giao việc, hẹn giờ, chatbot khách hàng và chạy 24/7 với tên miền riêng.',img:'/img/hero.jpg',learn:'/van-hanh/',buy:'/dang-ky/',price:'1.990.000đ',total:16,done:'vanhanh-agent-done'},
+ {id:'vibe',name:'28 NGÀY VIBE CODING',meta:'28 ngày · Bot CSKH Zalo & Facebook',desc:'Tự làm bot chăm sóc khách hàng tự trả lời trên Zalo và Facebook bằng AI, không cần biết code. Mỗi ngày một bước nhỏ, làm là chạy.',img:'/vibe-coding/img/hero.jpg',learn:'/vibe-coding/',buy:'/vibe-coding/dang-ky/',price:'2.990.000đ',total:19,done:'vibe-coding-done'}
+];
+const TK='vh-token';let ME=null;
+function ls(k,v){try{if(v===undefined)return localStorage.getItem(k);if(v===null)localStorage.removeItem(k);else localStorage.setItem(k,v)}catch(e){if(v===undefined)return window['__'+k];window['__'+k]=v}}
+async function api(b){const r=await fetch(window.API_URL,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify(b)});return r.json()}
+function esc(s){return String(s||'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]))}
+function doneCount(k){try{return JSON.parse(localStorage.getItem(k)||'[]').length}catch(e){return 0}}
+function render(){
+ const own=ME?ME.courses:[];
+ document.getElementById('cards').innerHTML=COURSES.map(c=>{const o=own.indexOf(c.id)>=0;
+  const d=Math.min(doneCount(c.done),c.total),p=Math.round(d/c.total*100);
+  return `<div class="card"><a class="pic" href="${o?c.learn:c.buy}"><img src="${c.img}" alt="${c.name}"><span class="badge ${o?'own':'lock'}">${o?'✓ Đã sở hữu':'🔒 Chưa đăng ký'}</span></a>
+  <div class="bd"><h2>${c.name}</h2><div class="meta">${c.meta}</div><p>${c.desc}</p>
+  ${o?`<div class="prog"><i style="width:${p}%"></i></div><div class="link">Đã học ${d}/${c.total} bài</div><div class="act"><a class="btn go" href="${c.learn}">${d?'HỌC TIẾP':'VÀO HỌC'} →</a></div>`
+     :`<div class="act"><a class="btn" href="${c.buy}">ĐĂNG KÝ KHOÁ HỌC</a><span class="price">${c.price}</span></div>${ME?'':`<div class="link" style="margin-top:10px">Đã mua? <a href="#lf" onclick="document.getElementById('lf').email.focus()">Đăng nhập để vào học</a></div>`}`}
+  </div></div>`}).join('');
+ document.getElementById('loginbox').style.display=ME?'none':'grid';
+ document.getElementById('who').innerHTML=ME?`Xin chào <b>${esc(ME.name)}</b> 👋`:'';
+ document.getElementById('hbtn').innerHTML=ME?`<button onclick="logout()">Đăng xuất</button>`:`<a class="btn2 gold" href="#lf" onclick="document.getElementById('lf').email.focus()">Đăng nhập</a>`;
+}
+async function boot(){render();const t=ls(TK);if(!t)return;
+ try{const r=await api({action:'me',token:t});if(r.ok){ME=r}else if(r.login){ls(TK,null)}}catch(e){}render()}
+async function login(ev){ev.preventDefault();const f=ev.target,b=document.getElementById('lb'),m=document.getElementById('lm');m.className='msg';m.textContent='Đang đăng nhập…';b.disabled=true;
+ try{const r=await api({action:'login',email:f.email.value,password:f.pw.value});b.disabled=false;if(!r.ok){m.textContent=r.msg;return}ls(TK,r.token);ME={name:r.name,courses:r.courses};m.textContent='';render();window.scrollTo({top:0,behavior:'smooth'})}
+ catch(e){b.disabled=false;m.textContent='Không kết nối được, anh/chị thử lại.'}}
+async function forgot(){const f=document.getElementById('lf'),m=document.getElementById('lm');if(!f.email.value){m.className='msg';m.textContent='Anh/chị nhập email trước rồi bấm Quên mật khẩu.';f.email.focus();return}
  m.className='msg';m.textContent='Đang gửi…';try{const r=await api({action:'reset',email:f.email.value});m.className='msg ok';m.textContent=r.msg}catch(e){m.textContent='Không kết nối được, anh/chị thử lại.'}}
-function gate(){document.getElementById('crumb').innerHTML='<b>VẬN HÀNH AGENT</b> · Khu vực học viên';
- let h=`<div class="hero"><img src="img/hero.jpg" alt="VẬN HÀNH AGENT – Trợ lý AI làm việc tự động theo não của bạn"></div><div class="gate"><main>`;
- C.parts.forEach(pt=>{h+=`<div class="part"><h2>${pt.name}</h2>`;pt.lessons.forEach(i=>{const L=C.lessons[i];
-  h+=`<div class="ls lock" onclick="const f=document.getElementById('lf');if(f)f.email.focus()"><img src="img/bai-${pad(i)}.jpg" alt="Bài ${pad(i)}" loading="lazy"><div style="flex:1"><h3>Bài ${pad(i)}. ${L.title}</h3><p>Sau bài này: ${strip(L.goal)}</p></div></div>`});h+=`</div>`});
- h+=`</main><aside>${NOTOWN?`<div class="login"><h2>Xin chào ${WHO} 👋</h2><div class="small">Tài khoản của anh/chị chưa mở khoá này. Đăng ký bằng đúng email này, thanh toán xong khoá sẽ tự mở.</div><button class="btn" onclick="logout()" style="background:#5d6785">Đăng nhập tài khoản khác</button></div>`:`<form class="login" id="lf" onsubmit="doLogin(event)"><h2>Đăng nhập để học</h2><div class="small">Dùng email và mật khẩu trong thư chào mừng.</div>
- <input name="email" type="email" placeholder="Email đã đăng ký" required autocomplete="email"><input name="pw" type="password" placeholder="Mật khẩu" required autocomplete="current-password">
- <button class="btn y" type="submit">VÀO HỌC</button><div class="msg"></div><a class="lk" onclick="doReset()">Quên mật khẩu?</a></form>`}
- <div class="buy">Chưa có tài khoản?<br>Trọn khoá 16 bài chỉ <b>1.990.000đ</b><a class="btn" href="/dang-ky/">XEM KHOÁ HỌC & ĐĂNG KÝ</a></div></aside></div>`;return h}
-function getDone(){try{return JSON.parse(localStorage.getItem(KEY)||'[]')}catch(e){return window.__d||[]}}
-function setDone(a){window.__d=a;try{localStorage.setItem(KEY,JSON.stringify(a))}catch(e){}}
-const pad=n=>String(n).padStart(2,'0');
-const strip=h=>h.replace(/<[^>]+>/g,'');
-function go(h){location.hash=h}
-function sidebar(){const d=getDone(),p=Math.round(d.length/16*100);
- return `<aside><div class="box"><img src="img/cover-square.jpg" alt="VẬN HÀNH AGENT"><div class="prog"><i style="width:${p}%"></i></div><div class="small">${d.length}/16 bài đã hoàn thành · ${p}%</div>
- <button class="btn y" onclick="go('bai-'+${nextIdx()})">${d.length?'Học tiếp':'Bắt đầu khoá học'}</button>
- ${WHO?`<div class="small" style="margin-top:10px">Xin chào <b>${WHO}</b> 👋</div>`:''}<div style="margin-top:16px;font-weight:800">Người đồng hành</div><div class="teacher"><img src="img/dai-1.jpg" alt="Đại Lê"><div><b>Đại Lê</b><div class="small">Đại Lê AI · lequydai.com</div></div></div>
- <a class="btn" href="${C.zalo}" target="_blank" rel="noopener">Vào nhóm Zalo hỏi đáp</a></div></aside>`}
-function nextIdx(){const d=getDone();for(let i=1;i<=16;i++)if(!d.includes(i))return i;return 1}
-function home(){document.getElementById('crumb').innerHTML='<b>VẬN HÀNH AGENT</b> · Trợ lý AI làm việc tự động theo não của bạn';
- let h=`<div class="hero"><img src="img/hero.jpg" alt="VẬN HÀNH AGENT – Trợ lý AI làm việc tự động theo não của bạn"><button class="go" onclick="go('bai-'+${nextIdx()})">${getDone().length?'Học tiếp ▶':'Bắt đầu khoá học ▶'}</button></div><div class="grid"><main>`;
- const d=getDone();
- C.parts.forEach(pt=>{h+=`<div class="part"><h2>${pt.name}</h2>`;pt.lessons.forEach(i=>{const L=C.lessons[i];
-  h+=`<div class="ls" onclick="go('bai-${i}')"><img src="img/bai-${pad(i)}.jpg" alt="Bài ${pad(i)}" loading="lazy"><div style="flex:1"><h3>Bài ${pad(i)}. ${L.title}</h3><p>Sau bài này: ${strip(L.goal)}</p></div><span class="dn ${d.includes(i)?'on':''}"></span></div>`});h+=`</div>`});
- h+=`</main>${sidebar()}</div>`;return h}
-function lesson(i){const L0=C.lessons[i];if(!L0||!FULL||!FULL[i])return home();const L={...L0,...FULL[i]};const d=getDone(),isDone=d.includes(i);
- const part=C.parts.find(p=>p.lessons.includes(i));
- document.getElementById('crumb').innerHTML=`<span style="cursor:pointer" onclick="go('')">VẬN HÀNH AGENT</span> / <b>Bài ${pad(i)}. ${L.title}</b>`;
- let h=`<div class="grid"><main><div class="lesson"><img class="cv" src="img/bai-${pad(i)}.jpg" alt="Bài ${pad(i)}"><div class="small">${part.name}</div><h1>Bài ${pad(i)}. ${L.title}</h1>
- <div class="goal"><b>Sau bài này bạn có:</b> ${L.goal}</div>${L.html}
- <div class="task"><h3>✍️ Bài tập</h3>${L.task}<h3 style="margin-top:14px!important">✅ Tự kiểm tra</h3><div class="chk">${L.check.map((c,k)=>`<label><input type="checkbox">${c}</label>`).join('')}</div></div>
- <p style="margin-top:18px"><b>${L.next}</b></p>
- <div class="nav">${i>1?`<button class="btn" style="background:#5d6785" onclick="go('bai-${i-1}')">◀ Bài ${pad(i-1)}</button>`:''}
- <button class="btn ${isDone?'done':'y'}" onclick="toggle(${i})">${isDone?'✓ Đã hoàn thành':'Đánh dấu hoàn thành'}</button>
- ${i<16?`<button class="btn" onclick="go('bai-${i+1}')">Bài ${pad(i+1)} ▶</button>`:''}</div></div></main>${sidebar()}</div>`;return h}
-function toggle(i){let d=getDone();d=d.includes(i)?d.filter(x=>x!==i):[...d,i];setDone(d);if(d.includes(i)&&i<16)go('bai-'+(i+1));else render()}
-function render(){const m=location.hash.match(/bai-(\d+)/);document.getElementById('app').innerHTML=!FULL?gate():m?lesson(+m[1]):home();window.scrollTo(0,0);
- document.querySelectorAll('pre').forEach(p=>{const b=document.createElement('button');b.className='cp';b.textContent='Chép';b.onclick=()=>{const t=p.childNodes[0].textContent;(navigator.clipboard?navigator.clipboard.writeText(t):Promise.reject()).then(()=>{b.textContent='Đã chép'},()=>{b.textContent='Bôi đen để chép'})};p.appendChild(b)})}
-window.addEventListener('hashchange',render);boot();
+function logout(){ls(TK,null);ME=null;render()}
+boot();
 </script>
 </body></html>

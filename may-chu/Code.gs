@@ -9,7 +9,7 @@
  */
 
 const PRODUCTS = {
-  vanhanh: { name: 'VẬN HÀNH AGENT', price: 1990000, prefix: 'VH', file: 'vanhanh-lessons.json', path: '/' },
+  vanhanh: { name: 'VẬN HÀNH AGENT', price: 1990000, prefix: 'VH', file: 'vanhanh-lessons.json', path: '/van-hanh/' },
   vibe: { name: '28 NGÀY VIBE CODING – Bot CSKH Zalo & Facebook', price: 2990000, prefix: 'VC', file: 'vibecoding-lessons.json', path: '/vibe-coding/' }
 };
 const CFG = {
@@ -80,6 +80,7 @@ function doPost(e) {
       case 'status': return json_(orderStatus_(req.code));
       case 'login': return json_(login_(req.email, req.password));
       case 'content': return json_(content_(req.token, req.course));
+      case 'me': return json_(me_(req.token));
       case 'reset': return json_(resetPassword_(req.email));
       default: return json_({ ok: false, msg: 'Không rõ yêu cầu' });
     }
@@ -248,6 +249,20 @@ function login_(email, password) {
   const token = Utilities.getUuid() + Utilities.getUuid().slice(0, 8);
   sh.getRange(i, 7, 1, 2).setValues([[token, new Date(Date.now() + CFG.TOKEN_DAYS * 86400000)]]);
   return { ok: true, token: token, name: r[1], courses: String(r[10] || 'vanhanh').split(',') };
+}
+
+/* Trang chủ lequydai.com: biết học viên đang sở hữu khoá nào */
+function me_(token) {
+  token = String(token || '');
+  if (token.length < 30) return { ok: false, login: true };
+  const v = sheet_(SH.STUDENTS).getDataRange().getValues();
+  for (let i = 1; i < v.length; i++) {
+    if (v[i][6] === token) {
+      if (v[i][9] !== 'HOẠT ĐỘNG' || new Date(v[i][7]) < new Date()) return { ok: false, login: true };
+      return { ok: true, name: v[i][1], courses: String(v[i][10] || 'vanhanh').split(',').map(x => x.trim()) };
+    }
+  }
+  return { ok: false, login: true };
 }
 
 function content_(token, course) {
