@@ -8,8 +8,11 @@
  *        -> tự tạo tài khoản + gửi mail đăng nhập -> khách vào lequydai.com học.
  */
 
+const PRODUCTS = {
+  vanhanh: { name: 'VẬN HÀNH AGENT', price: 1990000, prefix: 'VH', file: 'vanhanh-lessons.json', path: '/' },
+  vibe: { name: '28 NGÀY VIBE CODING – Bot CSKH Zalo & Facebook', price: 2990000, prefix: 'VC', file: 'vibecoding-lessons.json', path: '/vibe-coding/' }
+};
 const CFG = {
-  PRICE: 1990000,
   BANK: 'MBBank',
   ACC: '0972782782',
   HOLDER: 'LE QUY DAI',
@@ -19,14 +22,13 @@ const CFG = {
   BRAND: 'Đại Lê AI',
   ZALO_GROUP: 'https://zalo.me/g/a9my3sx1ov0fsihenx6e',
   ZALO_PHONE: '0972 782 782',
-  LESSON_FILE: 'vanhanh-lessons.json',
   TOKEN_DAYS: 60
 };
 
 const ST = { WAIT: 'CHỜ THANH TOÁN', PAID: 'ĐÃ THANH TOÁN', DONE: 'ĐÃ CẤP TÀI KHOẢN', CANCEL: 'HUỶ' };
 const SH = { ORDERS: 'DON_HANG', STUDENTS: 'HOC_VIEN', CONFIG: 'CAU_HINH', LOG: 'NHAT_KY' };
-const ORDER_HEAD = ['Thời gian', 'Mã đơn', 'Họ tên', 'Email', 'Số điện thoại', 'Số tiền', 'Trạng thái', 'Mã giao dịch', 'Ngày cấp TK', 'Ghi chú'];
-const STU_HEAD = ['Email', 'Họ tên', 'Số điện thoại', 'Mã đơn', 'Hash mật khẩu', 'Salt', 'Token', 'Token hết hạn', 'Ngày cấp', 'Trạng thái'];
+const ORDER_HEAD = ['Thời gian', 'Mã đơn', 'Họ tên', 'Email', 'Số điện thoại', 'Số tiền', 'Trạng thái', 'Mã giao dịch', 'Ngày cấp TK', 'Ghi chú', 'Khoá học'];
+const STU_HEAD = ['Email', 'Họ tên', 'Số điện thoại', 'Mã đơn', 'Hash mật khẩu', 'Salt', 'Token', 'Token hết hạn', 'Ngày cấp', 'Trạng thái', 'Khoá học'];
 
 /* ===================== CÀI ĐẶT LẦN ĐẦU ===================== */
 function setup() {
@@ -44,7 +46,7 @@ function setup() {
   const rule = SpreadsheetApp.newDataValidation().requireValueInList([ST.WAIT, ST.PAID, ST.DONE, ST.CANCEL], true).build();
   o.getRange('G2:G2000').setDataValidation(rule);
   o.getRange('F2:F2000').setNumberFormat('#,##0');
-  o.setColumnWidths(1, 10, 140);
+  o.setColumnWidths(1, 11, 140);
   const s = mk(SH.STUDENTS, STU_HEAD, '#16285a');
   s.hideColumns(5, 4);
   const c = mk(SH.CONFIG, ['Khoá', 'Giá trị', 'Ghi chú'], '#5d6785');
@@ -66,7 +68,7 @@ function setup() {
 
 /* ===================== API CHO TRANG WEB ===================== */
 function doGet(e) {
-  return json_({ ok: true, app: CFG.COURSE, price: CFG.PRICE });
+  return json_({ ok: true, app: CFG.BRAND, products: Object.keys(PRODUCTS) });
 }
 
 function doPost(e) {
@@ -77,7 +79,7 @@ function doPost(e) {
       case 'order': return json_(createOrder_(req));
       case 'status': return json_(orderStatus_(req.code));
       case 'login': return json_(login_(req.email, req.password));
-      case 'content': return json_(content_(req.token));
+      case 'content': return json_(content_(req.token, req.course));
       case 'reset': return json_(resetPassword_(req.email));
       default: return json_({ ok: false, msg: 'Không rõ yêu cầu' });
     }
@@ -94,6 +96,8 @@ function createOrder_(r) {
   const name = String(r.name || '').trim().slice(0, 80);
   const email = String(r.email || '').trim().toLowerCase().slice(0, 120);
   const phone = String(r.phone || '').replace(/[^\d+]/g, '').slice(0, 15);
+  const pid = PRODUCTS[r.course] ? r.course : 'vanhanh';
+  const P = PRODUCTS[pid];
   if (!name || !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email) || phone.length < 9) return { ok: false, msg: 'Anh/chị điền đủ họ tên, email và số điện thoại đúng giúp em nhé' };
   const lock = LockService.getScriptLock(); lock.waitLock(20000);
   try {
@@ -101,27 +105,31 @@ function createOrder_(r) {
     // Nếu email này còn đơn đang chờ thì dùng lại, tránh tạo nhiều mã
     const rows = sh.getDataRange().getValues();
     for (let i = rows.length - 1; i >= 1; i--) {
-      if (String(rows[i][3]).toLowerCase() === email && rows[i][6] === ST.WAIT) return payInfo_(rows[i][1], name);
+      if (String(rows[i][3]).toLowerCase() === email && rows[i][6] === ST.WAIT && (rows[i][10] || 'vanhanh') === pid) return payInfo_(rows[i][1], name, pid);
     }
     let code;
     const used = new Set(rows.map(x => String(x[1])));
-    do { code = CFG.PREFIX + Math.floor(10000 + Math.random() * 90000); } while (used.has(code));
-    sh.appendRow([new Date(), code, name, email, "'" + phone, CFG.PRICE, ST.WAIT, '', '', '']);
-    sendOrderMail_(email, name, code);
-    log_('đơn mới', code + ' · ' + email);
-    return payInfo_(code, name);
+    do { code = P.prefix + Math.floor(10000 + Math.random() * 90000); } while (used.has(code));
+    sh.appendRow([new Date(), code, name, email, "'" + phone, P.price, ST.WAIT, '', '', '', pid]);
+    sendOrderMail_(email, name, code, pid);
+    log_('đơn mới', code + ' · ' + pid + ' · ' + email);
+    return payInfo_(code, name, pid);
   } finally { lock.releaseLock(); }
 }
 
-function payInfo_(code, name) {
+function payInfo_(code, name, pid) {
+  const P = PRODUCTS[pid];
   return {
-    ok: true, code: code, name: name, amount: CFG.PRICE, bank: CFG.BANK, acc: CFG.ACC, holder: CFG.HOLDER,
-    qr: qrUrl_(code)
+    ok: true, code: code, name: name, course: pid, amount: P.price, bank: CFG.BANK, acc: CFG.ACC, holder: CFG.HOLDER,
+    qr: qrUrl_(code, P.price)
   };
 }
 
-function qrUrl_(code) {
-  return 'https://qr.sepay.vn/img?acc=' + CFG.ACC + '&bank=' + CFG.BANK + '&amount=' + CFG.PRICE + '&des=' + code + '&template=compact';
+function qrUrl_(code, amount) {
+  return 'https://qr.sepay.vn/img?acc=' + CFG.ACC + '&bank=' + CFG.BANK + '&amount=' + amount + '&des=' + code + '&template=compact';
+}
+function prefixRe_() {
+  return new RegExp('(' + Object.keys(PRODUCTS).map(k => PRODUCTS[k].prefix).join('|') + ')\\d{5}', 'i');
 }
 
 function orderStatus_(code) {
@@ -159,7 +167,7 @@ function checkSepay_() {
   const seen = new Set(JSON.parse(props.getProperty('SEEN') || '[]'));
   const sh = sheet_(SH.ORDERS);
   const rows = sh.getDataRange().getValues();
-  const re = new RegExp(CFG.PREFIX + '\\d{5}', 'i');
+  const re = prefixRe_();
   let changed = false;
   list.forEach(t => {
     const id = String(t.id);
@@ -174,7 +182,7 @@ function checkSepay_() {
     const code = m[0].toUpperCase();
     for (let i = 1; i < rows.length; i++) {
       if (String(rows[i][1]) === code && rows[i][6] === ST.WAIT) {
-        if (amount >= CFG.PRICE) {
+        if (amount >= Number(rows[i][5] || 0)) {
           sh.getRange(i + 1, 7, 1, 2).setValues([[ST.PAID, id]]);
           log_('tiền vào', code + ' · ' + amount);
         } else {
@@ -193,8 +201,9 @@ function provisionPaid_() {
   for (let i = 1; i < rows.length; i++) {
     if (rows[i][6] !== ST.PAID) continue;
     const [, code, name, email, phone] = rows[i];
-    const pw = createAccount_(String(email).toLowerCase(), name, phone, code);
-    sendWelcomeMail_(email, name, pw);
+    const pid = PRODUCTS[rows[i][10]] ? rows[i][10] : 'vanhanh';
+    const pw = createAccount_(String(email).toLowerCase(), name, phone, code, pid);
+    sendWelcomeMail_(email, name, pw, pid);
     sh.getRange(i + 1, 7).setValue(ST.DONE);
     sh.getRange(i + 1, 9).setValue(new Date());
     log_('cấp tài khoản', code + ' · ' + email);
@@ -202,13 +211,21 @@ function provisionPaid_() {
 }
 
 /* ===================== TÀI KHOẢN ===================== */
-function createAccount_(email, name, phone, code) {
+/* Trả về mật khẩu mới nếu là học viên mới; trả về null nếu email đã có tài khoản (chỉ mở thêm khoá) */
+function createAccount_(email, name, phone, code, pid) {
   const sh = sheet_(SH.STUDENTS);
+  const i = findStudent_(email);
+  if (i > 0) {
+    const cell = sh.getRange(i, 11);
+    const list = String(cell.getValue() || 'vanhanh').split(',').map(x => x.trim()).filter(Boolean);
+    if (list.indexOf(pid) < 0) list.push(pid);
+    cell.setValue(list.join(','));
+    sh.getRange(i, 4).setValue(String(sh.getRange(i, 4).getValue()) + ',' + code);
+    return null;
+  }
   const pw = randomPw_();
   const salt = Utilities.getUuid();
-  const row = [email, name, "'" + String(phone).replace(/^'/, ''), code, hash_(salt, pw), salt, '', '', new Date(), 'HOẠT ĐỘNG'];
-  const i = findStudent_(email);
-  if (i > 0) sh.getRange(i, 1, 1, row.length).setValues([row]); else sh.appendRow(row);
+  sh.appendRow([email, name, "'" + String(phone).replace(/^'/, ''), code, hash_(salt, pw), salt, '', '', new Date(), 'HOẠT ĐỘNG', pid]);
   return pw;
 }
 
@@ -228,17 +245,20 @@ function login_(email, password) {
   if (hash_(r[5], String(password || '')) !== r[4]) return { ok: false, msg: 'Sai mật khẩu. Anh/chị bấm "Quên mật khẩu" để nhận mật khẩu mới qua email.' };
   const token = Utilities.getUuid() + Utilities.getUuid().slice(0, 8);
   sh.getRange(i, 7, 1, 2).setValues([[token, new Date(Date.now() + CFG.TOKEN_DAYS * 86400000)]]);
-  return { ok: true, token: token, name: r[1] };
+  return { ok: true, token: token, name: r[1], courses: String(r[10] || 'vanhanh').split(',') };
 }
 
-function content_(token) {
+function content_(token, course) {
+  const pid = PRODUCTS[course] ? course : 'vanhanh';
   token = String(token || '');
   if (token.length < 30) return { ok: false, login: true };
   const v = sheet_(SH.STUDENTS).getDataRange().getValues();
   for (let i = 1; i < v.length; i++) {
     if (v[i][6] === token) {
       if (v[i][9] !== 'HOẠT ĐỘNG' || new Date(v[i][7]) < new Date()) return { ok: false, login: true };
-      return { ok: true, name: v[i][1], lessons: lessons_() };
+      const owned = String(v[i][10] || 'vanhanh').split(',').map(x => x.trim());
+      if (owned.indexOf(pid) < 0) return { ok: false, notOwned: true, name: v[i][1] };
+      return { ok: true, name: v[i][1], courses: owned, lessons: lessons_(pid) };
     }
   }
   return { ok: false, login: true };
@@ -259,55 +279,62 @@ function resetPassword_(email) {
   return { ok: true, msg: 'Nếu email này đã đăng ký, mật khẩu mới vừa được gửi vào hộp thư (xem cả mục Spam/Quảng cáo).' };
 }
 
-function lessons_() {
+function lessons_(pid) {
+  const file = PRODUCTS[pid].file;
   const cache = CacheService.getScriptCache();
-  const c = cache.get('LESSONS');
+  const c = cache.get('L_' + pid);
   if (c) return JSON.parse(c);
-  const it = DriveApp.getFilesByName(CFG.LESSON_FILE);
-  if (!it.hasNext()) throw new Error('Không tìm thấy file ' + CFG.LESSON_FILE + ' trên Google Drive');
+  const it = DriveApp.getFilesByName(file);
+  if (!it.hasNext()) throw new Error('Không tìm thấy file ' + file + ' trên Google Drive');
   const txt = it.next().getBlob().getDataAsString('UTF-8');
-  try { cache.put('LESSONS', txt, 600); } catch (e) {}
+  try { cache.put('L_' + pid, txt, 600); } catch (e) {}
   return JSON.parse(txt);
 }
 
 /* ===================== EMAIL ===================== */
-function mailWrap_(title, inner) {
+function mailWrap_(title, inner, pid) {
+  const courseName = PRODUCTS[pid || 'vanhanh'].name;
   return '<div style="font-family:Arial,sans-serif;background:#f4f6fb;padding:24px">' +
     '<div style="max-width:560px;margin:auto;background:#fff;border-radius:12px;overflow:hidden;border:1px solid #e3e8f2">' +
-    '<div style="background:#0d1838;padding:18px 24px;color:#FFC83D;font-weight:900;font-size:20px">' + CFG.COURSE + '<div style="color:#c9d4f2;font-size:13px;font-weight:600">' + CFG.BRAND + '</div></div>' +
+    '<div style="background:#0d1838;padding:18px 24px;color:#FFC83D;font-weight:900;font-size:20px">' + courseName + '<div style="color:#c9d4f2;font-size:13px;font-weight:600">' + CFG.BRAND + '</div></div>' +
     '<div style="padding:24px;color:#1b2236;font-size:15px;line-height:1.6"><h2 style="margin:0 0 12px;font-size:19px">' + title + '</h2>' + inner +
     '<p style="margin-top:24px;color:#5d6785;font-size:13px">Cần hỗ trợ: Zalo ' + CFG.ZALO_PHONE + ' · Nhóm học viên: <a href="' + CFG.ZALO_GROUP + '">' + CFG.ZALO_GROUP + '</a></p></div></div></div>';
 }
 
-function sendOrderMail_(email, name, code) {
+function sendOrderMail_(email, name, code, pid) {
+  const P = PRODUCTS[pid];
   const html = mailWrap_('Chào ' + esc_(name) + ', đơn ' + code + ' đã được ghi nhận',
     '<p>Anh/chị chuyển khoản theo thông tin dưới đây. Khi tiền vào, hệ thống tự gửi email đăng nhập trong vài phút.</p>' +
     '<table style="border-collapse:collapse;width:100%;font-size:15px">' +
     row_('Ngân hàng', CFG.BANK) + row_('Số tài khoản', CFG.ACC) + row_('Chủ tài khoản', CFG.HOLDER) +
-    row_('Số tiền', fmt_(CFG.PRICE) + 'đ') + row_('Nội dung', '<b style="color:#D32F2F;font-size:18px">' + code + '</b>') + '</table>' +
-    '<p style="text-align:center"><img src="' + qrUrl_(code) + '" alt="QR chuyển khoản" style="width:240px;max-width:100%"></p>' +
-    '<p><b>Lưu ý:</b> ghi đúng nội dung <b>' + code + '</b> để hệ thống nhận ra đơn của anh/chị.</p>');
-  MailApp.sendEmail({ to: email, subject: '[' + CFG.COURSE + '] Hướng dẫn chuyển khoản – đơn ' + code, htmlBody: html, name: CFG.BRAND });
+    row_('Số tiền', fmt_(P.price) + 'đ') + row_('Nội dung', '<b style="color:#D32F2F;font-size:18px">' + code + '</b>') + '</table>' +
+    '<p style="text-align:center"><img src="' + qrUrl_(code, P.price) + '" alt="QR chuyển khoản" style="width:240px;max-width:100%"></p>' +
+    '<p><b>Lưu ý:</b> ghi đúng nội dung <b>' + code + '</b> để hệ thống nhận ra đơn của anh/chị.</p>', pid);
+  MailApp.sendEmail({ to: email, subject: '[' + P.name + '] Hướng dẫn chuyển khoản – đơn ' + code, htmlBody: html, name: CFG.BRAND });
 }
 
-function sendWelcomeMail_(email, name, pw) {
-  const html = mailWrap_('Chào mừng ' + esc_(name) + ' vào khoá ' + CFG.COURSE + ' 🎉',
-    '<p>Đã nhận được thanh toán. Tài khoản học của anh/chị đã sẵn sàng:</p>' +
+function sendWelcomeMail_(email, name, pw, pid) {
+  const P = PRODUCTS[pid || 'vanhanh'];
+  const url = CFG.SITE + P.path;
+  const acc = pw
+    ? row_('Email đăng nhập', esc_(email)) + row_('Mật khẩu', '<b style="font-size:18px;letter-spacing:1px">' + pw + '</b>')
+    : row_('Email đăng nhập', esc_(email)) + row_('Mật khẩu', 'Dùng mật khẩu cũ của anh/chị (quên thì bấm "Quên mật khẩu")');
+  const html = mailWrap_('Chào mừng ' + esc_(name) + ' vào khoá ' + P.name + ' 🎉',
+    '<p>Đã nhận được thanh toán. ' + (pw ? 'Tài khoản học của anh/chị đã sẵn sàng:' : 'Khoá học mới đã được mở trong tài khoản hiện có của anh/chị:') + '</p>' +
     '<table style="border-collapse:collapse;width:100%;font-size:15px">' +
-    row_('Trang học', '<a href="' + CFG.SITE + '">' + CFG.SITE.replace('https://', '') + '</a>') + row_('Email đăng nhập', esc_(email)) +
-    row_('Mật khẩu', '<b style="font-size:18px;letter-spacing:1px">' + pw + '</b>') + '</table>' +
-    '<p style="text-align:center;margin:22px 0"><a href="' + CFG.SITE + '" style="background:#FFC83D;color:#0d1838;font-weight:900;padding:14px 28px;border-radius:10px;text-decoration:none;display:inline-block">VÀO HỌC NGAY</a></p>' +
+    row_('Trang học', '<a href="' + url + '">' + url.replace('https://', '') + '</a>') + acc + '</table>' +
+    '<p style="text-align:center;margin:22px 0"><a href="' + url + '" style="background:#FFC83D;color:#0d1838;font-weight:900;padding:14px 28px;border-radius:10px;text-decoration:none;display:inline-block">VÀO HỌC NGAY</a></p>' +
     '<p>Vào nhóm Zalo học viên để hỏi đáp và nhận cập nhật: <a href="' + CFG.ZALO_GROUP + '">' + CFG.ZALO_GROUP + '</a></p>' +
-    '<p style="color:#5d6785;font-size:13px">Anh/chị giữ email này. Quên mật khẩu thì bấm "Quên mật khẩu" ở trang đăng nhập.</p>');
-  MailApp.sendEmail({ to: email, subject: '[' + CFG.COURSE + '] Tài khoản học của anh/chị đã sẵn sàng', htmlBody: html, name: CFG.BRAND });
+    '<p style="color:#5d6785;font-size:13px">Anh/chị giữ email này. Quên mật khẩu thì bấm "Quên mật khẩu" ở trang đăng nhập.</p>', pid);
+  MailApp.sendEmail({ to: email, subject: '[' + P.name + '] ' + (pw ? 'Tài khoản học của anh/chị đã sẵn sàng' : 'Đã mở khoá học mới'), htmlBody: html, name: CFG.BRAND });
 }
 
 function sendResetMail_(email, name, pw) {
   const html = mailWrap_('Mật khẩu mới của ' + esc_(name),
-    '<p>Mật khẩu mới để vào <a href="' + CFG.SITE + '">' + CFG.SITE.replace('https://', '') + '</a>:</p>' +
+    '<p>Mật khẩu mới để vào <a href="' + CFG.SITE + '">' + CFG.SITE.replace('https://', '') + '</a> (dùng chung cho mọi khoá đã mua):</p>' +
     '<p style="font-size:22px;font-weight:900;letter-spacing:1px">' + pw + '</p>' +
     '<p style="color:#5d6785;font-size:13px">Nếu anh/chị không yêu cầu đổi mật khẩu, hãy nhắn Zalo ' + CFG.ZALO_PHONE + '.</p>');
-  MailApp.sendEmail({ to: email, subject: '[' + CFG.COURSE + '] Mật khẩu mới', htmlBody: html, name: CFG.BRAND });
+  MailApp.sendEmail({ to: email, subject: '[' + CFG.BRAND + '] Mật khẩu mới', htmlBody: html, name: CFG.BRAND });
 }
 
 /* ===================== TIỆN ÍCH ===================== */

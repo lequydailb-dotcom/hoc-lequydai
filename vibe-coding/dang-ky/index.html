@@ -1,0 +1,216 @@
+<!doctype html>
+<html lang="vi"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>28 NGÀY VIBE CODING - Tự làm Bot chăm sóc khách Zalo & Facebook bằng AI | Đại Lê AI</title>
+<meta name="description" content="28 ngày tự tay làm Bot chăm sóc khách hàng trả lời tự động trên Zalo và Facebook bằng AI, không cần biết code.">
+<meta property="og:title" content="28 NGÀY VIBE CODING - Tự làm Bot chăm sóc khách Zalo & Facebook bằng AI">
+<meta property="og:description" content="Không cần biết code. Làm xong dùng cho mình, cài và bán cho chủ shop khác.">
+<meta property="og:image" content="https://lequydai.com/vibe-coding/img/hero.jpg">
+<link rel="icon" href="/vibe-coding/img/cover-square.jpg">
+<style>
+:root{--red:#D32F2F;--red2:#B71C1C;--y:#FFD700;--y2:#FFC107;--navy:#0d1838;--ink:#333;--mut:#666;--cream:#FFF8E1;--ok:#388E3C}
+*{box-sizing:border-box;margin:0}
+body{font-family:-apple-system,"Segoe UI",Roboto,Arial,sans-serif;color:var(--ink);font-size:19px;line-height:1.6;background:#fff}
+.w{max-width:720px;margin:auto;padding:0 20px}
+section{padding:60px 0}
+.top{background:linear-gradient(#fffbe6,#fff);padding-top:28px}
+.brand{display:flex;justify-content:center;margin-bottom:22px}.brand img{height:34px;background:var(--navy);padding:7px 12px;border-radius:8px}
+.pre{font-style:italic;font-size:17px;color:var(--mut);text-align:center;margin-bottom:14px}
+h1{font-size:44px;line-height:1.2;font-weight:800;color:var(--red);text-align:center;letter-spacing:-.5px}
+.hl{background:var(--y);color:#1A1A1A;padding:0 6px;border-radius:4px}
+.sub{font-size:24px;color:#444;text-align:center;margin-top:18px;font-weight:600}
+.heroimg{margin-top:28px;border-radius:14px;width:100%;display:block;box-shadow:0 10px 30px rgba(0,0,0,.15)}
+h2{font-size:30px;line-height:1.3;font-weight:800;color:var(--navy);margin-bottom:20px}
+p{margin-bottom:20px}
+.dark{background:var(--navy);color:#fff}.dark h2{color:var(--y)}.dark p,.dark li{color:#e8ecf7}
+.dark ul{padding-left:22px;margin-bottom:20px}.dark li{margin-bottom:10px}
+.cta{display:block;text-align:center;background:var(--y);color:var(--red);font-weight:900;font-size:24px;text-transform:uppercase;border:4px solid #1A1A1A;border-radius:12px;padding:22px 16px;text-decoration:none;box-shadow:0 6px 0 #1A1A1A,0 12px 24px rgba(0,0,0,.2);animation:pulse 1.5s infinite;margin:30px 0 14px;line-height:1.25;cursor:pointer;font-family:inherit;width:100%}
+.cta:hover{color:var(--red2)}
+@keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.03)}}
+.safe{text-align:center;font-size:15px;color:var(--mut)}
+.ticks{list-style:none;padding:0}.ticks li{padding-left:34px;position:relative;margin-bottom:12px}
+.ticks li:before{content:"✓";position:absolute;left:0;top:0;color:#fff;background:var(--ok);width:24px;height:24px;border-radius:50%;font-size:15px;font-weight:900;text-align:center;line-height:24px}
+.mech{display:grid;gap:14px}.mech div{background:#f4f6fb;border-left:5px solid var(--y2);border-radius:10px;padding:16px 18px}
+.mech b{color:var(--navy)}
+.pack{border:3px solid var(--navy);border-radius:14px;overflow:hidden}
+.pack .ph{background:var(--navy);color:var(--y);font-weight:900;padding:14px 18px;font-size:20px}
+.pack .row{padding:14px 18px;border-top:1px solid #e3e8f2}
+.pack .row b{color:var(--navy)}
+.part{font-size:16px;color:var(--mut);margin-top:4px}
+.price{text-align:center;background:var(--cream);border:3px dashed var(--y2);border-radius:14px;padding:26px 18px}
+.price .big{font-size:44px;font-weight:900;color:var(--red);line-height:1.1}
+.price .lbl{font-weight:800;color:#1A1A1A;font-size:18px}
+.note{background:#f4f6fb;border-radius:10px;padding:14px 18px;font-size:16px;color:#444}
+.steps{counter-reset:s;list-style:none;padding:0;margin:10px 0 0}
+.steps li{counter-increment:s;padding-left:46px;position:relative;margin-bottom:14px}
+.steps li:before{content:counter(s);position:absolute;left:0;top:-2px;width:34px;height:34px;border-radius:50%;background:var(--navy);color:var(--y);font-weight:900;text-align:center;line-height:34px}
+.who{display:flex;gap:18px;align-items:center;background:#f4f6fb;border-radius:14px;padding:16px}
+.who img{width:110px;height:110px;object-fit:cover;object-position:60% 25%;border-radius:50%;flex:none}
+/* checkout */
+#mua{background:#f4f6fb}
+.box{background:#fff;border-radius:16px;padding:24px;box-shadow:0 8px 30px rgba(13,24,56,.12);border:1px solid #e3e8f2}
+.box label{display:block;font-weight:700;font-size:16px;margin:14px 0 6px;color:var(--navy)}
+.box input{width:100%;padding:14px;border:2px solid #dfe5f1;border-radius:10px;font-size:18px;font-family:inherit}
+.box input:focus{outline:none;border-color:var(--y2)}
+.err{color:var(--red);font-size:15px;min-height:20px;margin-top:10px}
+.pay{display:none;text-align:center}
+.pay img{width:260px;max-width:100%;border-radius:12px;border:1px solid #e3e8f2}
+.pay table{width:100%;border-collapse:collapse;margin:14px 0;font-size:17px;text-align:left}
+.pay td{padding:9px 10px;border:1px solid #e3e8f2}.pay td:first-child{color:var(--mut);width:42%}
+.code{color:var(--red);font-weight:900;font-size:22px;letter-spacing:1px}
+.cp{background:var(--navy);color:#fff;border:0;border-radius:6px;padding:4px 10px;font-size:13px;cursor:pointer;margin-left:6px;font-family:inherit}
+.wait{display:flex;align-items:center;justify-content:center;gap:10px;color:var(--navy);font-weight:700;font-size:16px;margin-top:8px}
+.spin{width:18px;height:18px;border:3px solid #dfe5f1;border-top-color:var(--navy);border-radius:50%;animation:sp 1s linear infinite}@keyframes sp{to{transform:rotate(360deg)}}
+.done{display:none;text-align:center}.done .ic{font-size:56px}
+.ps p{font-size:18px}.ps b{color:var(--red)}
+footer{background:var(--navy);color:#c9d4f2;text-align:center;padding:26px 16px;font-size:14px}
+footer a{color:#fff}
+@media(max-width:768px){body{font-size:17px}h1{font-size:32px}.sub{font-size:20px}h2{font-size:25px}.cta{font-size:20px;padding:18px 12px}section{padding:40px 0}.price .big{font-size:36px}.who{flex-direction:column;text-align:center}}
+</style></head>
+<body>
+<section class="top"><div class="w">
+ <div class="brand"><img src="/img/logo-am.png" alt="ĐẠI LÊ AI"></div>
+ <p class="pre">Dành riêng cho chủ shop, người kinh doanh một mình và người muốn có nghề làm công cụ AI - nhưng chưa từng viết một dòng code...</p>
+ <h1>Cách tự làm một <span class="hl">Bot chăm sóc khách</span> trả lời tự động trên Zalo và Facebook trong 28 ngày - mà không cần biết code</h1>
+ <p class="sub">Làm xong dùng ngay cho shop của mình, rồi cài và bán lại cho chủ shop khác - ngay cả khi anh/chị chưa từng mở một phần mềm lập trình nào.</p>
+ <img class="heroimg" src="/vibe-coding/img/hero.jpg" alt="Khoá 28 NGÀY VIBE CODING cùng Đại Lê AI">
+ <a class="cta" href="#mua">Tôi muốn tự làm Bot chăm sóc khách - Bắt đầu ngay</a>
+ <p class="safe">🔒 Chuyển khoản QR an toàn · ⚡ Tự nhận tài khoản học qua email sau vài phút</p>
+</div></section>
+
+<section class="dark"><div class="w">
+ <h2>Anh/chị có đang thế này không?</h2>
+ <ul>
+  <li>Ngày nào cũng trả lời đi trả lời lại: giá bao nhiêu, ship mấy ngày, đổi trả thế nào.</li>
+  <li>Khách nhắn lúc 11 giờ đêm, sáng mới trả lời thì khách đã mua chỗ khác.</li>
+  <li>Muốn có chatbot nhưng thấy phức tạp, phải thuê người cài, đổi giá cũng phải nhờ người khác.</li>
+  <li>Nghe nói "AI viết code được" nhưng không biết bắt đầu từ đâu.</li>
+ </ul>
+ <h2>Nếu cứ tiếp tục như vậy...</h2>
+ <ul>
+  <li>Cả ngày dán điện thoại, không còn thời gian làm việc lớn hơn.</li>
+  <li>Khách hỏi ngoài giờ không ai trả lời, đơn trôi mất mà không biết.</li>
+  <li>Mãi là người đi mua công cụ, trong khi người khác đã tự làm và bán công cụ.</li>
+ </ul>
+ <h2>Hầu hết mọi người nghĩ phải biết lập trình mới làm được phần mềm. Sai.</h2>
+ <p>Thứ cần thật sự là <b>biết rõ mình muốn gì, chia việc thật nhỏ và kiểm tra kết quả</b>. Phần gõ code, AI làm. Đó gọi là Vibe Coding - anh/chị làm chủ, AI làm thợ.</p>
+</div></section>
+
+<section><div class="w">
+ <h2>Đó là lý do Đại Lê làm khoá 28 NGÀY VIBE CODING</h2>
+ <p>Cả khoá đi theo đúng một sản phẩm thật: <b>Bot chăm sóc khách hàng</b> đọc bảng giá trên Google Sheet, trả lời khách trên Zalo và Fanpage, gặp chuyện khó thì báo chủ shop. Mỗi ngày một việc nhỏ, có câu lệnh mẫu để giao cho AI.</p>
+ <div class="who"><img src="/img/dai-1.jpg" alt="Đại Lê"><div><b>Đại Lê - Đại Lê AI</b><br><span style="color:var(--mut);font-size:16px">Người không học lập trình, tự làm bằng AI các công cụ cho việc kinh doanh của mình: bot Zalo trả lời khách, app tạo giọng đọc, và chính trang bán khoá học tự động anh/chị đang xem.</span></div></div>
+</div></section>
+
+<section style="padding-top:0"><div class="w">
+ <h2>Bí mật nằm ở cách làm 4 tuần</h2>
+ <div class="mech">
+  <div><b>Tuần 1 - Nỗi đau thật và bộ não.</b> Đếm 30 tin nhắn khách thật để biết bot cần trả lời gì, rồi viết bộ não bằng Google Sheet mà chủ shop tự sửa được.</div>
+  <div><b>Tuần 2 - Lõi bot chạy trên máy.</b> Giao AI làm từng phần nhỏ, kiểm thử bằng đề do chính anh/chị viết để bot không bịa giá.</div>
+  <div><b>Tuần 3 - Lên mạng, nối Zalo và Facebook.</b> Bot chạy 24/7 trên Cloudflare, dùng đường kết nối chính thức của Zalo và Meta.</div>
+  <div><b>Tuần 4 - Đóng gói và bán.</b> Cài cho khách trong 30 phút, trang bán thu tiền bằng QR, lời mời dùng thử và báo cáo hiệu quả bằng số thật.</div>
+ </div>
+</div></section>
+
+<section style="padding-top:0"><div class="w">
+ <h2>Học xong anh/chị sẽ biết</h2>
+ <ul class="ticks">
+  <li>Cách giao việc cho AI để nó làm đúng ngay lần đầu, không đi lạc</li>
+  <li>Cách đếm 30 tin nhắn thật để biết khách thật sự cần gì trước khi làm</li>
+  <li>Cách viết bộ não bot bằng Google Sheet - đổi giá trên điện thoại là bot biết ngay</li>
+  <li>Bản mô tả 1 trang khiến AI không phải đoán</li>
+  <li>Cách bắt AI tự sửa lỗi - và lúc nào phải bảo nó dừng lại</li>
+  <li>Luật kiểm thử: vì sao AI không được tự chấm bài của nó</li>
+  <li>Một câu chuyển người thật nghe như nhân viên thật</li>
+  <li>Cách đưa bot lên mạng chạy 24/7 mà không thuê máy chủ</li>
+  <li>Cách nối Zalo bằng đường chính thức để không lo bị khoá nick</li>
+  <li>Một quy định 24 giờ của Messenger mà người làm bot nào cũng phải biết</li>
+  <li>Cách giữ khoá API không bị lộ - và phải làm gì ngay khi lỡ lộ</li>
+  <li>Cách để bot giỏi dần chỉ với 15 phút mỗi tuần</li>
+  <li>Cách cài bot cho một khách mới trong 30 phút không sửa code</li>
+  <li>Cách làm trang bán thu tiền bằng QR, tự gửi email cho khách</li>
+  <li>Lời mời "dùng trước, hiệu quả mới trả" giúp chủ shop dám thử</li>
+ </ul>
+ <a class="cta" href="#mua">Tôi muốn tự làm sản phẩm bằng AI - Đăng ký ngay</a>
+ <p class="safe">🔒 Chuyển khoản QR an toàn · ⚡ Tự nhận tài khoản học qua email sau vài phút</p>
+</div></section>
+
+<section style="padding-top:0"><div class="w">
+ <h2>Trong khoá có gì</h2>
+ <div class="pack">
+  <div class="ph">28 NGÀY VIBE CODING - 19 bài, 4 tuần</div>
+  <div class="row"><b>Tuần 1: Nỗi đau thật và bộ não của bot</b><div class="part">Vibe Coding là gì · Đếm tin nhắn thật · Chuẩn bị máy và giữ khoá · Bộ não Google Sheet · Bản mô tả 1 trang</div></div>
+  <div class="row"><b>Tuần 2: Lõi bot chạy được trên máy</b><div class="part">Xem thị trường · Lõi trả lời · Kiểm thử chống bịa · Báo chủ khi cần · Video demo</div></div>
+  <div class="row"><b>Tuần 3: Lên mạng, nối Zalo và Facebook</b><div class="part">Cloudflare Workers · Zalo Bot chính thức · Fanpage Messenger · Sổ hội thoại và câu bot bí</div></div>
+  <div class="row"><b>Tuần 4: Đóng gói, bán và cho khách thật dùng</b><div class="part">Cài cho khách 30 phút · Trang bán và thu tiền · Lời mời dùng thử · 3 khách thật · Bài kiểm tra cuối khoá</div></div>
+  <div class="row">✓ Mỗi bài có <b>câu lệnh mẫu để giao cho AI</b>, bài tập và danh sách tự kiểm tra</div>
+  <div class="row">✓ <b>Mẫu bộ kiến thức shop</b> để nạp cho bot</div>
+  <div class="row">✓ <b>Tài khoản học riêng</b> tại lequydai.com, học trên máy tính hoặc điện thoại</div>
+  <div class="row">✓ <b>Nhóm Zalo học viên</b> để hỏi đáp khi bị vướng</div>
+ </div>
+ <p class="note" style="margin-top:20px">Chi phí ngoài khoá (trả trực tiếp cho nhà cung cấp, không qua Đại Lê): gói Claude hoặc ChatGPT để dùng thợ code AI, và có thể phát sinh phí Gemini, Cloudflare nếu dùng vượt hạn mức miễn phí. Cần máy tính Windows hoặc Mac.</p>
+</div></section>
+<section id="mua"><div class="w">
+ <div class="price"><div class="lbl">HỌC PHÍ TRỌN KHOÁ 28 NGÀY</div><div class="big">2.990.000đ</div><div style="color:var(--mut);font-size:16px;margin-top:6px">Chuyển khoản một lần · Nhận tài khoản qua email</div></div>
+ <h2 style="margin-top:36px;text-align:center">3 bước để vào học</h2>
+ <ol class="steps"><li>Điền họ tên, email, số điện thoại bên dưới.</li><li>Quét mã QR bằng app ngân hàng (số tiền và nội dung đã điền sẵn).</li><li>Vài phút sau tiền vào, email tài khoản học tự gửi về - anh/chị vào lequydai.com/vibe-coding là học.</li></ol>
+
+ <div class="box" id="ck">
+  <form id="of" onsubmit="order(event)">
+   <label for="n">Họ và tên</label><input id="n" name="name" required autocomplete="name" placeholder="Nguyễn Văn A">
+   <label for="e">Email (nhận tài khoản học)</label><input id="e" name="email" type="email" required autocomplete="email" placeholder="email@gmail.com">
+   <label for="p">Số điện thoại / Zalo</label><input id="p" name="phone" type="tel" required autocomplete="tel" placeholder="09xx xxx xxx">
+   <button class="cta" type="submit" id="ob">Giữ chỗ và nhận mã QR thanh toán</button>
+   <div class="err" id="oe"></div>
+   <p class="safe">🔒 Thông tin chỉ dùng để cấp tài khoản học · ⚡ Mã QR hiện ngay sau khi bấm</p>
+  </form>
+  <div class="pay" id="pay">
+   <h2 style="font-size:24px;margin-bottom:10px">Quét mã để thanh toán</h2>
+   <img id="qr" alt="Mã QR chuyển khoản">
+   <table>
+    <tr><td>Ngân hàng</td><td id="bk"></td></tr>
+    <tr><td>Số tài khoản</td><td><b id="ac"></b> <button class="cp" onclick="cp('ac',this)">Chép</button></td></tr>
+    <tr><td>Chủ tài khoản</td><td id="ho"></td></tr>
+    <tr><td>Số tiền</td><td><b>2.990.000đ</b></td></tr>
+    <tr><td>Nội dung</td><td><span class="code" id="cd"></span> <button class="cp" onclick="cp('cd',this)">Chép</button></td></tr>
+   </table>
+   <p style="font-size:16px">⚠ Ghi đúng nội dung <b class="code" id="cd2" style="font-size:16px"></b> để hệ thống tự nhận ra đơn. Hướng dẫn chuyển khoản cũng đã gửi vào email của anh/chị.</p>
+   <div class="wait"><span class="spin"></span> Đang chờ tiền vào... (trang tự cập nhật)</div>
+  </div>
+  <div class="done" id="done">
+   <div class="ic">🎉</div><h2 style="font-size:26px">Đã nhận thanh toán!</h2>
+   <p>Email chứa tài khoản học đang trên đường tới hộp thư của anh/chị (xem cả mục Spam/Quảng cáo nếu chưa thấy).</p>
+   <a class="cta" href="/vibe-coding/">Vào trang học ngay</a>
+  </div>
+ </div>
+ <p class="safe" style="margin-top:16px">Cần hỗ trợ: Zalo <b>0972 782 782</b></p>
+</div></section>
+
+<section class="ps"><div class="w">
+ <p><b>P.S.</b> Sau 28 ngày, anh/chị không chỉ có một con bot trả lời khách cho shop mình, mà còn có cách làm để tự làm ra sản phẩm phần mềm tiếp theo - và một sản phẩm để bán.</p>
+ <p><b>P.P.S.</b> Mỗi ngày trôi qua chưa có bot là thêm những tin nhắn lúc nửa đêm không ai trả lời. Quyết định là của anh/chị.</p>
+ <a class="cta" href="#mua">Tôi sẵn sàng tự làm Bot - Đăng ký ngay</a>
+ <p class="safe">🔒 Chuyển khoản QR an toàn · ⚡ Tự nhận tài khoản học qua email sau vài phút</p>
+</div></section>
+
+<footer>© 2026 Đại Lê AI · <a href="/vibe-coding/">Đã có tài khoản? Đăng nhập học</a> · <a href="/dang-ky/">Khoá VẬN HÀNH AGENT</a> · Zalo 0972 782 782</footer>
+
+<script src="/config.js"></script>
+<script>
+const K='vc-order';
+function st(k,v){try{if(v===undefined)return localStorage.getItem(k);if(v===null)localStorage.removeItem(k);else localStorage.setItem(k,v)}catch(e){}}
+async function api(b){const r=await fetch(window.API_URL,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify(b)});return r.json()}
+function show(o){document.getElementById('of').style.display='none';const p=document.getElementById('pay');p.style.display='block';
+ document.getElementById('qr').src=o.qr;document.getElementById('bk').textContent=o.bank;document.getElementById('ac').textContent=o.acc;document.getElementById('ho').textContent=o.holder;
+ document.getElementById('cd').textContent=o.code;document.getElementById('cd2').textContent=o.code;poll(o.code)}
+async function order(ev){ev.preventDefault();const f=ev.target,b=document.getElementById('ob'),er=document.getElementById('oe');er.textContent='';b.disabled=true;b.textContent='Đang tạo mã QR...';
+ try{const r=await api({action:'order',course:'vibe',name:f.name.value,email:f.email.value,phone:f.phone.value});
+  if(!r.ok){er.textContent=r.msg;b.disabled=false;b.textContent='Giữ chỗ và nhận mã QR thanh toán';return}
+  st(K,JSON.stringify(r));show(r);document.getElementById('ck').scrollIntoView({behavior:'smooth'})}
+ catch(e){er.textContent='Không kết nối được. Anh/chị thử lại hoặc nhắn Zalo 0972 782 782.';b.disabled=false;b.textContent='Giữ chỗ và nhận mã QR thanh toán'}}
+let timer;function poll(code){clearTimeout(timer);timer=setTimeout(async()=>{try{const r=await api({action:'status',code});
+ if(r.ok&&r.paid){st(K,null);document.getElementById('pay').style.display='none';document.getElementById('done').style.display='block';return}}catch(e){}poll(code)},6000)}
+function cp(id,b){const t=document.getElementById(id).textContent;(navigator.clipboard?navigator.clipboard.writeText(t):Promise.reject()).then(()=>b.textContent='Đã chép',()=>b.textContent='Bôi đen để chép')}
+try{const o=JSON.parse(st(K)||'null');if(o&&o.code)show(o)}catch(e){}
+</script>
+</body></html>
