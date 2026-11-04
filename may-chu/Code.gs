@@ -34,21 +34,21 @@ const STU_HEAD = ['Email', 'Họ tên', 'Số điện thoại', 'Mã đơn', 'Ha
 function setup() {
   const ss = SpreadsheetApp.getActive();
   const mk = (name, head, color) => {
-    let s = ss.getSheetByName(name);
-    if (!s) s = ss.insertSheet(name);
+    let sh = ss.getSheetByName(name);
+    if (!sh) sh = ss.insertSheet(name);
     if (head) {
-      s.getRange(1, 1, 1, head.length).setValues([head]).setFontWeight('bold').setBackground(color).setFontColor('#ffffff');
-      s.setFrozenRows(1);
+      sh.getRange(1, 1, 1, head.length).setValues([head]).setFontWeight('bold').setBackground(color).setFontColor('#ffffff');
+      sh.setFrozenRows(1);
     }
-    return s;
+    return sh;
   };
   const o = mk(SH.ORDERS, ORDER_HEAD, '#0d1838');
   const rule = SpreadsheetApp.newDataValidation().requireValueInList([ST.WAIT, ST.PAID, ST.DONE, ST.CANCEL], true).build();
   o.getRange('G2:G2000').setDataValidation(rule);
   o.getRange('F2:F2000').setNumberFormat('#,##0');
   o.setColumnWidths(1, 11, 140);
-  const s = mk(SH.STUDENTS, STU_HEAD, '#16285a');
-  s.hideColumns(5, 4);
+  const stu = mk(SH.STUDENTS, STU_HEAD, '#16285a');
+  stu.hideColumns(5, 4);
   const c = mk(SH.CONFIG, ['Khoá', 'Giá trị', 'Ghi chú'], '#5d6785');
   if (c.getLastRow() < 2) {
     c.getRange(2, 1, 2, 3).setValues([
