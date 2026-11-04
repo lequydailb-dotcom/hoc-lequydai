@@ -79,7 +79,7 @@ footer img{height:30px;margin-bottom:8px}
 <body>
 <header><div class="hd"><img src="/img/logo-am.png" alt="ĐẠI LÊ AI" onclick="go('')"><div class="crumb" id="crumb"></div><a class="zl" id="zl" target="_blank" rel="noopener">Nhóm Zalo học viên</a><button class="out" id="out" onclick="logout()">Đăng xuất</button></div></header>
 <div class="wrap" id="app"></div>
-<footer><img src="/img/logo-am.png" alt="ĐẠI LÊ AI"><div>28 NGÀY VIBE CODING · Khoá học của Đại Lê AI · <a href="/">Tất cả khoá học</a></div><div style="margin-top:4px">© 2026 Đại Lê · hoc.lequydai.com</div></footer>
+<footer><img src="/img/logo-am.png" alt="ĐẠI LÊ AI"><div>28 NGÀY VIBE CODING · Khoá học của Đại Lê AI · <a href="/">Tất cả khoá học</a></div><div style="margin-top:4px">© 2026 ĐẠI LÊ AI · hoc.lequydai.com</div></footer>
 <script src="/config.js"></script>
 <script src="lessons.js"></script>
 <script>
@@ -110,7 +110,7 @@ function go(h){location.hash=h}
 function sidebar(){const d=getDone(),p=Math.round(d.length/19*100);
  return `<aside><div class="box"><img src="/vibe-coding/img/cover-square.jpg" alt="28 NGÀY VIBE CODING"><div class="prog"><i style="width:${p}%"></i></div><div class="small">${d.length}/19 bài đã hoàn thành · ${p}%</div>
  <button class="btn y" onclick="go('bai-'+${nextIdx()})">${d.length?'Học tiếp':'Bắt đầu khoá học'}</button>
- ${WHO?`<div class="small" style="margin-top:10px">Xin chào <b>${WHO}</b> 👋</div>`:''}<div style="margin-top:16px;font-weight:800">Người đồng hành</div><div class="teacher"><img src="/img/dai-1.jpg" alt="Đại Lê"><div><b>Đại Lê</b><div class="small">Đại Lê AI · hoc.lequydai.com</div></div></div>
+ ${WHO?`<div class="small" style="margin-top:10px">Xin chào <b>${WHO}</b> 👋</div>`:''}<div style="margin-top:16px;font-weight:800">Người đồng hành</div><div class="teacher"><img src="/img/dai-1.jpg" alt="Đại Lê"><div><b>ĐẠI LÊ AI</b><div class="small">hoc.lequydai.com</div></div></div>
  <a class="btn" href="${C.zalo}" target="_blank" rel="noopener">Vào nhóm Zalo hỏi đáp</a></div></aside>`}
 function nextIdx(){const d=getDone();for(let i=1;i<=19;i++)if(!d.includes(i))return i;return 1}
 function home(){document.getElementById('crumb').innerHTML='<b>28 NGÀY VIBE CODING</b> · Bot CSKH Zalo & Facebook';
