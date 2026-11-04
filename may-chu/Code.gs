@@ -121,12 +121,14 @@ function payInfo_(code, name, pid) {
   const P = PRODUCTS[pid];
   return {
     ok: true, code: code, name: name, course: pid, amount: P.price, bank: CFG.BANK, acc: CFG.ACC, holder: CFG.HOLDER,
-    qr: qrUrl_(code, P.price)
+    memo: memo_(code), qr: qrUrl_(code, P.price)
   };
 }
 
+/* VietinBank cá nhân qua SePay: nội dung chuyển khoản BẮT BUỘC có tiền tố SEVQR, nếu không SePay không nhận được giao dịch */
+function memo_(code) { return 'SEVQR ' + code; }
 function qrUrl_(code, amount) {
-  return 'https://qr.sepay.vn/img?acc=' + CFG.ACC + '&bank=' + CFG.BANK + '&amount=' + amount + '&des=' + code + '&template=compact';
+  return 'https://qr.sepay.vn/img?acc=' + CFG.ACC + '&bank=' + CFG.BANK + '&amount=' + amount + '&des=' + encodeURIComponent(memo_(code)) + '&template=compact';
 }
 function prefixRe_() {
   return new RegExp('(' + Object.keys(PRODUCTS).map(k => PRODUCTS[k].prefix).join('|') + ')\\d{5}', 'i');
@@ -307,9 +309,9 @@ function sendOrderMail_(email, name, code, pid) {
     '<p>Anh/chị chuyển khoản theo thông tin dưới đây. Khi tiền vào, hệ thống tự gửi email đăng nhập trong vài phút.</p>' +
     '<table style="border-collapse:collapse;width:100%;font-size:15px">' +
     row_('Ngân hàng', CFG.BANK) + row_('Số tài khoản', CFG.ACC) + row_('Chủ tài khoản', CFG.HOLDER) +
-    row_('Số tiền', fmt_(P.price) + 'đ') + row_('Nội dung', '<b style="color:#D32F2F;font-size:18px">' + code + '</b>') + '</table>' +
+    row_('Số tiền', fmt_(P.price) + 'đ') + row_('Nội dung', '<b style="color:#D32F2F;font-size:18px">' + memo_(code) + '</b>') + '</table>' +
     '<p style="text-align:center"><img src="' + qrUrl_(code, P.price) + '" alt="QR chuyển khoản" style="width:240px;max-width:100%"></p>' +
-    '<p><b>Lưu ý:</b> ghi đúng nội dung <b>' + code + '</b> để hệ thống nhận ra đơn của anh/chị.</p>', pid);
+    '<p><b>Lưu ý:</b> ghi đúng nội dung <b>' + memo_(code) + '</b> (có cả chữ SEVQR) để hệ thống nhận ra đơn của anh/chị.</p>', pid);
   MailApp.sendEmail({ to: email, subject: '[' + P.name + '] Hướng dẫn chuyển khoản – đơn ' + code, htmlBody: html, name: CFG.BRAND });
 }
 

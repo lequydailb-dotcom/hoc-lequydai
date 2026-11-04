@@ -174,7 +174,7 @@ footer a{color:#fff}
     <tr><td>Số tiền</td><td><b>2.990.000đ</b></td></tr>
     <tr><td>Nội dung</td><td><span class="code" id="cd"></span> <button class="cp" onclick="cp('cd',this)">Chép</button></td></tr>
    </table>
-   <p style="font-size:16px">⚠ Ghi đúng nội dung <b class="code" id="cd2" style="font-size:16px"></b> để hệ thống tự nhận ra đơn. Hướng dẫn chuyển khoản cũng đã gửi vào email của anh/chị.</p>
+   <p style="font-size:16px">⚠ Ghi đúng nội dung <b class="code" id="cd2" style="font-size:16px"></b> (có cả chữ SEVQR) để hệ thống tự nhận ra đơn. Hướng dẫn chuyển khoản cũng đã gửi vào email của anh/chị.</p>
    <div class="wait"><span class="spin"></span> Đang chờ tiền vào... (trang tự cập nhật)</div>
   </div>
   <div class="done" id="done">
@@ -201,8 +201,8 @@ const K='vc-order';
 function st(k,v){try{if(v===undefined)return localStorage.getItem(k);if(v===null)localStorage.removeItem(k);else localStorage.setItem(k,v)}catch(e){}}
 async function api(b){const r=await fetch(window.API_URL,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify(b)});return r.json()}
 function show(o){document.getElementById('of').style.display='none';const p=document.getElementById('pay');p.style.display='block';
- document.getElementById('qr').src=o.qr;document.getElementById('bk').textContent=o.bank;document.getElementById('ac').textContent=o.acc;document.getElementById('ho').textContent=o.holder;
- document.getElementById('cd').textContent=o.code;document.getElementById('cd2').textContent=o.code;poll(o.code)}
+ const memo='SEVQR '+o.code;document.getElementById('qr').src='https://qr.sepay.vn/img?acc='+o.acc+'&bank='+encodeURIComponent(o.bank)+'&amount='+o.amount+'&des='+encodeURIComponent(memo)+'&template=compact';document.getElementById('bk').textContent=o.bank;document.getElementById('ac').textContent=o.acc;document.getElementById('ho').textContent=o.holder;
+ document.getElementById('cd').textContent=memo;document.getElementById('cd2').textContent=memo;poll(o.code)}
 async function order(ev){ev.preventDefault();const f=ev.target,b=document.getElementById('ob'),er=document.getElementById('oe');er.textContent='';b.disabled=true;b.textContent='Đang tạo mã QR...';
  try{const r=await api({action:'order',course:'vibe',name:f.name.value,email:f.email.value,phone:f.phone.value});
   if(!r.ok){er.textContent=r.msg;b.disabled=false;b.textContent='Giữ chỗ và nhận mã QR thanh toán';return}
