@@ -2,10 +2,10 @@
  * VẬN HÀNH AGENT – Hệ thống bán khoá học tự động · Đại Lê AI
  * Chạy trên Google Apps Script, gắn với Google Sheet "VẬN HÀNH AGENT – Đơn hàng & Học viên".
  *
- * Luồng: khách điền form ở lequydai.com/dang-ky -> tạo đơn + mail hướng dẫn chuyển khoản
+ * Luồng: khách điền form ở hoc.lequydai.com/dang-ky -> tạo đơn + mail hướng dẫn chuyển khoản
  *        -> khách quét QR chuyển khoản (nội dung có mã đơn VHxxxxx)
  *        -> mỗi phút hệ thống đọc giao dịch SePay (hoặc anh tự chọn "ĐÃ THANH TOÁN" trong Sheet)
- *        -> tự tạo tài khoản + gửi mail đăng nhập -> khách vào lequydai.com học.
+ *        -> tự tạo tài khoản + gửi mail đăng nhập -> khách vào hoc.lequydai.com học.
  */
 
 const PRODUCTS = {
@@ -17,7 +17,7 @@ const CFG = {
   ACC: '104880553933',
   HOLDER: 'LE QUY DAI',
   PREFIX: 'VH',
-  SITE: 'https://lequydai.com',
+  SITE: 'https://hoc.lequydai.com',
   COURSE: 'VẬN HÀNH AGENT',
   BRAND: 'Đại Lê AI',
   ZALO_GROUP: 'https://zalo.me/g/a9my3sx1ov0fsihenx6e',
@@ -251,7 +251,7 @@ function login_(email, password) {
   return { ok: true, token: token, name: r[1], courses: String(r[10] || 'vanhanh').split(',') };
 }
 
-/* Trang chủ lequydai.com: biết học viên đang sở hữu khoá nào */
+/* Trang chủ hoc.lequydai.com: biết học viên đang sở hữu khoá nào */
 function me_(token) {
   token = String(token || '');
   if (token.length < 30) return { ok: false, login: true };
