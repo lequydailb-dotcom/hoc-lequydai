@@ -11,7 +11,13 @@
 const PRODUCTS = {
   vanhanh: { name: 'VẬN HÀNH AGENT', price: 1990000, prefix: 'VH', file: 'vanhanh-lessons.json', path: '/van-hanh/' },
   vibe: { name: '28 NGÀY VIBE CODING – Bot CSKH Zalo & Facebook', price: 2990000, prefix: 'VC', file: 'vibecoding-lessons.json', path: '/vibe-coding/' },
-  donggoi: { name: 'ĐÓNG GÓI KIẾN THỨC THÀNH KHOÁ HỌC BẰNG AI', price: 1490000, prefix: 'DG', file: 'donggoi-lessons.json', path: '/dong-goi/' }
+  donggoi: { name: 'ĐÓNG GÓI KIẾN THỨC THÀNH KHOÁ HỌC BẰNG AI', price: 1490000, prefix: 'DG', file: 'donggoi-lessons.json', path: '/dong-goi/' },
+  /* Khoá sắp ra mắt: bán đặt trước (presale) – giá thấp hơn giá khi mở */
+  videoai: { name: 'VIDEO AI KHÔNG CẦN LÊN HÌNH', price: 490000, full: 990000, prefix: 'VA', path: '/video-ai/', presale: true, launch: 'tháng 12/2026' },
+  editvideo: { name: 'EDIT VIDEO TỰ ĐỘNG BẰNG AI', price: 490000, full: 990000, prefix: 'EV', path: '/edit-video/', presale: true, launch: 'tháng 12/2026' },
+  vietbai: { name: 'TỰ ĐỘNG VIẾT BÀI MỖI NGÀY BẰNG AI', price: 690000, full: 1490000, prefix: 'VB', path: '/viet-bai-tu-dong/', presale: true, launch: 'tháng 01/2027' },
+  website: { name: 'WEBSITE BÁN HÀNG TỰ ĐỘNG', price: 690000, full: 1490000, prefix: 'WB', path: '/website-ban-hang/', presale: true, launch: 'tháng 01/2027' },
+  combo4: { name: 'COMBO 4 KHOÁ SẮP RA MẮT', price: 1690000, full: 4970000, prefix: 'CB', path: '/sap-ra-mat/', presale: true, launch: 'từ tháng 12/2026', grants: ['videoai', 'editvideo', 'vietbai', 'website'] }
 };
 const CFG = {
   BANK: 'VietinBank',
@@ -222,17 +228,18 @@ function provisionPaid_() {
 function createAccount_(email, name, phone, code, pid) {
   const sh = sheet_(SH.STUDENTS);
   const i = findStudent_(email);
+  const add = PRODUCTS[pid].grants || [pid];
   if (i > 0) {
     const cell = sh.getRange(i, 11);
     const list = String(cell.getValue() || 'vanhanh').split(',').map(x => x.trim()).filter(Boolean);
-    if (list.indexOf(pid) < 0) list.push(pid);
+    add.forEach(p => { if (list.indexOf(p) < 0) list.push(p); });
     cell.setValue(list.join(','));
     sh.getRange(i, 4).setValue(String(sh.getRange(i, 4).getValue()) + ',' + code);
     return null;
   }
   const pw = randomPw_();
   const salt = Utilities.getUuid();
-  sh.appendRow([email, name, "'" + String(phone).replace(/^'/, ''), code, hash_(salt, pw), salt, '', '', new Date(), 'HOẠT ĐỘNG', pid]);
+  sh.appendRow([email, name, "'" + String(phone).replace(/^'/, ''), code, hash_(salt, pw), salt, '', '', new Date(), 'HOẠT ĐỘNG', add.join(',')]);
   return pw;
 }
 
@@ -390,7 +397,7 @@ function remindDaily_() {
     const email = stu[i][0], name = stu[i][1];
     if (!email || stu[i][9] !== 'HOẠT ĐỘNG') continue;
     String(stu[i][10] || 'vanhanh').split(',').map(x => x.trim()).forEach(pid => {
-      if (!PRODUCTS[pid]) return;
+      if (!PRODUCTS[pid] || !TOTAL[pid]) return;
       const p = progressRow_(email, name, pid), v = p.vals;
       if (p.doneAt || p.done.length >= TOTAL[pid]) return;
       const last = Math.max(new Date(v[8] || 0).getTime(), new Date(v[6] || 0).getTime(), new Date(stu[i][8] || 0).getTime());
@@ -471,6 +478,7 @@ function sendOrderMail_(email, name, code, pid) {
 
 function sendWelcomeMail_(email, name, pw, pid) {
   const P = PRODUCTS[pid || 'vanhanh'];
+  if (P.presale) return sendPresaleMail_(email, name, pw, pid);
   const url = CFG.SITE + P.path;
   const acc = pw
     ? row_('Email đăng nhập', esc_(email)) + row_('Mật khẩu', '<b style="font-size:18px;letter-spacing:1px">' + pw + '</b>')
@@ -483,6 +491,21 @@ function sendWelcomeMail_(email, name, pw, pid) {
     '<p>Vào nhóm Zalo học viên để hỏi đáp và nhận cập nhật: <a href="' + CFG.ZALO_GROUP + '">' + CFG.ZALO_GROUP + '</a></p>' +
     '<p style="color:#5d6785;font-size:13px">Anh/chị giữ email này. Quên mật khẩu thì bấm "Quên mật khẩu" ở trang đăng nhập.</p>', pid);
   MailApp.sendEmail({ to: email, subject: '[' + P.name + '] ' + (pw ? 'Tài khoản học của anh/chị đã sẵn sàng' : 'Đã mở khoá học mới'), htmlBody: html, name: CFG.BRAND });
+}
+
+function sendPresaleMail_(email, name, pw, pid) {
+  const P = PRODUCTS[pid], url = CFG.SITE;
+  const list = (P.grants || [pid]).map(k => '<li><b>' + PRODUCTS[k].name + '</b> · dự kiến mở ' + PRODUCTS[k].launch + '</li>').join('');
+  const acc = pw
+    ? row_('Email đăng nhập', esc_(email)) + row_('Mật khẩu', '<b style="font-size:18px;letter-spacing:1px">' + pw + '</b>')
+    : row_('Email đăng nhập', esc_(email)) + row_('Mật khẩu', 'Dùng mật khẩu cũ của anh/chị (quên thì bấm "Quên mật khẩu")');
+  const html = mailWrap_('Đã giữ chỗ thành công 🎉',
+    '<p>Chào ' + esc_(name) + ', đã nhận thanh toán đặt trước. Anh/chị đã giữ chỗ với <b>giá đặt trước</b> cho:</p><ul>' + list + '</ul>' +
+    '<p>Khoá mở là anh/chị được báo qua email và nhóm Zalo. Lúc đó chỉ cần đăng nhập <a href="' + url + '">' + url.replace('https://', '') + '</a> bằng tài khoản dưới đây là vào học, không phải trả thêm.</p>' +
+    '<table style="border-collapse:collapse;width:100%;font-size:15px">' + acc + '</table>' +
+    '<p>Vào nhóm Zalo để theo dõi tiến độ làm khoá và nhận chia sẻ trước: <a href="' + CFG.ZALO_GROUP + '">' + CFG.ZALO_GROUP + '</a></p>' +
+    '<p style="color:#5d6785;font-size:13px">Anh/chị giữ email này. Cần hỗ trợ nhắn Zalo ' + CFG.ZALO_PHONE + '.</p>', pid);
+  MailApp.sendEmail({ to: email, subject: '[' + P.name + '] Đã giữ chỗ với giá đặt trước', htmlBody: html, name: CFG.BRAND });
 }
 
 function sendResetMail_(email, name, pw) {
