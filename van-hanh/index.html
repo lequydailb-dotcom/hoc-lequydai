@@ -46,6 +46,7 @@ aside .box img{width:100%;border-radius:10px}
 .lesson{background:#fff;border:1px solid var(--line);border-radius:14px;padding:28px 32px}
 .lesson .cv{width:100%;border-radius:12px;margin-bottom:20px}
 .lesson h1{font-size:26px;line-height:1.3;margin-bottom:14px}
+.lv{margin:0 0 18px}.lv h3{font-size:16px;margin-bottom:8px}.lv video{width:100%;border-radius:12px;display:block;aspect-ratio:16/9;background:#0b1533}
 .goal{background:#fff8e1;border-left:5px solid var(--gold);padding:12px 16px;border-radius:8px;margin-bottom:18px}
 .lesson h3{font-size:19px;margin:24px 0 8px;color:var(--navy2)}
 .lesson p,.lesson li{font-size:16px;margin-bottom:6px}
@@ -124,7 +125,7 @@ function lesson(i){const L0=C.lessons[i];if(!L0||!FULL||!FULL[i])return home();c
  const part=C.parts.find(p=>p.lessons.includes(i));
  document.getElementById('crumb').innerHTML=`<span style="cursor:pointer" onclick="go('')">VẬN HÀNH AGENT</span> / <b>Bài ${pad(i)}. ${L.title}</b>`;
  let h=`<div class="grid"><main><div class="lesson"><img class="cv" src="/img/bai-${pad(i)}.jpg" alt="Bài ${pad(i)}"><div class="small">${part.name}</div><h1>Bài ${pad(i)}. ${L.title}</h1>
- <div class="goal"><b>Sau bài này bạn có:</b> ${L.goal}</div>${L.html}
+ <div class="goal"><b>Sau bài này bạn có:</b> ${L.goal}</div><div class="lv"><h3>🎬 Video hướng dẫn bài này</h3><video controls playsinline preload="metadata" src="/video/bai/van-hanh-${pad(i)}.mp4?v=20261105"></video></div>${L.html}
  <div class="task"><h3>✍️ Bài tập</h3>${L.task}<h3 style="margin-top:14px!important">✅ Tự kiểm tra</h3><div class="chk">${L.check.map((c,k)=>`<label><input type="checkbox">${c}</label>`).join('')}</div></div>
  <p style="margin-top:18px"><b>${L.next}</b></p>
  <div class="nav">${i>1?`<button class="btn" style="background:#5d6785" onclick="go('bai-${i-1}')">◀ Bài ${pad(i-1)}</button>`:''}
