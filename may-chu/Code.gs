@@ -10,7 +10,8 @@
 
 const PRODUCTS = {
   vanhanh: { name: 'VẬN HÀNH AGENT', price: 1990000, prefix: 'VH', file: 'vanhanh-lessons.json', path: '/van-hanh/' },
-  vibe: { name: '28 NGÀY VIBE CODING – Bot CSKH Zalo & Facebook', price: 2990000, prefix: 'VC', file: 'vibecoding-lessons.json', path: '/vibe-coding/' }
+  vibe: { name: '28 NGÀY VIBE CODING – Bot CSKH Zalo & Facebook', price: 2990000, prefix: 'VC', file: 'vibecoding-lessons.json', path: '/vibe-coding/' },
+  donggoi: { name: 'ĐÓNG GÓI KIẾN THỨC THÀNH KHOÁ HỌC BẰNG AI', price: 1490000, prefix: 'DG', file: 'donggoi-lessons.json', path: '/dong-goi/' }
 };
 const CFG = {
   BANK: 'VietinBank',
@@ -289,7 +290,7 @@ function content_(token, course) {
 }
 
 /* ===================== TIẾN ĐỘ HỌC + TRẮC NGHIỆM + NHẮC HỌC ===================== */
-const TOTAL = { vanhanh: 16, vibe: 19 };
+const TOTAL = { vanhanh: 16, vibe: 19, donggoi: 14 };
 const PHEAD = ['Email', 'Họ tên', 'Khoá học', 'Bài đã xong', 'Số bài xong', '% hoàn thành', 'Cập nhật', 'Hoàn thành khoá', 'Lần vào học cuối', 'Nhắc lần cuối', 'Số lần nhắc'];
 function progressSheet_() {
   let s = sheet_('TIEN_DO');
