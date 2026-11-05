@@ -197,4 +197,8 @@ function render(){const m=location.hash.match(/bai-(\d+)/);document.getElementBy
  document.querySelectorAll('pre').forEach(p=>{const b=document.createElement('button');b.className='cp';b.textContent='Chép';b.onclick=()=>{const t=p.childNodes[0].textContent;(navigator.clipboard?navigator.clipboard.writeText(t):Promise.reject()).then(()=>{b.textContent='Đã chép'},()=>{b.textContent='Bôi đen để chép'})};p.appendChild(b)})}
 window.addEventListener('hashchange',render);boot();
 </script>
-<div id="toast"></div></body></html>
+<div id="toast"></div><script>(function(){function f(){var l=document.getElementById('lf');if(!l)return;l.scrollIntoView({behavior:'smooth',block:'center'});var e=l.querySelector('input[type=email]');if(e)setTimeout(function(){e.focus()},500)}
+var b=document.createElement('a');b.id='lgb';b.href='#dang-nhap';b.textContent='🔑 Đăng nhập';b.style.cssText='position:fixed;bottom:16px;right:16px;z-index:999;padding:10px 18px;font-size:15px;display:none;background:#FFC83D;color:#1A1A1A;font-weight:800;border-radius:999px;text-decoration:none;box-shadow:0 4px 14px rgba(0,0,0,.18)';b.onclick=function(ev){ev.preventDefault();f()};document.body.appendChild(b);
+setInterval(function(){b.style.display=document.getElementById('lf')?'block':'none'},700);
+function chk(){if(location.hash=='#dang-nhap')setTimeout(f,700)}window.addEventListener('load',chk);window.addEventListener('hashchange',chk)})();</script>
+</body></html>
