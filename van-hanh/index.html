@@ -32,6 +32,21 @@ header{background:var(--navy);position:sticky;top:0;z-index:20;box-shadow:0 2px 
 .ls img{width:190px;border-radius:8px;flex:none}
 .ls h3{font-size:16px;margin-bottom:4px}
 .ls p{font-size:14px;color:var(--mut);display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+.ls.lockd{opacity:.55;cursor:not-allowed}.ls.lockd h3:before{content:"🔒 ";}
+.ls .now{flex:none;background:var(--gold);color:#0b1533;font-weight:800;font-size:12px;padding:4px 10px;border-radius:20px}
+.gk{margin-top:22px;background:#f5f7fc;border:1px solid var(--line);border-radius:14px;padding:16px 18px}
+.gk h3{font-size:16px;margin:0 0 8px}.gk .r{display:flex;gap:10px;align-items:center;margin:6px 0;font-weight:600}
+.gk .r i{font-style:normal;width:24px;height:24px;border-radius:50%;display:grid;place-items:center;background:#e3e8f2;font-size:13px;flex:none}.gk .r.ok i{background:var(--ok);color:#fff}
+.gk .bar{height:8px;background:#e3e8f2;border-radius:6px;overflow:hidden;margin:6px 0 2px}.gk .bar b{display:block;height:100%;background:var(--gold)}
+.btn[disabled]{opacity:.45;cursor:not-allowed}
+.vnote{display:none;margin-top:8px;font-size:14px;color:#b45309;font-weight:600}
+#toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);background:#0b1533;color:#fff;padding:12px 18px;border-radius:12px;font-weight:600;z-index:99;display:none;max-width:90%}
+.cert{max-width:900px;margin:24px auto;background:#fff;border:10px solid #0b1533;outline:3px solid var(--gold);outline-offset:-22px;border-radius:6px;padding:56px 48px;text-align:center;color:#0b1533}
+.cert img{height:70px}.cert .t{font-size:15px;letter-spacing:4px;font-weight:800;color:#5d6785;margin-top:26px}
+.cert h1{font-size:44px;margin:10px 0 6px;letter-spacing:1px}.cert .n{font-size:40px;font-weight:900;color:#c2410c;margin:22px 0 8px;border-bottom:2px solid #e3e8f2;display:inline-block;padding:0 30px 8px}
+.cert .c{font-size:24px;font-weight:800;margin-top:16px}.cert .m{display:flex;justify-content:space-between;margin-top:46px;font-size:14px;color:#5d6785;text-align:left}
+.cert .m b{display:block;color:#0b1533;font-size:16px}
+@media print{body *{visibility:hidden}.cert,.cert *{visibility:visible}.cert{position:absolute;left:0;top:0;width:100%;margin:0}}
 .ls .dn{flex:none;width:26px;height:26px;border-radius:50%;border:2px solid var(--line)}
 .ls .dn.on{background:var(--ok);border-color:var(--ok);position:relative}
 .ls .dn.on:after{content:"✓";color:#fff;font-weight:900;position:absolute;inset:0;text-align:center;line-height:22px;font-size:14px}
@@ -90,7 +105,7 @@ const C=window.COURSE;document.getElementById('zl').href=C.zalo;
 const KEY='vanhanh-agent-done',TK='vh-token';let FULL=null,WHO='',NOTOWN=false;
 function ls(k,v){try{if(v===undefined)return localStorage.getItem(k);if(v===null)localStorage.removeItem(k);else localStorage.setItem(k,v)}catch(e){return window['__'+k]}}
 async function api(body){const r=await fetch(window.API_URL,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify(body)});return r.json()}
-async function boot(){const t=ls(TK);if(t){try{const r=await api({action:'content',token:t,course:'vanhanh'});if(r.ok){FULL=r.lessons;WHO=r.name;NOTOWN=false}else if(r.notOwned){NOTOWN=true;WHO=r.name}else ls(TK,null)}catch(e){}}
+async function boot(){const t=ls(TK);if(t){try{const r=await api({action:'content',token:t,course:'vanhanh'});if(r.ok){FULL=r.lessons;WHO=r.name;NOTOWN=false;const sv=(r.progress&&r.progress.done)||[];const lo=getDone();const u=[...new Set([...sv,...lo])].sort((a,b)=>a-b);setDone(u);if(r.progress&&r.progress.doneAt)ls(KEY+'-at',r.progress.doneAt);if(u.length>sv.length)setTimeout(syncProg,500)}else if(r.notOwned){NOTOWN=true;WHO=r.name}else ls(TK,null)}catch(e){}}
  document.getElementById('out').style.display=(FULL||NOTOWN)?'inline-block':'none';render()}
 function logout(){ls(TK,null);FULL=null;NOTOWN=false;document.getElementById('out').style.display='none';go('');render()}
 async function doLogin(ev){ev.preventDefault();const f=ev.target,m=f.querySelector('.msg'),b=f.querySelector('button');m.className='msg';m.textContent='Đang đăng nhập…';b.disabled=true;
@@ -107,11 +122,45 @@ h+=`</main><aside>${NOTOWN?`<div class="login"><h2>Xin chào ${WHO} 👋</h2><di
 function getDone(){try{return JSON.parse(localStorage.getItem(KEY)||'[]')}catch(e){return window.__d||[]}}
 function setDone(a){window.__d=a;try{localStorage.setItem(KEY,JSON.stringify(a))}catch(e){}}
 const pad=n=>String(n).padStart(2,'0');
+const SLUG='van-hanh',PID='vanhanh',NL=16;
+function toast(m){const t=document.getElementById('toast');t.textContent=m;t.style.display='block';clearTimeout(window.__tt);window.__tt=setTimeout(()=>t.style.display='none',3500)}
+function unlocked(i){const d=getDone();return i===1||d.includes(i)||d.includes(i-1)}
+function lab(i){return 'Bài '+pad(i)}
+function doneAt(){return ls(KEY+'-at')||''}
+let __sync=null;function syncProg(){clearTimeout(__sync);__sync=setTimeout(async()=>{const t=ls(TK);if(!t)return;try{const r=await api({action:'progress',token:t,course:PID,done:getDone()});if(r&&r.doneAt)ls(KEY+'-at',r.doneAt)}catch(e){}},400)}
+function vk(i){return 'vp-'+SLUG+'-'+i}
+function vget(i){try{return JSON.parse(ls(vk(i))||'{}')}catch(e){return {}}}
+function vset(i,o){ls(vk(i),JSON.stringify(o))}
+function ck(i){try{return JSON.parse(ls('ck-'+SLUG+'-'+i)||'[]')}catch(e){return []}}
+function lessonReady(i,L){const v=vget(i),c=ck(i);return {video:!!v.w,pct:Math.min(100,Math.round(v.p||0)),checks:c.filter(Boolean).length,total:L.check.length}}
+function updGate(i){const L={...C.lessons[i],...FULL[i]};const st=lessonReady(i,L);const g=document.getElementById('gk');if(!g)return;
+ g.querySelector('.r1').className='r r1'+(st.video?' ok':'');g.querySelector('.r1 span').textContent=st.video?'Đã xem hết video':'Xem hết video hướng dẫn ('+st.pct+'%)';g.querySelector('.bar b').style.width=(st.video?100:st.pct)+'%';
+ g.querySelector('.r2').className='r r2'+(st.checks>=st.total?' ok':'');g.querySelector('.r2 span').textContent='Tích đủ ô tự kiểm tra ('+st.checks+'/'+st.total+')';
+ const b=document.getElementById('cpl');if(b)b.disabled=!(st.video&&st.checks>=st.total)}
+function wire(i){const L={...C.lessons[i],...FULL[i]};const done=getDone().includes(i);
+ document.querySelectorAll('.chk input').forEach((x,k)=>{const c=ck(i);x.checked=!!c[k]||done;x.onchange=()=>{const c=ck(i);c[k]=x.checked;ls('ck-'+SLUG+'-'+i,JSON.stringify(c));updGate(i)}});
+ const v=document.getElementById('lv');if(!v)return;const st=vget(i);let last=0;
+ v.addEventListener('loadedmetadata',()=>{if(st.pos&&st.pos<v.duration-3)v.currentTime=st.pos},{once:true});
+ v.addEventListener('error',()=>{const o=vget(i);o.w=1;vset(i,o);updGate(i)});
+ v.addEventListener('seeking',()=>{const o=vget(i);if(done||o.w)return;const mx=o.m||0;if(v.currentTime>mx+1.5){v.currentTime=mx;const n=document.getElementById('vnote');n.style.display='block';setTimeout(()=>n.style.display='none',3500)}});
+ v.addEventListener('timeupdate',()=>{const o=vget(i);if(!v.seeking&&v.currentTime<=(o.m||0)+2)o.m=Math.max(o.m||0,v.currentTime);o.pos=v.currentTime;if(v.duration){o.p=100*(o.m||0)/v.duration;if((o.m||0)>=v.duration*0.9)o.w=1}if(Date.now()-last>1500||o.w&&!st.w){last=Date.now();vset(i,o);st.w=o.w;updGate(i)}});
+ v.addEventListener('ended',()=>{const o=vget(i);o.w=1;o.pos=0;vset(i,o);updGate(i)});
+ updGate(i)}
+function complete(i){const L={...C.lessons[i],...FULL[i]};const st=lessonReady(i,L);if(!(st.video&&st.checks>=st.total)){toast('Xem hết video và tích đủ ô tự kiểm tra trước nhé.');return}
+ let d=getDone();if(!d.includes(i))d=[...d,i];setDone(d);if(d.length>=NL&&!doneAt())ls(KEY+'-at',new Date().toISOString());syncProg();
+ if(i<NL){toast('🎉 Đã mở '+lab(i+1));go('bai-'+(i+1))}else{toast('🎓 Chúc mừng bạn đã hoàn thành khoá học!');go('chung-nhan')}}
+function cert(){const d=getDone();if(d.length<NL){setTimeout(()=>go(''));return ''}
+ document.getElementById('crumb').innerHTML=`<span style="cursor:pointer" onclick="go('')">${C.title||'VẬN HÀNH AGENT'}</span> / <b>Chứng nhận hoàn thành</b>`;
+ const at=doneAt()?new Date(doneAt()):new Date();const code=(PID==='vibe'?'VC':'VH')+'-'+at.getFullYear()+String(at.getMonth()+1).padStart(2,'0')+String(at.getDate()).padStart(2,'0')+'-'+String([...(WHO||'x')].reduce((a,ch)=>(a*31+ch.charCodeAt(0))%9000,7)+1000);
+ return `<div class="cert"><img src="/img/logo-duong.png" alt="ĐẠI LÊ AI"><div class="t">CHỨNG NHẬN HOÀN THÀNH</div><h1>VẬN HÀNH AGENT</h1><div>Chứng nhận học viên</div><div class="n">${WHO||'Học viên'}</div><div class="c">đã hoàn thành toàn bộ ${NL} bài và bài kiểm tra cuối khoá</div>
+ <div class="m"><div>Ngày hoàn thành<b>${at.toLocaleDateString('vi-VN')}</b></div><div>Mã chứng nhận<b>${code}</b></div><div>Đồng hành<b>ĐẠI LÊ AI</b></div></div></div>
+ <div style="text-align:center;margin:10px 0 40px;display:flex;gap:12px;justify-content:center;flex-wrap:wrap"><button class="btn y" style="width:auto;padding:12px 28px" onclick="window.print()">In / Lưu PDF</button><button class="btn" style="width:auto;padding:12px 28px" onclick="go('')">Về trang khoá học</button></div>`}
+
 const strip=h=>h.replace(/<[^>]+>/g,'');
 function go(h){location.hash=h}
 function sidebar(){const d=getDone(),p=Math.round(d.length/16*100);
  return `<aside><div class="box"><img src="/img/cover-square.jpg" alt="VẬN HÀNH AGENT"><div class="prog"><i style="width:${p}%"></i></div><div class="small">${d.length}/16 bài đã hoàn thành · ${p}%</div>
- <button class="btn y" onclick="go('bai-'+${nextIdx()})">${d.length?'Học tiếp':'Bắt đầu khoá học'}</button>
+ ${d.length>=NL?`<button class="btn y" onclick="go('chung-nhan')">🎓 Nhận chứng nhận</button>`:`<button class="btn y" onclick="go('bai-'+${nextIdx()})">${d.length?'Học tiếp':'Bắt đầu khoá học'}</button>`}
  ${WHO?`<div class="small" style="margin-top:10px">Xin chào <b>${WHO}</b> 👋</div>`:''}<div style="margin-top:16px;font-weight:800">Người đồng hành</div><div class="teacher"><img src="/img/dai-1.jpg" alt="Đại Lê"><div><b>ĐẠI LÊ AI</b><div class="small">hoc.lequydai.com</div></div></div>
  <a class="btn" href="${C.zalo}" target="_blank" rel="noopener">Vào nhóm Zalo hỏi đáp</a></div></aside>`}
 function nextIdx(){const d=getDone();for(let i=1;i<=16;i++)if(!d.includes(i))return i;return 1}
@@ -119,21 +168,21 @@ function home(){document.getElementById('crumb').innerHTML='<b>VẬN HÀNH AGENT
  let h=`<div class="hero"><img src="/img/hero.jpg?v=20261105" alt="VẬN HÀNH AGENT – Trợ lý AI làm việc tự động theo não của bạn"><button class="go" onclick="go('bai-'+${nextIdx()})">${getDone().length?'Học tiếp ▶':'Bắt đầu khoá học ▶'}</button></div><div class="introv"><h2>Video giới thiệu khoá học</h2><video  controls playsinline preload="metadata" poster="/video/poster-van-hanh.jpg?v=20261105"><source src="/video/gioi-thieu-van-hanh-agent.mp4?v=20261105" type="video/mp4"></video></div><div class="grid"><main>`;
  const d=getDone();
  C.parts.forEach(pt=>{h+=`<div class="part"><h2>${pt.name}</h2>`;pt.lessons.forEach(i=>{const L=C.lessons[i];
-  h+=`<div class="ls" onclick="go('bai-${i}')"><img src="/img/bai-${pad(i)}.jpg" alt="Bài ${pad(i)}" loading="lazy"><div style="flex:1"><h3>Bài ${pad(i)}. ${L.title}</h3><p>Sau bài này: ${strip(L.goal)}</p></div><span class="dn ${d.includes(i)?'on':''}"></span></div>`});h+=`</div>`});
+  {const ok=unlocked(i),dn=d.includes(i),cur=ok&&!dn;h+=`<div class="ls ${ok?'':'lockd'}" onclick="${ok?`go('bai-${i}')`:`toast('🔒 Hoàn thành bài trước để mở bài này nhé.')`}"><img src="/img/bai-${pad(i)}.jpg" alt="Bài ${pad(i)}" loading="lazy"><div style="flex:1"><h3>Bài ${pad(i)}. ${L.title}</h3><p>Sau bài này: ${strip(L.goal)}</p></div>${cur?'<span class="now">Đang học</span>':''}<span class="dn ${dn?'on':''}"></span></div>`}});h+=`</div>`});
  h+=`</main>${sidebar()}</div>`;return h}
-function lesson(i){const L0=C.lessons[i];if(!L0||!FULL||!FULL[i])return home();const L={...L0,...FULL[i]};const d=getDone(),isDone=d.includes(i);
+function lesson(i){const L0=C.lessons[i];if(!L0||!FULL||!FULL[i])return home();if(!unlocked(i)){setTimeout(()=>{toast('🔒 Học lần lượt nhé: hoàn thành bài trước để mở bài này.');go('bai-'+nextIdx())});return ''}const L={...L0,...FULL[i]};const d=getDone(),isDone=d.includes(i);
  const part=C.parts.find(p=>p.lessons.includes(i));
  document.getElementById('crumb').innerHTML=`<span style="cursor:pointer" onclick="go('')">VẬN HÀNH AGENT</span> / <b>Bài ${pad(i)}. ${L.title}</b>`;
  let h=`<div class="grid"><main><div class="lesson"><img class="cv" src="/img/bai-${pad(i)}.jpg" alt="Bài ${pad(i)}"><div class="small">${part.name}</div><h1>Bài ${pad(i)}. ${L.title}</h1>
- <div class="goal"><b>Sau bài này bạn có:</b> ${L.goal}</div><div class="lv"><h3>🎬 Video hướng dẫn bài này</h3><video controls playsinline preload="metadata" src="/video/bai/van-hanh-${pad(i)}.mp4?v=20261105"></video></div>${L.html}
+ <div class="goal"><b>Sau bài này bạn có:</b> ${L.goal}</div><div class="lv"><h3>🎬 Video hướng dẫn bài này</h3><video id="lv" controls playsinline controlslist="nodownload" preload="metadata" src="/video/bai/van-hanh-${pad(i)}.mp4?v=20261105"></video><div class="vnote" id="vnote">Xem lần lượt nhé, chưa tua qua đoạn chưa xem được.</div></div>${L.html}
  <div class="task"><h3>✍️ Bài tập</h3>${L.task}<h3 style="margin-top:14px!important">✅ Tự kiểm tra</h3><div class="chk">${L.check.map((c,k)=>`<label><input type="checkbox">${c}</label>`).join('')}</div></div>
  <p style="margin-top:18px"><b>${L.next}</b></p>
- <div class="nav">${i>1?`<button class="btn" style="background:#5d6785" onclick="go('bai-${i-1}')">◀ Bài ${pad(i-1)}</button>`:''}
- <button class="btn ${isDone?'done':'y'}" onclick="toggle(${i})">${isDone?'✓ Đã hoàn thành':'Đánh dấu hoàn thành'}</button>
- ${i<16?`<button class="btn" onclick="go('bai-${i+1}')">Bài ${pad(i+1)} ▶</button>`:''}</div></div></main>${sidebar()}</div>`;return h}
-function toggle(i){let d=getDone();d=d.includes(i)?d.filter(x=>x!==i):[...d,i];setDone(d);if(d.includes(i)&&i<16)go('bai-'+(i+1));else render()}
-function render(){const m=location.hash.match(/bai-(\d+)/);document.getElementById('app').innerHTML=!FULL?gate():m?lesson(+m[1]):home();window.scrollTo(0,0);
+ ${isDone?'':`<div class="gk" id="gk"><h3>🔓 Để mở bài tiếp theo</h3><div class="r r1"><i>✓</i><span></span></div><div class="bar"><b></b></div><div class="r r2"><i>✓</i><span></span></div></div>`}
+ <div class="nav">${i>1?`<button class="btn" style="background:#5d6785" onclick="go('bai-${i-1}')">◀ ${lab(i-1)}</button>`:''}
+ ${isDone?`<button class="btn done" disabled style="opacity:1;cursor:default">✓ Đã hoàn thành</button>${i<NL?`<button class="btn" onclick="go('bai-${i+1}')">${lab(i+1)} ▶</button>`:`<button class="btn y" onclick="go('chung-nhan')">🎓 Nhận chứng nhận</button>`}`:`<button class="btn y" id="cpl" disabled onclick="complete(${i})">${i<NL?'Hoàn thành & mở '+lab(i+1)+' ▶':'Hoàn thành khoá học 🎓'}</button>`}</div></div></main>${sidebar()}</div>`;return h}
+function toggle(i){complete(i)}
+function render(){const m=location.hash.match(/bai-(\d+)/);document.getElementById('app').innerHTML=!FULL?gate():location.hash.includes('chung-nhan')?cert():m?lesson(+m[1]):home();if(FULL&&m&&unlocked(+m[1]))setTimeout(()=>wire(+m[1]));window.scrollTo(0,0);
  document.querySelectorAll('pre').forEach(p=>{const b=document.createElement('button');b.className='cp';b.textContent='Chép';b.onclick=()=>{const t=p.childNodes[0].textContent;(navigator.clipboard?navigator.clipboard.writeText(t):Promise.reject()).then(()=>{b.textContent='Đã chép'},()=>{b.textContent='Bôi đen để chép'})};p.appendChild(b)})}
 window.addEventListener('hashchange',render);boot();
 </script>
-</body></html>
+<div id="toast"></div></body></html>

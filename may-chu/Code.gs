@@ -81,6 +81,7 @@ function doPost(e) {
       case 'login': return json_(login_(req.email, req.password));
       case 'content': return json_(content_(req.token, req.course));
       case 'me': return json_(me_(req.token));
+      case 'progress': return json_(saveProgress_(req.token, req.course, req.done));
       case 'reset': return json_(resetPassword_(req.email));
       default: return json_({ ok: false, msg: 'Không rõ yêu cầu' });
     }
@@ -275,8 +276,56 @@ function content_(token, course) {
       if (v[i][9] !== 'HOẠT ĐỘNG' || new Date(v[i][7]) < new Date()) return { ok: false, login: true };
       const owned = String(v[i][10] || 'vanhanh').split(',').map(x => x.trim());
       if (owned.indexOf(pid) < 0) return { ok: false, notOwned: true, name: v[i][1] };
-      return { ok: true, name: v[i][1], courses: owned, lessons: lessons_(pid) };
+      return { ok: true, name: v[i][1], courses: owned, lessons: lessons_(pid), progress: getProgress_(v[i][0], pid) };
     }
+  }
+  return { ok: false, login: true };
+}
+
+/* ===================== TIẾN ĐỘ HỌC ===================== */
+const TOTAL = { vanhanh: 16, vibe: 19 };
+function progressSheet_() {
+  let s = sheet_('TIEN_DO');
+  if (!s) {
+    s = SpreadsheetApp.getActive().insertSheet('TIEN_DO');
+    s.appendRow(['Email', 'Họ tên', 'Khoá học', 'Bài đã xong', 'Số bài xong', '% hoàn thành', 'Cập nhật', 'Hoàn thành khoá']);
+    s.getRange(1, 1, 1, 8).setFontWeight('bold').setBackground('#0d1838').setFontColor('#ffffff');
+    s.setFrozenRows(1);
+  }
+  return s;
+}
+function getProgress_(email, pid) {
+  const v = progressSheet_().getDataRange().getValues();
+  for (let i = 1; i < v.length; i++) {
+    if (String(v[i][0]).toLowerCase() === String(email).toLowerCase() && v[i][2] === pid) {
+      let d = []; try { d = JSON.parse(v[i][3] || '[]'); } catch (e) {}
+      return { done: d, doneAt: v[i][7] ? new Date(v[i][7]).toISOString() : '', row: i + 1 };
+    }
+  }
+  return { done: [], doneAt: '', row: 0 };
+}
+function saveProgress_(token, course, done) {
+  const pid = PRODUCTS[course] ? course : 'vanhanh';
+  token = String(token || '');
+  if (token.length < 30) return { ok: false, login: true };
+  const v = sheet_(SH.STUDENTS).getDataRange().getValues();
+  for (let i = 1; i < v.length; i++) {
+    if (v[i][6] !== token) continue;
+    if (v[i][9] !== 'HOẠT ĐỘNG' || new Date(v[i][7]) < new Date()) return { ok: false, login: true };
+    const owned = String(v[i][10] || 'vanhanh').split(',').map(x => x.trim());
+    if (owned.indexOf(pid) < 0) return { ok: false };
+    const lock = LockService.getScriptLock(); lock.waitLock(10000);
+    try {
+      const cur = getProgress_(v[i][0], pid), total = TOTAL[pid];
+      const all = {}; cur.done.concat(done || []).forEach(n => { n = Number(n); if (n >= 1 && n <= total) all[n] = 1; });
+      const list = Object.keys(all).map(Number).sort((a, b) => a - b);
+      const finished = list.length >= total ? (cur.doneAt ? new Date(cur.doneAt) : new Date()) : '';
+      const row = [v[i][0], v[i][1], pid, JSON.stringify(list), list.length, Math.round(list.length / total * 100) + '%', new Date(), finished];
+      const sh = progressSheet_();
+      if (cur.row) sh.getRange(cur.row, 1, 1, 8).setValues([row]); else sh.appendRow(row);
+      if (finished && !cur.doneAt) log_('hoàn thành khoá', v[i][0] + ' · ' + pid);
+      return { ok: true, done: list, doneAt: finished ? finished.toISOString() : '' };
+    } finally { lock.releaseLock(); }
   }
   return { ok: false, login: true };
 }
