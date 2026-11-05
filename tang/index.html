@@ -2,10 +2,10 @@
 <html lang="vi"><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>LÀM VIDEO AI ĐẦU TIÊN TRONG 30 PHÚT – Khoá tặng miễn phí | ĐẠI LÊ AI</title>
-<meta name="description" content="Khoá tặng miễn phí 4 bài: nhờ ChatGPT hoặc Claude viết kịch bản, tạo hình bằng AI, ghép video có giọng đọc và phụ đề, đăng và đón khách.">
+<meta name="description" content="Khoá tặng miễn phí 6 bài: ChatGPT hoặc Gemini viết kịch bản, Gemini tạo nhân vật, Veo 3 trong Google Flow tạo video có tiếng nói, kèm 40 câu lệnh cho 10 ngành.">
 <meta property="og:title" content="LÀM VIDEO AI ĐẦU TIÊN TRONG 30 PHÚT – Khoá tặng miễn phí">
-<meta property="og:description" content="4 bài ngắn, học xong có video AI đầu tiên để đăng.">
-<meta property="og:image" content="/tang/img/hero.jpg?v=20261105">
+<meta property="og:description" content="6 bài ngắn, học xong có video AI đầu tiên và kế hoạch 7 ngày.">
+<meta property="og:image" content="/tang/img/hero.jpg?v=20261106">
 <link rel="icon" href="/tang/img/cover-square.jpg">
 <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 <style>
@@ -100,7 +100,7 @@ footer img{height:30px;margin-bottom:8px}
 <div class="wrap" id="app"></div>
 <footer><img src="/img/logo-am.png?v=20261105b" alt="ĐẠI LÊ AI"><div>KHOÁ TẶNG · ĐẠI LÊ AI · <a href="/">Tất cả khoá học</a> </div><div style="margin-top:4px">© 2026 ĐẠI LÊ AI · hoc.lequydai.com</div></footer>
 <script src="/config.js"></script>
-<script src="lessons.js"></script>
+<script src="lessons.js?v=20261106"></script>
 <script>
 const C=window.COURSE;document.getElementById('zl').href=C.zalo;
 const KEY='tang-done',TK='vh-token';let FULL=null,WHO='',NOTOWN=false;
@@ -114,16 +114,16 @@ async function doLogin(ev){ev.preventDefault();const f=ev.target,m=f.querySelect
 async function doReset(){const f=document.getElementById('lf'),m=f.querySelector('.msg');if(!f.email.value){m.textContent='Nhập email đã đăng ký trước, rồi bấm lại "Quên mật khẩu".';return}
  m.className='msg';m.textContent='Đang gửi…';try{const r=await api({action:'reset',email:f.email.value});m.className='msg ok';m.textContent=r.msg}catch(e){m.textContent='Không kết nối được, anh/chị thử lại.'}}
 function gate(){document.getElementById('crumb').innerHTML='<b>KHOÁ TẶNG</b> · Khu vực học viên';
- let h=`<div class="hero"><img src="/tang/img/hero.jpg?v=20261105" alt="LÀM VIDEO AI ĐẦU TIÊN TRONG 30 PHÚT"></div><div class="introv"><h2>Xem thử bài 1</h2><video  controls playsinline preload="metadata" poster="/tang/img/hero.jpg"><source src="/video/bai/tang-01.mp4?v=20261105" type="video/mp4"></video></div><div class="gate"><main>`;
- h+=`<div class="part" style="padding:22px 24px"><h2 style="margin:0 0 6px;font-size:22px">Khoá tặng này dành cho ai?</h2><p style="margin:0 0 14px;line-height:1.6">Dành cho người bán hàng, làm dịch vụ, muốn có <b>video ngắn để đăng mỗi ngày</b> mà chưa biết bắt đầu từ đâu. Không cần biết dựng phim.</p><h2 style="margin:0 0 10px;font-size:20px">Học xong bạn có</h2><div class="gi"><div>✍️ Kịch bản 30 giây do ChatGPT hoặc Claude viết</div><div>🖼️ 5 hình minh hoạ tạo bằng AI</div><div>🎬 Video có giọng đọc AI và phụ đề</div><div>📣 Video đã đăng, có từ khoá đón khách</div></div><p class="small" style="margin-top:14px">4 bài ngắn, mỗi bài khoảng 7 phút. Miễn phí: đăng ký là nhận tài khoản học qua email.</p></div>`;
+ let h=`<div class="hero"><img src="/tang/img/hero.jpg?v=20261106" alt="LÀM VIDEO AI ĐẦU TIÊN TRONG 30 PHÚT"></div><div class="introv"><h2>Xem thử bài 1</h2><video  controls playsinline preload="metadata" poster="/tang/img/hero.jpg?v=20261106"><source src="/video/bai/tang-01.mp4?v=20261106" type="video/mp4"></video></div><div class="gate"><main>`;
+ h+=`<div class="part" style="padding:22px 24px"><h2 style="margin:0 0 6px;font-size:22px">Khoá tặng này dành cho ai?</h2><p style="margin:0 0 14px;line-height:1.6">Dành cho người bán hàng, làm dịch vụ, muốn có <b>video ngắn để đăng mỗi ngày</b> mà chưa biết bắt đầu từ đâu. Không cần biết dựng phim.</p><h2 style="margin:0 0 10px;font-size:20px">Học xong bạn có</h2><div class="gi"><div>✍️ Kịch bản 4 cảnh do ChatGPT hoặc Gemini viết</div><div>🧑 Ảnh nhân vật tạo bằng Gemini</div><div>🎬 Video có tiếng nói làm bằng Veo 3</div><div>📣 Video đã đăng, có từ khoá đón khách</div><div>🎁 40 câu lệnh Veo 3 cho 10 ngành</div><div>📅 Kế hoạch 7 ngày, 7 video</div></div><p class="small" style="margin-top:14px">6 bài ngắn, mỗi bài khoảng 7 phút. Miễn phí: đăng ký là nhận tài khoản học qua email.</p></div>`;
 h+=`</main><aside>${NOTOWN?`<div class="login"><h2>Xin chào ${WHO} 👋</h2><div class="small">Tài khoản của anh/chị chưa nhận khoá tặng này. Đăng ký miễn phí bằng đúng email này là khoá tự mở.</div><button class="btn" onclick="logout()" style="background:#5d6785">Đăng nhập tài khoản khác</button></div>`:`<form class="login" id="lf" onsubmit="doLogin(event)"><h2>Đăng nhập để học</h2><div class="small">Dùng email và mật khẩu trong thư chào mừng.</div>
  <input name="email" type="email" placeholder="Email đã đăng ký" required autocomplete="email"><input name="pw" type="password" placeholder="Mật khẩu" required autocomplete="current-password">
  <button class="btn y" type="submit">VÀO HỌC</button><div class="msg"></div><a class="lk" onclick="doReset()">Quên mật khẩu?</a></form>`}
- <div class="buy">Chưa có tài khoản?<br>Khoá tặng <s style="color:#8a8a8a">868.000đ</s> <b>miễn phí</b>, 4 bài ngắn<a class="btn" href="/tang/dang-ky/">ĐĂNG KÝ NHẬN KHOÁ TẶNG</a></div></aside></div>`;return h}
+ <div class="buy">Chưa có tài khoản?<br>Khoá tặng <s style="color:#8a8a8a">868.000đ</s> <b>miễn phí</b>, 6 bài ngắn<a class="btn" href="/tang/dang-ky/">ĐĂNG KÝ NHẬN KHOÁ TẶNG</a></div></aside></div>`;return h}
 function getDone(){try{return JSON.parse(localStorage.getItem(KEY)||'[]')}catch(e){return window.__d||[]}}
 function setDone(a){window.__d=a;try{localStorage.setItem(KEY,JSON.stringify(a))}catch(e){}}
 const pad=n=>String(n).padStart(2,'0');
-const SLUG='tang',PID='tang',NL=4;
+const SLUG='tang',PID='tang',NL=6;
 function toast(m){const t=document.getElementById('toast');t.textContent=m;t.style.display='block';clearTimeout(window.__tt);window.__tt=setTimeout(()=>t.style.display='none',3500)}
 function unlocked(i){const d=getDone();return i===1||d.includes(i)||d.includes(i-1)}
 function lab(i){return 'Bài '+pad(i)}
@@ -170,13 +170,13 @@ function nextSteps(){const Z='https://zalo.me/g/a9my3sx1ov0fsihenx6e';const it=[
 const strip=h=>h.replace(/<[^>]+>/g,'');
 function go(h){location.hash=h}
 function sidebar(){const d=getDone(),p=Math.round(d.length/4*100);
- return `<aside><div class="box"><img src="/tang/img/cover-square.jpg" alt="LÀM VIDEO AI ĐẦU TIÊN TRONG 30 PHÚT"><div class="prog"><i style="width:${p}%"></i></div><div class="small">${d.length}/4 bài đã hoàn thành · ${p}%</div>
+ return `<aside><div class="box"><img src="/tang/img/cover-square.jpg" alt="LÀM VIDEO AI ĐẦU TIÊN TRONG 30 PHÚT"><div class="prog"><i style="width:${p}%"></i></div><div class="small">${d.length}/${NL} bài đã hoàn thành · ${p}%</div>
  ${d.length>=NL?`<button class="btn y" onclick="go('chung-nhan')">🎓 Nhận chứng nhận</button>`:`<button class="btn y" onclick="go('bai-'+${nextIdx()})">${d.length?'Học tiếp':'Bắt đầu khoá học'}</button>`}
  ${WHO?`<div class="small" style="margin-top:10px">Xin chào <b>${WHO}</b> 👋</div>`:''}<div style="margin-top:16px;font-weight:800">Người đồng hành</div><div class="teacher"><img src="/img/dai-1.jpg" alt="Đại Lê"><div><b>ĐẠI LÊ AI</b><div class="small">hoc.lequydai.com</div></div></div>
  <a class="btn" href="${C.zalo}" target="_blank" rel="noopener">Vào nhóm Zalo hỏi đáp</a></div></aside>`}
 function nextIdx(){const d=getDone();for(let i=1;i<=4;i++)if(!d.includes(i))return i;return 1}
 function home(){document.getElementById('crumb').innerHTML='<b>KHOÁ TẶNG MIỄN PHÍ</b> · LÀM VIDEO AI ĐẦU TIÊN';
- let h=`<div class="hero"><img src="/tang/img/hero.jpg?v=20261105" alt="LÀM VIDEO AI ĐẦU TIÊN TRONG 30 PHÚT"><button class="go" onclick="go('bai-'+${nextIdx()})">${getDone().length?'Học tiếp ▶':'Bắt đầu khoá học ▶'}</button></div><div class="introv"><h2>Xem thử bài 1</h2><video  controls playsinline preload="metadata" poster="/tang/img/hero.jpg"><source src="/video/bai/tang-01.mp4?v=20261105" type="video/mp4"></video></div><div class="grid"><main>`;
+ let h=`<div class="hero"><img src="/tang/img/hero.jpg?v=20261106" alt="LÀM VIDEO AI ĐẦU TIÊN TRONG 30 PHÚT"><button class="go" onclick="go('bai-'+${nextIdx()})">${getDone().length?'Học tiếp ▶':'Bắt đầu khoá học ▶'}</button></div><div class="introv"><h2>Xem thử bài 1</h2><video  controls playsinline preload="metadata" poster="/tang/img/hero.jpg?v=20261106"><source src="/video/bai/tang-01.mp4?v=20261106" type="video/mp4"></video></div><div class="grid"><main>`;
  const d=getDone();
  C.parts.forEach(pt=>{h+=`<div class="part"><h2>${pt.name}</h2>`;pt.lessons.forEach(i=>{const L=C.lessons[i];
   {const ok=unlocked(i),dn=d.includes(i),cur=ok&&!dn;h+=`<div class="ls ${ok?'':'lockd'}" onclick="${ok?`go('bai-${i}')`:`toast('🔒 Hoàn thành bài trước để mở bài này nhé.')`}"><img src="/tang/img/bai-${pad(i)}.jpg" alt="Bài ${pad(i)}" loading="lazy"><div style="flex:1"><h3>Bài ${pad(i)}. ${L.title}</h3><p>Sau bài này: ${strip(L.goal)}</p></div>${cur?'<span class="now">Đang học</span>':''}<span class="dn ${dn?'on':''}"></span></div>`}});h+=`</div>`});
@@ -185,7 +185,7 @@ function lesson(i){const L0=C.lessons[i];if(!L0||!FULL||!FULL[i])return home();i
  const part=C.parts.find(p=>p.lessons.includes(i));
  document.getElementById('crumb').innerHTML=`<span style="cursor:pointer" onclick="go('')">KHOÁ TẶNG</span> / <b>Bài ${pad(i)}. ${L.title}</b>`;
  let h=`<div class="grid"><main><div class="lesson"><img class="cv" src="/tang/img/bai-${pad(i)}.jpg" alt="Bài ${pad(i)}"><div class="small">${part.name}</div><h1>Bài ${pad(i)}. ${L.title}</h1>
- <div class="goal"><b>Sau bài này bạn có:</b> ${L.goal}</div><div class="lv"><h3>🎬 Video hướng dẫn bài này</h3><video id="lv" controls playsinline controlslist="nodownload" preload="metadata" src="/video/bai/tang-${pad(i)}.mp4?v=20261105"></video><div class="vnote" id="vnote">Xem lần lượt nhé, chưa tua qua đoạn chưa xem được.</div></div>${L.html}
+ <div class="goal"><b>Sau bài này bạn có:</b> ${L.goal}</div><div class="lv"><h3>🎬 Video hướng dẫn bài này</h3><video id="lv" controls playsinline controlslist="nodownload" preload="metadata" src="/video/bai/tang-${pad(i)}.mp4?v=20261106"></video><div class="vnote" id="vnote">Xem lần lượt nhé, chưa tua qua đoạn chưa xem được.</div></div>${L.html}
  <div class="task"><h3>✍️ Bài tập</h3>${L.task}<h3 style="margin-top:14px!important">✅ Tự kiểm tra</h3><div class="chk">${L.check.map((c,k)=>`<label><input type="checkbox">${c}</label>`).join('')}</div></div>
  <p style="margin-top:18px"><b>${L.next}</b></p>
  ${!isDone&&L.quiz&&L.quiz.length?`<div class="qz" id="qz"><h3>📝 Trắc nghiệm nhanh</h3><div class="small">Trả lời đúng ${L.quiz.length} câu để mở bài tiếp theo.</div>${L.quiz.map((q,k)=>`<div class="qq" data-k="${k}"><b>${k+1}. ${q[0]}</b>${q[1].map((o,j)=>`<label><input type="radio" name="q${k}" value="${j}"><span>${o}</span></label>`).join('')}<div class="qw">Chưa đúng, xem lại bài rồi chọn lại nhé.</div></div>`).join('')}</div>`:''}

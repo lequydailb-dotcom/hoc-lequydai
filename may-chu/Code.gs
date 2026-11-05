@@ -314,7 +314,7 @@ function content_(token, course) {
 }
 
 /* ===================== TIẾN ĐỘ HỌC + TRẮC NGHIỆM + NHẮC HỌC ===================== */
-const TOTAL = { vanhanh: 16, vibe: 19, donggoi: 14, tang: 4 };
+const TOTAL = { vanhanh: 16, vibe: 19, donggoi: 14, tang: 6 };
 const PHEAD = ['Email', 'Họ tên', 'Khoá học', 'Bài đã xong', 'Số bài xong', '% hoàn thành', 'Cập nhật', 'Hoàn thành khoá', 'Lần vào học cuối', 'Nhắc lần cuối', 'Số lần nhắc'];
 function progressSheet_() {
   let s = sheet_('TIEN_DO');
@@ -403,7 +403,7 @@ function importQuiz() {
 
 /* Chạy 1 lần: nạp bài học khoá tặng (lưu trong máy chủ, không cần file Drive) + câu hỏi trắc nghiệm */
 function importKhoaTang() {
-  const base = 'https://raw.githubusercontent.com/lequydailb-dotcom/hoc-lequydai/f012385/';
+  const base = 'https://raw.githubusercontent.com/lequydailb-dotcom/hoc-lequydai/c14b193/';
   const L = JSON.parse(UrlFetchApp.fetch(base + 'tmp-tang-lessons.json').getContentText('UTF-8'));
   const props = PropertiesService.getScriptProperties();
   Object.keys(L).forEach(i => props.setProperty('LES_tang_' + i, JSON.stringify(L[i])));
@@ -534,7 +534,7 @@ function sendFreeMail_(email, name, pw, pid) {
     ? row_('Email đăng nhập', esc_(email)) + row_('Mật khẩu', '<b style="font-size:18px;letter-spacing:1px">' + pw + '</b>')
     : row_('Email đăng nhập', esc_(email)) + row_('Mật khẩu', 'Dùng mật khẩu cũ của anh/chị (quên thì bấm "Quên mật khẩu")');
   const html = mailWrap_('Khoá tặng của bạn đã sẵn sàng 🎁',
-    '<p>Chào ' + esc_(name) + ', cảm ơn bạn đã đăng ký khoá tặng <b>' + P.name + '</b>. 4 bài ngắn, học xong bạn có video AI đầu tiên để đăng.</p>' +
+    '<p>Chào ' + esc_(name) + ', cảm ơn bạn đã đăng ký khoá tặng <b>' + P.name + '</b>. 6 bài ngắn, học xong bạn có video AI đầu tiên làm bằng Veo 3, kèm 40 câu lệnh cho 10 ngành.</p>' +
     '<table style="border-collapse:collapse;width:100%;font-size:15px">' + row_('Trang học', '<a href="' + url + '">' + url.replace('https://', '') + '</a>') + acc + '</table>' +
     '<p style="text-align:center;margin:22px 0"><a href="' + url + '" style="background:#FFC83D;color:#0d1838;font-weight:900;padding:14px 28px;border-radius:10px;text-decoration:none;display:inline-block">VÀO HỌC BÀI 1</a></p>' +
     '<p>Vào nhóm Zalo để gửi video của bạn cho Đại góp ý: <a href="' + CFG.ZALO_GROUP + '">' + CFG.ZALO_GROUP + '</a></p>', pid);
@@ -565,7 +565,7 @@ function sendFreeFollow_(email, name, pid, step, doneN) {
   let subject, inner;
   if (step === 3) {
     subject = first + ' ơi, video AI đầu tiên của bạn xong chưa?';
-    inner = '<p>Chào ' + esc_(first) + ',</p><p>' + (doneN ? 'Bạn đã học ' + doneN + '/4 bài khoá tặng. Còn chút nữa thôi là có video đầu tiên để đăng.' : 'Khoá tặng 4 bài vẫn đang chờ bạn. Bài 1 chỉ mất khoảng 5 phút: nhờ ChatGPT hoặc Claude viết kịch bản 30 giây.') + '</p>' +
+    inner = '<p>Chào ' + esc_(first) + ',</p><p>' + (doneN ? 'Bạn đã học ' + doneN + '/6 bài khoá tặng. Còn chút nữa thôi là có video đầu tiên để đăng.' : 'Khoá tặng 6 bài vẫn đang chờ bạn. Bài 1 chỉ mất khoảng 5 phút: nhờ ChatGPT hoặc Gemini viết kịch bản 30 giây.') + '</p>' +
       btn(url, 'HỌC TIẾP KHOÁ TẶNG →') +
       '<p>Làm xong video, gửi link vào nhóm Zalo để Đại góp ý giúp bạn: <a href="' + CFG.ZALO_GROUP + '">' + CFG.ZALO_GROUP + '</a></p>';
   } else {
