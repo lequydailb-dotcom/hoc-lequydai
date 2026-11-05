@@ -81,7 +81,8 @@ function doPost(e) {
       case 'login': return json_(login_(req.email, req.password));
       case 'content': return json_(content_(req.token, req.course));
       case 'me': return json_(me_(req.token));
-      case 'progress': return json_(saveProgress_(req.token, req.course, req.done));
+      case 'progress': return json_(saveProgress_(req.token, req.course));
+      case 'quiz': return json_(submitQuiz_(req.token, req.course, req.lesson, req.answers));
       case 'reset': return json_(resetPassword_(req.email));
       default: return json_({ ok: false, msg: 'Không rõ yêu cầu' });
     }
@@ -152,6 +153,7 @@ function tick() {
   try {
     if (cfg_('TU_DONG_DUYET') !== 'TẮT') checkSepay_();
     provisionPaid_();
+    remindDaily_();
   } catch (err) {
     log_('lỗi tick', String(err && err.stack || err));
   } finally { lock.releaseLock(); }
@@ -276,21 +278,24 @@ function content_(token, course) {
       if (v[i][9] !== 'HOẠT ĐỘNG' || new Date(v[i][7]) < new Date()) return { ok: false, login: true };
       const owned = String(v[i][10] || 'vanhanh').split(',').map(x => x.trim());
       if (owned.indexOf(pid) < 0) return { ok: false, notOwned: true, name: v[i][1] };
-      return { ok: true, name: v[i][1], courses: owned, lessons: lessons_(pid), progress: getProgress_(v[i][0], pid) };
+      const L = JSON.parse(JSON.stringify(lessons_(pid)));
+      Object.keys(L).forEach(k => { const q = quizPublic_(pid, k); if (q) L[k].quiz = q; });
+      touch_(v[i][0], v[i][1], pid);
+      const pr = getProgress_(v[i][0], pid);
+      return { ok: true, name: v[i][1], courses: owned, lessons: L, progress: { done: pr.done, doneAt: pr.doneAt } };
     }
   }
   return { ok: false, login: true };
 }
 
-/* ===================== TIẾN ĐỘ HỌC ===================== */
+/* ===================== TIẾN ĐỘ HỌC + TRẮC NGHIỆM + NHẮC HỌC ===================== */
 const TOTAL = { vanhanh: 16, vibe: 19 };
+const PHEAD = ['Email', 'Họ tên', 'Khoá học', 'Bài đã xong', 'Số bài xong', '% hoàn thành', 'Cập nhật', 'Hoàn thành khoá', 'Lần vào học cuối', 'Nhắc lần cuối', 'Số lần nhắc'];
 function progressSheet_() {
   let s = sheet_('TIEN_DO');
-  if (!s) {
-    s = SpreadsheetApp.getActive().insertSheet('TIEN_DO');
-    s.appendRow(['Email', 'Họ tên', 'Khoá học', 'Bài đã xong', 'Số bài xong', '% hoàn thành', 'Cập nhật', 'Hoàn thành khoá']);
-    s.getRange(1, 1, 1, 8).setFontWeight('bold').setBackground('#0d1838').setFontColor('#ffffff');
-    s.setFrozenRows(1);
+  if (!s) { s = SpreadsheetApp.getActive().insertSheet('TIEN_DO'); s.setFrozenRows(1); }
+  if (s.getRange(1, 11).getValue() !== PHEAD[10]) {
+    s.getRange(1, 1, 1, PHEAD.length).setValues([PHEAD]).setFontWeight('bold').setBackground('#0d1838').setFontColor('#ffffff');
   }
   return s;
 }
@@ -299,35 +304,119 @@ function getProgress_(email, pid) {
   for (let i = 1; i < v.length; i++) {
     if (String(v[i][0]).toLowerCase() === String(email).toLowerCase() && v[i][2] === pid) {
       let d = []; try { d = JSON.parse(v[i][3] || '[]'); } catch (e) {}
-      return { done: d, doneAt: v[i][7] ? new Date(v[i][7]).toISOString() : '', row: i + 1 };
+      return { done: d, doneAt: v[i][7] ? new Date(v[i][7]).toISOString() : '', row: i + 1, vals: v[i] };
     }
   }
-  return { done: [], doneAt: '', row: 0 };
+  return { done: [], doneAt: '', row: 0, vals: null };
 }
-function saveProgress_(token, course, done) {
+function progressRow_(email, name, pid) {
+  const p = getProgress_(email, pid);
+  if (p.row) return p;
+  progressSheet_().appendRow([email, name, pid, '[]', 0, '0%', new Date(), '', new Date(), '', 0]);
+  return getProgress_(email, pid);
+}
+function student_(token, course) {
   const pid = PRODUCTS[course] ? course : 'vanhanh';
   token = String(token || '');
-  if (token.length < 30) return { ok: false, login: true };
+  if (token.length < 30) return { err: { ok: false, login: true } };
   const v = sheet_(SH.STUDENTS).getDataRange().getValues();
   for (let i = 1; i < v.length; i++) {
     if (v[i][6] !== token) continue;
-    if (v[i][9] !== 'HOẠT ĐỘNG' || new Date(v[i][7]) < new Date()) return { ok: false, login: true };
+    if (v[i][9] !== 'HOẠT ĐỘNG' || new Date(v[i][7]) < new Date()) return { err: { ok: false, login: true } };
     const owned = String(v[i][10] || 'vanhanh').split(',').map(x => x.trim());
-    if (owned.indexOf(pid) < 0) return { ok: false };
-    const lock = LockService.getScriptLock(); lock.waitLock(10000);
-    try {
-      const cur = getProgress_(v[i][0], pid), total = TOTAL[pid];
-      const all = {}; cur.done.concat(done || []).forEach(n => { n = Number(n); if (n >= 1 && n <= total) all[n] = 1; });
-      const list = Object.keys(all).map(Number).sort((a, b) => a - b);
-      const finished = list.length >= total ? (cur.doneAt ? new Date(cur.doneAt) : new Date()) : '';
-      const row = [v[i][0], v[i][1], pid, JSON.stringify(list), list.length, Math.round(list.length / total * 100) + '%', new Date(), finished];
-      const sh = progressSheet_();
-      if (cur.row) sh.getRange(cur.row, 1, 1, 8).setValues([row]); else sh.appendRow(row);
-      if (finished && !cur.doneAt) log_('hoàn thành khoá', v[i][0] + ' · ' + pid);
-      return { ok: true, done: list, doneAt: finished ? finished.toISOString() : '' };
-    } finally { lock.releaseLock(); }
+    if (owned.indexOf(pid) < 0) return { err: { ok: false, notOwned: true } };
+    return { email: v[i][0], name: v[i][1], pid: pid };
   }
-  return { ok: false, login: true };
+  return { err: { ok: false, login: true } };
+}
+function touch_(email, name, pid) {
+  try { const p = progressRow_(email, name, pid); progressSheet_().getRange(p.row, 9).setValue(new Date()); } catch (e) {}
+}
+/* Đọc tiến độ (máy chủ là nguồn đúng; học viên chỉ mở bài mới qua trắc nghiệm) */
+function saveProgress_(token, course) {
+  const st = student_(token, course); if (st.err) return st.err;
+  const p = getProgress_(st.email, st.pid);
+  return { ok: true, done: p.done, doneAt: p.doneAt };
+}
+function quiz_(pid, i) {
+  const t = PropertiesService.getScriptProperties().getProperty('QUIZ_' + pid + '_' + i);
+  return t ? JSON.parse(t) : null;
+}
+function quizPublic_(pid, i) {
+  const q = quiz_(pid, i); return q ? q.map(x => [x[0], x[1]]) : null;
+}
+function submitQuiz_(token, course, lesson, answers) {
+  const st = student_(token, course); if (st.err) return st.err;
+  const pid = st.pid, total = TOTAL[pid]; lesson = Number(lesson);
+  if (!(lesson >= 1 && lesson <= total)) return { ok: false, msg: 'Bài không hợp lệ' };
+  const lock = LockService.getScriptLock(); lock.waitLock(10000);
+  try {
+    const p = progressRow_(st.email, st.name, pid);
+    if (p.done.indexOf(lesson) >= 0) return { ok: true, pass: true, done: p.done, doneAt: p.doneAt };
+    if (lesson > 1 && p.done.indexOf(lesson - 1) < 0) return { ok: false, msg: 'Hoàn thành bài trước để mở bài này.' };
+    const q = quiz_(pid, lesson);
+    const wrong = [];
+    if (q) q.forEach((x, k) => { if (Number((answers || [])[k]) !== x[2]) wrong.push(k); });
+    if (wrong.length) { log_('trắc nghiệm chưa đạt', st.email + ' · ' + pid + ' bài ' + lesson); return { ok: true, pass: false, wrong: wrong }; }
+    const list = p.done.concat([lesson]).sort((a, b) => a - b);
+    const finished = list.length >= total ? (p.doneAt ? new Date(p.doneAt) : new Date()) : '';
+    progressSheet_().getRange(p.row, 1, 1, 9).setValues([[st.email, st.name, pid, JSON.stringify(list), list.length, Math.round(list.length / total * 100) + '%', new Date(), finished, new Date()]]);
+    if (finished && !p.doneAt) log_('hoàn thành khoá', st.email + ' · ' + pid);
+    return { ok: true, pass: true, done: list, doneAt: finished ? finished.toISOString() : '' };
+  } finally { lock.releaseLock(); }
+}
+/* Chạy 1 lần trong trình soạn thảo để nạp bộ câu hỏi (đáp án chỉ nằm trên máy chủ) */
+function importQuiz() {
+  const url = PropertiesService.getScriptProperties().getProperty('QUIZ_URL') || 'https://raw.githubusercontent.com/lequydailb-dotcom/hoc-lequydai/da183fd2e805dae58427dc32442047b9ccd84ddf/tmp-q.json';
+  const data = JSON.parse(UrlFetchApp.fetch(url).getContentText());
+  const props = PropertiesService.getScriptProperties(); let n = 0;
+  Object.keys(data).forEach(pid => Object.keys(data[pid]).forEach(i => { props.setProperty('QUIZ_' + pid + '_' + i, JSON.stringify(data[pid][i])); n++; }));
+  props.deleteProperty('QUIZ_URL');
+  log_('nạp trắc nghiệm', n + ' bài');
+  return n;
+}
+/* Email nhắc học: mỗi ngày 1 lần (sau 19h), học viên 3 ngày chưa vào học, tối đa 3 lần */
+function remindDaily_() {
+  const now = new Date(), props = PropertiesService.getScriptProperties();
+  const today = Utilities.formatDate(now, 'Asia/Ho_Chi_Minh', 'yyyy-MM-dd');
+  const hour = Number(Utilities.formatDate(now, 'Asia/Ho_Chi_Minh', 'H'));
+  if (hour < 19 || props.getProperty('REMIND_DATE') === today) return;
+  props.setProperty('REMIND_DATE', today);
+  if (cfg_('NHAC_HOC') === 'TẮT') return;
+  const DAY = 86400000, stu = sheet_(SH.STUDENTS).getDataRange().getValues();
+  let sent = 0;
+  for (let i = 1; i < stu.length; i++) {
+    const email = stu[i][0], name = stu[i][1];
+    if (!email || stu[i][9] !== 'HOẠT ĐỘNG') continue;
+    String(stu[i][10] || 'vanhanh').split(',').map(x => x.trim()).forEach(pid => {
+      if (!PRODUCTS[pid]) return;
+      const p = progressRow_(email, name, pid), v = p.vals;
+      if (p.doneAt || p.done.length >= TOTAL[pid]) return;
+      const last = Math.max(new Date(v[8] || 0).getTime(), new Date(v[6] || 0).getTime(), new Date(stu[i][8] || 0).getTime());
+      const lastRem = v[9] ? new Date(v[9]).getTime() : 0, cnt = Number(v[10] || 0);
+      if (now - last < 3 * DAY || now - lastRem < 3 * DAY || cnt >= 3) return;
+      let next = 1; while (p.done.indexOf(next) >= 0) next++;
+      try {
+        sendRemindMail_(email, name, pid, next, p.done.length);
+        progressSheet_().getRange(p.row, 10, 1, 2).setValues([[now, cnt + 1]]); sent++;
+      } catch (e) { log_('lỗi gửi nhắc học', email + ' ' + e); }
+    });
+  }
+  if (sent) log_('gửi nhắc học', sent + ' email');
+}
+function sendRemindMail_(email, name, pid, next, doneN) {
+  let title = '';
+  try { const L = lessons_(pid)[next]; title = (L && L.title) || ''; } catch (e) {}
+  const P = PRODUCTS[pid], url = CFG.SITE + P.path + '#bai-' + next;
+  const lab = pid === 'vibe' ? 'Bài ' + next : 'Bài ' + String(next).padStart(2, '0');
+  const first = String(name || '').trim().split(' ').pop() || 'bạn';
+  const inner = '<p>Chào ' + esc_(first) + ',</p>' +
+    '<p>' + (doneN ? 'Bạn đã đi được <b>' + doneN + '/' + TOTAL[pid] + ' bài</b> của khoá <b>' + P.name + '</b>. Mấy hôm nay chưa thấy bạn vào học, bài tiếp theo đang chờ bạn đây:' : 'Tài khoản khoá <b>' + P.name + '</b> của bạn đã sẵn sàng mà chưa thấy bạn bắt đầu. Bài đầu tiên chỉ mất khoảng 15 phút:') + '</p>' +
+    '<p style="font-size:18px;font-weight:700;margin:18px 0">📘 ' + lab + (title ? ': ' + esc_(title) : '') + '</p>' +
+    '<p>Mỗi bài có video ngắn khoảng 1 phút và câu lệnh chép sẵn. Học 15 phút mỗi ngày là đủ.</p>' +
+    '<p style="margin:24px 0"><a href="' + url + '" style="background:#FFC83D;color:#0b1533;font-weight:800;padding:14px 26px;border-radius:10px;text-decoration:none">VÀO HỌC TIẾP →</a></p>' +
+    '<p>Vướng chỗ nào thì nhắn vào nhóm Zalo học viên: <a href="' + CFG.ZALO_GROUP + '">' + CFG.ZALO_GROUP + '</a></p>';
+  MailApp.sendEmail({ to: email, subject: (name ? first + ' ơi, ' : '') + lab + ' đang chờ bạn – ' + P.name, htmlBody: mailWrap_(lab + ' đang chờ bạn', inner, pid), name: 'ĐẠI LÊ AI' });
 }
 
 function resetPassword_(email) {

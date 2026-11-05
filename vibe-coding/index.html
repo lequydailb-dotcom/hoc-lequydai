@@ -38,6 +38,7 @@ header{background:var(--navy);position:sticky;top:0;z-index:20;box-shadow:0 2px 
 .gk h3{font-size:16px;margin:0 0 8px}.gk .r{display:flex;gap:10px;align-items:center;margin:6px 0;font-weight:600}
 .gk .r i{font-style:normal;width:24px;height:24px;border-radius:50%;display:grid;place-items:center;background:#e3e8f2;font-size:13px;flex:none}.gk .r.ok i{background:var(--ok);color:#fff}
 .gk .bar{height:8px;background:#e3e8f2;border-radius:6px;overflow:hidden;margin:6px 0 2px}.gk .bar b{display:block;height:100%;background:var(--gold)}
+.qz{margin-top:22px;border:1px solid var(--line);border-radius:14px;padding:18px 20px;background:#fff}.qz h3{font-size:18px;margin:0 0 4px}.qq{margin-top:14px}.qq b{display:block;margin-bottom:6px;line-height:1.45}.qq label{display:flex;gap:10px;align-items:flex-start;padding:9px 12px;border:1px solid var(--line);border-radius:10px;margin:6px 0;cursor:pointer;line-height:1.4}.qq label:has(input:checked){border-color:#2f7cf6;background:#eef4ff}.qq input{margin-top:3px}.qq .qw{display:none;color:#c2410c;font-weight:700;font-size:14px;margin-top:4px}.qq.bad .qw{display:block}.qq.bad label:has(input:checked){border-color:#c2410c;background:#fff4ed}
 .btn[disabled]{opacity:.45;cursor:not-allowed}
 .vnote{display:none;margin-top:8px;font-size:14px;color:#b45309;font-weight:600}
 #toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);background:#0b1533;color:#fff;padding:12px 18px;border-radius:12px;font-weight:600;z-index:99;display:none;max-width:90%}
@@ -105,7 +106,7 @@ const C=window.COURSE;document.getElementById('zl').href=C.zalo;
 const KEY='vibe-coding-done',TK='vh-token';let FULL=null,WHO='',NOTOWN=false;
 function ls(k,v){try{if(v===undefined)return localStorage.getItem(k);if(v===null)localStorage.removeItem(k);else localStorage.setItem(k,v)}catch(e){return window['__'+k]}}
 async function api(body){const r=await fetch(window.API_URL,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify(body)});return r.json()}
-async function boot(){const t=ls(TK);if(t){try{const r=await api({action:'content',token:t,course:'vibe'});if(r.ok){FULL=r.lessons;WHO=r.name;NOTOWN=false;const sv=(r.progress&&r.progress.done)||[];const lo=getDone();const u=[...new Set([...sv,...lo])].sort((a,b)=>a-b);setDone(u);if(r.progress&&r.progress.doneAt)ls(KEY+'-at',r.progress.doneAt);if(u.length>sv.length)setTimeout(syncProg,500)}else if(r.notOwned){NOTOWN=true;WHO=r.name}else ls(TK,null)}catch(e){}}
+async function boot(){const t=ls(TK);if(t){try{const r=await api({action:'content',token:t,course:'vibe'});if(r.ok){FULL=r.lessons;WHO=r.name;NOTOWN=false;const sv=(r.progress&&r.progress.done)||[];setDone(sv);if(r.progress&&r.progress.doneAt)ls(KEY+'-at',r.progress.doneAt)}else if(r.notOwned){NOTOWN=true;WHO=r.name}else ls(TK,null)}catch(e){}}
  document.getElementById('out').style.display=(FULL||NOTOWN)?'inline-block':'none';render()}
 function logout(){ls(TK,null);FULL=null;NOTOWN=false;document.getElementById('out').style.display='none';go('');render()}
 async function doLogin(ev){ev.preventDefault();const f=ev.target,m=f.querySelector('.msg'),b=f.querySelector('button');m.className='msg';m.textContent='Đang đăng nhập…';b.disabled=true;
@@ -136,9 +137,11 @@ function lessonReady(i,L){const v=vget(i),c=ck(i);return {video:!!v.w,pct:Math.m
 function updGate(i){const L={...C.lessons[i],...FULL[i]};const st=lessonReady(i,L);const g=document.getElementById('gk');if(!g)return;
  g.querySelector('.r1').className='r r1'+(st.video?' ok':'');g.querySelector('.r1 span').textContent=st.video?'Đã xem hết video':'Xem hết video hướng dẫn ('+st.pct+'%)';g.querySelector('.bar b').style.width=(st.video?100:st.pct)+'%';
  g.querySelector('.r2').className='r r2'+(st.checks>=st.total?' ok':'');g.querySelector('.r2 span').textContent='Tích đủ ô tự kiểm tra ('+st.checks+'/'+st.total+')';
- const b=document.getElementById('cpl');if(b)b.disabled=!(st.video&&st.checks>=st.total)}
+ const nq=(L.quiz||[]).length,ans=document.querySelectorAll('#qz input:checked').length;const r3=g.querySelector('.r3');if(r3){r3.style.display=nq?'flex':'none';r3.querySelector('span').textContent='Trả lời trắc nghiệm ('+ans+'/'+nq+' câu)';r3.className='r r3'+(nq&&ans>=nq?' ok':'')}
+ const b=document.getElementById('cpl');if(b)b.disabled=!(st.video&&st.checks>=st.total&&ans>=nq)}
 function wire(i){const L={...C.lessons[i],...FULL[i]};const done=getDone().includes(i);
  document.querySelectorAll('.chk input').forEach((x,k)=>{const c=ck(i);x.checked=!!c[k]||done;x.onchange=()=>{const c=ck(i);c[k]=x.checked;ls('ck-'+SLUG+'-'+i,JSON.stringify(c));updGate(i)}});
+ document.querySelectorAll('#qz input').forEach(x=>x.onchange=()=>{x.closest('.qq').classList.remove('bad');updGate(i)});
  const v=document.getElementById('lv');if(!v)return;const st=vget(i);let last=0;
  v.addEventListener('loadedmetadata',()=>{if(st.pos&&st.pos<v.duration-3)v.currentTime=st.pos},{once:true});
  v.addEventListener('error',()=>{const o=vget(i);o.w=1;vset(i,o);updGate(i)});
@@ -146,9 +149,15 @@ function wire(i){const L={...C.lessons[i],...FULL[i]};const done=getDone().inclu
  v.addEventListener('timeupdate',()=>{const o=vget(i);if(!v.seeking&&v.currentTime<=(o.m||0)+2)o.m=Math.max(o.m||0,v.currentTime);o.pos=v.currentTime;if(v.duration){o.p=100*(o.m||0)/v.duration;if((o.m||0)>=v.duration*0.9)o.w=1}if(Date.now()-last>1500||o.w&&!st.w){last=Date.now();vset(i,o);st.w=o.w;updGate(i)}});
  v.addEventListener('ended',()=>{const o=vget(i);o.w=1;o.pos=0;vset(i,o);updGate(i)});
  updGate(i)}
-function complete(i){const L={...C.lessons[i],...FULL[i]};const st=lessonReady(i,L);if(!(st.video&&st.checks>=st.total)){toast('Xem hết video và tích đủ ô tự kiểm tra trước nhé.');return}
- let d=getDone();if(!d.includes(i))d=[...d,i];setDone(d);if(d.length>=NL&&!doneAt())ls(KEY+'-at',new Date().toISOString());syncProg();
- if(i<NL){toast('🎉 Đã mở '+lab(i+1));go('bai-'+(i+1))}else{toast('🎓 Chúc mừng bạn đã hoàn thành khoá học!');go('chung-nhan')}}
+async function complete(i){const L={...C.lessons[i],...FULL[i]};const st=lessonReady(i,L);const nq=(L.quiz||[]).length;
+ const ans=[...Array(nq)].map((_,k)=>{const x=document.querySelector(`#qz input[name="q${k}"]:checked`);return x?+x.value:-1});
+ if(!(st.video&&st.checks>=st.total)||ans.includes(-1)){toast('Xem hết video, tích đủ ô tự kiểm tra và trả lời trắc nghiệm trước nhé.');return}
+ const b=document.getElementById('cpl');const bt=b.textContent;b.disabled=true;b.textContent='Đang chấm…';
+ let r=null;try{r=await api({action:'quiz',token:ls(TK),course:PID,lesson:i,answers:ans})}catch(e){}
+ if(!r||!r.ok){b.disabled=false;b.textContent=bt;if(r&&r.login){toast('Phiên đăng nhập đã hết, đăng nhập lại nhé.');logout()}else toast((r&&r.msg)||'Mạng chập chờn, bấm lại giúp mình nhé.');return}
+ if(!r.pass){b.disabled=false;b.textContent=bt;(r.wrong||[]).forEach(k=>{const q=document.querySelector(`.qq[data-k="${k}"]`);if(q)q.classList.add('bad')});const q0=document.querySelector('.qq.bad');if(q0)q0.scrollIntoView({behavior:'smooth',block:'center'});toast('Có '+(r.wrong||[]).length+' câu chưa đúng. Xem lại rồi chọn lại nhé.');return}
+ setDone(r.done||[...getDone(),i]);if(r.doneAt)ls(KEY+'-at',r.doneAt);
+ if(i<NL){toast('🎉 Chính xác! Đã mở '+lab(i+1));go('bai-'+(i+1))}else{toast('🎓 Chúc mừng bạn đã hoàn thành khoá học!');go('chung-nhan')}}
 function cert(){const d=getDone();if(d.length<NL){setTimeout(()=>go(''));return ''}
  document.getElementById('crumb').innerHTML=`<span style="cursor:pointer" onclick="go('')">${C.title||'28 NGÀY VIBE CODING'}</span> / <b>Chứng nhận hoàn thành</b>`;
  const at=doneAt()?new Date(doneAt()):new Date();const code=(PID==='vibe'?'VC':'VH')+'-'+at.getFullYear()+String(at.getMonth()+1).padStart(2,'0')+String(at.getDate()).padStart(2,'0')+'-'+String([...(WHO||'x')].reduce((a,ch)=>(a*31+ch.charCodeAt(0))%9000,7)+1000);
@@ -177,9 +186,10 @@ function lesson(i){const L0=C.lessons[i];if(!L0||!FULL||!FULL[i])return home();i
  <div class="goal"><b>Sau bài này bạn có:</b> ${L.goal}</div><div class="lv"><h3>🎬 Video hướng dẫn bài này</h3><video id="lv" controls playsinline controlslist="nodownload" preload="metadata" src="/video/bai/vibe-coding-${pad(i)}.mp4?v=20261105"></video><div class="vnote" id="vnote">Xem lần lượt nhé, chưa tua qua đoạn chưa xem được.</div></div>${L.html}
  <div class="task"><h3>✍️ Bài tập</h3>${L.task}<h3 style="margin-top:14px!important">✅ Tự kiểm tra</h3><div class="chk">${L.check.map((c,k)=>`<label><input type="checkbox">${c}</label>`).join('')}</div></div>
  <p style="margin-top:18px"><b>${L.next}</b></p>
- ${isDone?'':`<div class="gk" id="gk"><h3>🔓 Để mở bài tiếp theo</h3><div class="r r1"><i>✓</i><span></span></div><div class="bar"><b></b></div><div class="r r2"><i>✓</i><span></span></div></div>`}
+ ${!isDone&&L.quiz&&L.quiz.length?`<div class="qz" id="qz"><h3>📝 Trắc nghiệm nhanh</h3><div class="small">Trả lời đúng ${L.quiz.length} câu để mở bài tiếp theo.</div>${L.quiz.map((q,k)=>`<div class="qq" data-k="${k}"><b>${k+1}. ${q[0]}</b>${q[1].map((o,j)=>`<label><input type="radio" name="q${k}" value="${j}"><span>${o}</span></label>`).join('')}<div class="qw">Chưa đúng, xem lại bài rồi chọn lại nhé.</div></div>`).join('')}</div>`:''}
+ ${isDone?'':`<div class="gk" id="gk"><h3>🔓 Để mở bài tiếp theo</h3><div class="r r1"><i>✓</i><span></span></div><div class="bar"><b></b></div><div class="r r2"><i>✓</i><span></span></div><div class="r r3"><i>✓</i><span></span></div></div>`}
  <div class="nav">${i>1?`<button class="btn" style="background:#5d6785" onclick="go('bai-${i-1}')">◀ ${lab(i-1)}</button>`:''}
- ${isDone?`<button class="btn done" disabled style="opacity:1;cursor:default">✓ Đã hoàn thành</button>${i<NL?`<button class="btn" onclick="go('bai-${i+1}')">${lab(i+1)} ▶</button>`:`<button class="btn y" onclick="go('chung-nhan')">🎓 Nhận chứng nhận</button>`}`:`<button class="btn y" id="cpl" disabled onclick="complete(${i})">${i<NL?'Hoàn thành & mở '+lab(i+1)+' ▶':'Hoàn thành khoá học 🎓'}</button>`}</div></div></main>${sidebar()}</div>`;return h}
+ ${isDone?`<button class="btn done" disabled style="opacity:1;cursor:default">✓ Đã hoàn thành</button>${i<NL?`<button class="btn" onclick="go('bai-${i+1}')">${lab(i+1)} ▶</button>`:`<button class="btn y" onclick="go('chung-nhan')">🎓 Nhận chứng nhận</button>`}`:`<button class="btn y" id="cpl" disabled onclick="complete(${i})">${i<NL?'Nộp bài & mở '+lab(i+1)+' ▶':'Nộp bài & hoàn thành khoá 🎓'}</button>`}</div></div></main>${sidebar()}</div>`;return h}
 function toggle(i){complete(i)}
 function render(){const m=location.hash.match(/bai-(\d+)/);document.getElementById('app').innerHTML=!FULL?gate():location.hash.includes('chung-nhan')?cert():m?lesson(+m[1]):home();if(FULL&&m&&unlocked(+m[1]))setTimeout(()=>wire(+m[1]));window.scrollTo(0,0);
  document.querySelectorAll('pre').forEach(p=>{const b=document.createElement('button');b.className='cp';b.textContent='Chép';b.onclick=()=>{const t=p.childNodes[0].textContent;(navigator.clipboard?navigator.clipboard.writeText(t):Promise.reject()).then(()=>{b.textContent='Đã chép'},()=>{b.textContent='Bôi đen để chép'})};p.appendChild(b)})}
