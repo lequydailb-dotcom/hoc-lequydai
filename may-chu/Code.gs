@@ -401,18 +401,18 @@ function importQuiz() {
   return n;
 }
 
-/* Chạy 1 lần: tạo file bài học khoá tặng trên Drive + nạp câu hỏi trắc nghiệm */
+/* Chạy 1 lần: nạp bài học khoá tặng (lưu trong máy chủ, không cần file Drive) + câu hỏi trắc nghiệm */
 function importKhoaTang() {
-  const base = 'https://raw.githubusercontent.com/lequydailb-dotcom/hoc-lequydai/f012385d1e95ae561ebcd31a2a50e06627de5325/';
-  const txt = UrlFetchApp.fetch(base + 'tmp-tang-lessons.json').getContentText('UTF-8');
-  JSON.parse(txt);
-  const it = DriveApp.getFilesByName(PRODUCTS.tang.file);
-  if (it.hasNext()) it.next().setContent(txt); else DriveApp.createFile(PRODUCTS.tang.file, txt, 'application/json');
+  const base = 'https://raw.githubusercontent.com/lequydailb-dotcom/hoc-lequydai/f012385/';
+  const L = JSON.parse(UrlFetchApp.fetch(base + 'tmp-tang-lessons.json').getContentText('UTF-8'));
+  const props = PropertiesService.getScriptProperties();
+  Object.keys(L).forEach(i => props.setProperty('LES_tang_' + i, JSON.stringify(L[i])));
+  props.setProperty('LES_tang_keys', JSON.stringify(Object.keys(L)));
   CacheService.getScriptCache().remove('L_tang');
   const q = JSON.parse(UrlFetchApp.fetch(base + 'tmp-tang-quiz.json').getContentText('UTF-8'));
-  const props = PropertiesService.getScriptProperties(); let n = 0;
+  let n = 0;
   Object.keys(q.tang).forEach(i => { props.setProperty('QUIZ_tang_' + i, JSON.stringify(q.tang[i])); n++; });
-  log_('nạp khoá tặng', 'bài học + ' + n + ' bộ câu hỏi');
+  log_('nạp khoá tặng', Object.keys(L).length + ' bài + ' + n + ' bộ câu hỏi');
   return n;
 }
 /* Email nhắc học: mỗi ngày 1 lần (sau 19h), học viên 3 ngày chưa vào học, tối đa 3 lần */
@@ -476,6 +476,8 @@ function resetPassword_(email) {
 }
 
 function lessons_(pid) {
+  const keys = PropertiesService.getScriptProperties().getProperty('LES_' + pid + '_keys');
+  if (keys) { const o = {}; JSON.parse(keys).forEach(k => { o[k] = JSON.parse(PropertiesService.getScriptProperties().getProperty('LES_' + pid + '_' + k)); }); return o; }
   const file = PRODUCTS[pid].file;
   const cache = CacheService.getScriptCache();
   const c = cache.get('L_' + pid);
