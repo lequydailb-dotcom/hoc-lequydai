@@ -11,7 +11,9 @@
 const PRODUCTS = {
   vanhanh: { name: 'VẬN HÀNH AGENT', price: 1990000, prefix: 'VH', file: 'vanhanh-lessons.json', path: '/van-hanh/' },
   vibe: { name: '28 NGÀY VIBE CODING – Bot CSKH Zalo & Facebook', price: 2990000, prefix: 'VC', file: 'vibecoding-lessons.json', path: '/vibe-coding/' },
-  donggoi: { name: 'ĐÓNG GÓI KIẾN THỨC THÀNH KHOÁ HỌC BẰNG AI', price: 1490000, prefix: 'DG', file: 'donggoi-lessons.json', path: '/dong-goi/' }
+  donggoi: { name: 'ĐÓNG GÓI KIẾN THỨC THÀNH KHOÁ HỌC BẰNG AI', price: 1490000, prefix: 'DG', file: 'donggoi-lessons.json', path: '/dong-goi/' },
+  /* Khoá tặng miễn phí: đăng ký đủ thông tin là tự cấp tài khoản */
+  tang: { name: 'LÀM VIDEO AI ĐẦU TIÊN TRONG 30 PHÚT', price: 0, prefix: 'TG', file: 'tang-lessons.json', path: '/tang/', free: true }
 };
 const CFG = {
   BANK: 'VietinBank',
@@ -103,6 +105,7 @@ function createOrder_(r) {
   const pid = PRODUCTS[r.course] ? r.course : 'vanhanh';
   const P = PRODUCTS[pid];
   if (!name || !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email) || phone.length < 9) return { ok: false, msg: 'Anh/chị điền đủ họ tên, email và số điện thoại đúng giúp em nhé' };
+  if (P.free) return freeSignup_(name, email, phone, pid);
   const lock = LockService.getScriptLock(); lock.waitLock(20000);
   try {
     const sh = sheet_(SH.ORDERS);
@@ -118,6 +121,27 @@ function createOrder_(r) {
     sendOrderMail_(email, name, code, pid);
     log_('đơn mới', code + ' · ' + pid + ' · ' + email);
     return payInfo_(code, name, pid);
+  } finally { lock.releaseLock(); }
+}
+
+/* Khoá miễn phí: tạo tài khoản ngay, gửi email mật khẩu (email sai thì không nhận được mật khẩu) */
+function freeSignup_(name, email, phone, pid) {
+  const P = PRODUCTS[pid];
+  const lock = LockService.getScriptLock(); lock.waitLock(20000);
+  try {
+    const i = findStudent_(email);
+    if (i > 0) {
+      const owned = String(sheet_(SH.STUDENTS).getRange(i, 11).getValue() || '').split(',').map(x => x.trim());
+      if (owned.indexOf(pid) >= 0) return { ok: true, free: true, existed: true };
+    }
+    const sh = sheet_(SH.ORDERS);
+    const used = new Set(sh.getRange('B:B').getValues().map(x => String(x[0])));
+    let code; do { code = P.prefix + Math.floor(10000 + Math.random() * 90000); } while (used.has(code));
+    const pw = createAccount_(email, name, phone, code, pid);
+    sh.appendRow([new Date(), code, name, email, "'" + phone, 0, ST.DONE, 'MIỄN PHÍ', new Date(), '', pid]);
+    sendWelcomeMail_(email, name, pw, pid);
+    log_('đăng ký khoá tặng', code + ' · ' + email);
+    return { ok: true, free: true, existed: i > 0 };
   } finally { lock.releaseLock(); }
 }
 
@@ -290,7 +314,7 @@ function content_(token, course) {
 }
 
 /* ===================== TIẾN ĐỘ HỌC + TRẮC NGHIỆM + NHẮC HỌC ===================== */
-const TOTAL = { vanhanh: 16, vibe: 19, donggoi: 14 };
+const TOTAL = { vanhanh: 16, vibe: 19, donggoi: 14, tang: 4 };
 const PHEAD = ['Email', 'Họ tên', 'Khoá học', 'Bài đã xong', 'Số bài xong', '% hoàn thành', 'Cập nhật', 'Hoàn thành khoá', 'Lần vào học cuối', 'Nhắc lần cuối', 'Số lần nhắc'];
 function progressSheet_() {
   let s = sheet_('TIEN_DO');
@@ -376,6 +400,21 @@ function importQuiz() {
   log_('nạp trắc nghiệm', n + ' bài');
   return n;
 }
+
+/* Chạy 1 lần: tạo file bài học khoá tặng trên Drive + nạp câu hỏi trắc nghiệm */
+function importKhoaTang() {
+  const base = 'https://raw.githubusercontent.com/lequydailb-dotcom/hoc-lequydai/f012385d1e95ae561ebcd31a2a50e06627de5325/';
+  const txt = UrlFetchApp.fetch(base + 'tmp-tang-lessons.json').getContentText('UTF-8');
+  JSON.parse(txt);
+  const it = DriveApp.getFilesByName(PRODUCTS.tang.file);
+  if (it.hasNext()) it.next().setContent(txt); else DriveApp.createFile(PRODUCTS.tang.file, txt, 'application/json');
+  CacheService.getScriptCache().remove('L_tang');
+  const q = JSON.parse(UrlFetchApp.fetch(base + 'tmp-tang-quiz.json').getContentText('UTF-8'));
+  const props = PropertiesService.getScriptProperties(); let n = 0;
+  Object.keys(q.tang).forEach(i => { props.setProperty('QUIZ_tang_' + i, JSON.stringify(q.tang[i])); n++; });
+  log_('nạp khoá tặng', 'bài học + ' + n + ' bộ câu hỏi');
+  return n;
+}
 /* Email nhắc học: mỗi ngày 1 lần (sau 19h), học viên 3 ngày chưa vào học, tối đa 3 lần */
 function remindDaily_() {
   const now = new Date(), props = PropertiesService.getScriptProperties();
@@ -384,13 +423,14 @@ function remindDaily_() {
   if (hour < 19 || props.getProperty('REMIND_DATE') === today) return;
   props.setProperty('REMIND_DATE', today);
   if (cfg_('NHAC_HOC') === 'TẮT') return;
+  try { freeFollowUp_(); } catch (e) { log_('lỗi email khoá tặng', String(e)); }
   const DAY = 86400000, stu = sheet_(SH.STUDENTS).getDataRange().getValues();
   let sent = 0;
   for (let i = 1; i < stu.length; i++) {
     const email = stu[i][0], name = stu[i][1];
     if (!email || stu[i][9] !== 'HOẠT ĐỘNG') continue;
     String(stu[i][10] || 'vanhanh').split(',').map(x => x.trim()).forEach(pid => {
-      if (!PRODUCTS[pid]) return;
+      if (!PRODUCTS[pid] || !TOTAL[pid] || PRODUCTS[pid].free) return;
       const p = progressRow_(email, name, pid), v = p.vals;
       if (p.doneAt || p.done.length >= TOTAL[pid]) return;
       const last = Math.max(new Date(v[8] || 0).getTime(), new Date(v[6] || 0).getTime(), new Date(stu[i][8] || 0).getTime());
@@ -471,6 +511,7 @@ function sendOrderMail_(email, name, code, pid) {
 
 function sendWelcomeMail_(email, name, pw, pid) {
   const P = PRODUCTS[pid || 'vanhanh'];
+  if (P.free) return sendFreeMail_(email, name, pw, pid);
   const url = CFG.SITE + P.path;
   const acc = pw
     ? row_('Email đăng nhập', esc_(email)) + row_('Mật khẩu', '<b style="font-size:18px;letter-spacing:1px">' + pw + '</b>')
@@ -483,6 +524,58 @@ function sendWelcomeMail_(email, name, pw, pid) {
     '<p>Vào nhóm Zalo học viên để hỏi đáp và nhận cập nhật: <a href="' + CFG.ZALO_GROUP + '">' + CFG.ZALO_GROUP + '</a></p>' +
     '<p style="color:#5d6785;font-size:13px">Anh/chị giữ email này. Quên mật khẩu thì bấm "Quên mật khẩu" ở trang đăng nhập.</p>', pid);
   MailApp.sendEmail({ to: email, subject: '[' + P.name + '] ' + (pw ? 'Tài khoản học của anh/chị đã sẵn sàng' : 'Đã mở khoá học mới'), htmlBody: html, name: CFG.BRAND });
+}
+
+function sendFreeMail_(email, name, pw, pid) {
+  const P = PRODUCTS[pid], url = CFG.SITE + P.path;
+  const acc = pw
+    ? row_('Email đăng nhập', esc_(email)) + row_('Mật khẩu', '<b style="font-size:18px;letter-spacing:1px">' + pw + '</b>')
+    : row_('Email đăng nhập', esc_(email)) + row_('Mật khẩu', 'Dùng mật khẩu cũ của anh/chị (quên thì bấm "Quên mật khẩu")');
+  const html = mailWrap_('Khoá tặng của bạn đã sẵn sàng 🎁',
+    '<p>Chào ' + esc_(name) + ', cảm ơn bạn đã đăng ký khoá tặng <b>' + P.name + '</b>. 4 bài ngắn, học xong bạn có video AI đầu tiên để đăng.</p>' +
+    '<table style="border-collapse:collapse;width:100%;font-size:15px">' + row_('Trang học', '<a href="' + url + '">' + url.replace('https://', '') + '</a>') + acc + '</table>' +
+    '<p style="text-align:center;margin:22px 0"><a href="' + url + '" style="background:#FFC83D;color:#0d1838;font-weight:900;padding:14px 28px;border-radius:10px;text-decoration:none;display:inline-block">VÀO HỌC BÀI 1</a></p>' +
+    '<p>Vào nhóm Zalo để gửi video của bạn cho Đại góp ý: <a href="' + CFG.ZALO_GROUP + '">' + CFG.ZALO_GROUP + '</a></p>', pid);
+  MailApp.sendEmail({ to: email, subject: '[KHOÁ TẶNG] Tài khoản học miễn phí của bạn', htmlBody: html, name: CFG.BRAND });
+}
+/* Email nối tiếp khoá tặng: ngày 3 và ngày 7 sau khi đăng ký */
+function freeFollowUp_() {
+  const sh = sheet_(SH.ORDERS), v = sh.getDataRange().getValues(), now = Date.now(), DAY = 86400000;
+  let n = 0;
+  for (let i = 1; i < v.length; i++) {
+    const pid = v[i][10], P = PRODUCTS[pid];
+    if (!P || !P.free || v[i][6] !== ST.DONE) continue;
+    const age = (now - new Date(v[i][0]).getTime()) / DAY, note = String(v[i][9] || '');
+    let step = 0;
+    if (age >= 7 && note.indexOf('N7') < 0) step = 7; else if (age >= 3 && age < 7 && note.indexOf('N3') < 0) step = 3;
+    if (!step) continue;
+    const email = v[i][3], name = v[i][2];
+    const pr = getProgress_(email, pid);
+    if (step === 3 && pr.done.length >= TOTAL[pid]) { sh.getRange(i + 1, 10).setValue((note + ' N3').trim()); continue; }
+    try { sendFreeFollow_(email, name, pid, step, pr.done.length); sh.getRange(i + 1, 10).setValue((note + ' N' + step).trim()); n++; }
+    catch (e) { log_('lỗi email khoá tặng', email + ' ' + e); }
+  }
+  if (n) log_('email khoá tặng', n + ' email');
+}
+function sendFreeFollow_(email, name, pid, step, doneN) {
+  const P = PRODUCTS[pid], url = CFG.SITE + P.path, first = String(name || '').trim().split(' ').pop() || 'bạn';
+  const btn = (href, t) => '<p style="margin:20px 0"><a href="' + href + '" style="background:#FFC83D;color:#0b1533;font-weight:800;padding:13px 24px;border-radius:10px;text-decoration:none">' + t + '</a></p>';
+  let subject, inner;
+  if (step === 3) {
+    subject = first + ' ơi, video AI đầu tiên của bạn xong chưa?';
+    inner = '<p>Chào ' + esc_(first) + ',</p><p>' + (doneN ? 'Bạn đã học ' + doneN + '/4 bài khoá tặng. Còn chút nữa thôi là có video đầu tiên để đăng.' : 'Khoá tặng 4 bài vẫn đang chờ bạn. Bài 1 chỉ mất khoảng 5 phút: nhờ ChatGPT hoặc Claude viết kịch bản 30 giây.') + '</p>' +
+      btn(url, 'HỌC TIẾP KHOÁ TẶNG →') +
+      '<p>Làm xong video, gửi link vào nhóm Zalo để Đại góp ý giúp bạn: <a href="' + CFG.ZALO_GROUP + '">' + CFG.ZALO_GROUP + '</a></p>';
+  } else {
+    subject = 'Sau video đầu tiên: bước tiếp theo của ' + first;
+    inner = '<p>Chào ' + esc_(first) + ',</p><p>Một video là bắt đầu. Để nội dung và bán hàng tự chạy mỗi ngày, đây là các bước tiếp theo bạn có thể đi:</p><ul>' +
+      '<li><b>Muốn bot tự trả lời khách Zalo, Facebook</b> → <a href="' + CFG.SITE + '/vibe-coding/dang-ky/">28 NGÀY VIBE CODING</a></li>' +
+      '<li><b>Muốn đội nhân viên AI làm việc thay mình</b> → <a href="' + CFG.SITE + '/dang-ky/">VẬN HÀNH AGENT</a></li>' +
+      '<li><b>Sắp ra mắt:</b> Video AI không cần lên hình, Edit video tự động bằng AI, Tự động viết bài mỗi ngày, Website bán hàng tự động. Vào nhóm Zalo để được báo đầu tiên khi mở.</li></ul>' +
+      btn(CFG.SITE, 'XEM CÁC KHOÁ HỌC →') +
+      '<p>Nhóm Zalo: <a href="' + CFG.ZALO_GROUP + '">' + CFG.ZALO_GROUP + '</a></p>';
+  }
+  MailApp.sendEmail({ to: email, subject: subject, htmlBody: mailWrap_(subject, inner, pid), name: CFG.BRAND });
 }
 
 function sendResetMail_(email, name, pw) {
