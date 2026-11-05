@@ -82,6 +82,7 @@ footer img{height:26px;filter:invert(1) brightness(.3);margin-bottom:6px}
 <script src="/config.js"></script>
 <script>
 const COURSES=[
+ {id:'tang',free:1,name:'🎁 LÀM VIDEO AI ĐẦU TIÊN TRONG 30 PHÚT',meta:'Khoá tặng miễn phí · 4 bài',desc:'Nhờ ChatGPT hoặc Claude viết kịch bản, tạo hình bằng AI, ghép video có giọng đọc và phụ đề, rồi đăng lên đón khách. Học xong có video đầu tiên.',img:'/tang/img/hero.jpg',learn:'/tang/',buy:'/tang/dang-ky/',price:'Miễn phí',total:4,done:'tang-done'},
  {id:'vanhanh',name:'VẬN HÀNH AGENT',meta:'16 bài · Cầm tay chỉ việc',desc:'Dựng đội nhân viên AI tự làm việc cho bạn: cài app VẬN HÀNH, giao việc, hẹn giờ, chatbot khách hàng và chạy 24/7 với tên miền riêng.',img:'/img/hero.jpg?v=20261105',learn:'/van-hanh/',buy:'/dang-ky/',price:'1.990.000đ',total:16,done:'vanhanh-agent-done'},
  {id:'vibe',name:'28 NGÀY VIBE CODING',meta:'28 ngày · Bot CSKH Zalo & Facebook',desc:'Tự làm bot chăm sóc khách hàng tự trả lời trên Zalo và Facebook bằng AI, không cần biết code. Mỗi ngày một bước nhỏ, làm là chạy.',img:'/vibe-coding/img/hero.jpg?v=20261105',learn:'/vibe-coding/',buy:'/vibe-coding/dang-ky/',price:'2.990.000đ',total:19,done:'vibe-coding-done'},
  {id:'donggoi',name:'ĐÓNG GÓI KIẾN THỨC',meta:'14 bài · Biến kinh nghiệm thành khoá học',desc:'Biến kinh nghiệm bạn đang có thành một khoá học hoàn chỉnh với ChatGPT hoặc Claude: tìm chủ đề, dựng bài, quay video, làm trang bán và bán thử khoá đầu tiên.',img:'/dong-goi/img/hero.jpg?v=20261105dg',learn:'/dong-goi/',buy:'/dong-goi/dang-ky/',price:'1.490.000đ',total:14,done:'dong-goi-done'}
@@ -95,10 +96,10 @@ function render(){
  const own=ME?ME.courses:[];
  document.getElementById('cards').innerHTML=COURSES.map(c=>{const o=own.indexOf(c.id)>=0;
   const d=Math.min(doneCount(c.done),c.total),p=Math.round(d/c.total*100);
-  return `<div class="card"><a class="pic" href="${o?c.learn:c.buy}"><img src="${c.img}" alt="${c.name}"><span class="badge ${o?'own':'lock'}">${o?'✓ Đã sở hữu':'🔒 Chưa đăng ký'}</span></a>
+  return `<div class="card"><a class="pic" href="${o?c.learn:c.buy}"><img src="${c.img}" alt="${c.name}"><span class="badge ${o?'own':'lock'}">${o?'✓ Đã sở hữu':(c.free?'🎁 Miễn phí':'🔒 Chưa đăng ký')}</span></a>
   <div class="bd"><h2>${c.name}</h2><div class="meta">${c.meta}</div><p>${c.desc}</p>
   ${o?`<div class="prog"><i style="width:${p}%"></i></div><div class="link">Đã học ${d}/${c.total} bài</div><div class="act"><a class="btn go" href="${c.learn}">${d?'HỌC TIẾP':'VÀO HỌC'} →</a></div>`
-     :`<div class="act"><a class="btn" href="${c.buy}">ĐĂNG KÝ KHOÁ HỌC</a><span class="price">${c.price}</span></div>${ME?'':`<div class="link" style="margin-top:10px">Đã mua? <a href="#lf" onclick="document.getElementById('lf').email.focus()">Đăng nhập để vào học</a></div>`}`}
+     :`<div class="act"><a class="btn" href="${c.buy}">${c.free?'NHẬN KHOÁ TẶNG':'ĐĂNG KÝ KHOÁ HỌC'}</a><span class="price">${c.price}</span></div>${ME?'':`<div class="link" style="margin-top:10px">Đã mua? <a href="#lf" onclick="document.getElementById('lf').email.focus()">Đăng nhập để vào học</a></div>`}`}
   </div></div>`}).join('');
  document.getElementById('loginbox').style.display=ME?'none':'grid';
  document.getElementById('who').innerHTML=ME?`Xin chào <b>${esc(ME.name)}</b> 👋`:'';
