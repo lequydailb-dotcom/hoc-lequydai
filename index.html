@@ -105,7 +105,7 @@ function render(){
  document.getElementById('who').innerHTML=ME?`Xin chào <b>${esc(ME.name)}</b> 👋`:'';
  document.getElementById('hbtn').innerHTML=ME?`<button onclick="logout()">Đăng xuất</button>`:`<a class="btn2 gold" href="#lf" onclick="document.getElementById('lf').email.focus()">Đăng nhập</a>`;
 }
-async function boot(){render();const t=ls(TK);if(!t)return;
+async function boot(){const h=location.hash;if(h.indexOf('#t=')===0&&h.length>40){ls(TK,h.slice(3));try{history.replaceState(null,'',location.pathname+location.search)}catch(e){}}render();const t=ls(TK);if(!t)return;
  try{const r=await api({action:'me',token:t});if(r.ok){ME=r}else if(r.login){ls(TK,null)}}catch(e){}render()}
 async function login(ev){ev.preventDefault();const f=ev.target,b=document.getElementById('lb'),m=document.getElementById('lm');m.className='msg';m.textContent='Đang đăng nhập…';b.disabled=true;
  try{const r=await api({action:'login',email:f.email.value,password:f.pw.value});b.disabled=false;if(!r.ok){m.textContent=r.msg;return}ls(TK,r.token);ME={name:r.name,courses:r.courses};m.textContent='';render();window.scrollTo({top:0,behavior:'smooth'})}
