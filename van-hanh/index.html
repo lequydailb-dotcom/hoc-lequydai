@@ -103,7 +103,7 @@ footer img{height:30px;margin-bottom:8px}
 <script src="lessons.js"></script>
 <script>
 const C=window.COURSE;document.getElementById('zl').href=C.zalo;
-const KEY='vanhanh-agent-done',TK='vh-token';let FULL=null,WHO='',NOTOWN=false,ADM=false;ADM=!!r.admin;
+const KEY='vanhanh-agent-done',TK='vh-token';let FULL=null,WHO='',NOTOWN=false,ADM=false;
 function ls(k,v){try{if(v===undefined)return localStorage.getItem(k);if(v===null)localStorage.removeItem(k);else localStorage.setItem(k,v)}catch(e){return window['__'+k]}}
 async function api(body){const r=await fetch(window.API_URL,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify(body)});return r.json()}
 async function boot(){const t=ls(TK);if(t){try{const r=await api({action:'content',token:t,course:'vanhanh'});if(r.ok){FULL=r.lessons;WHO=r.name;NOTOWN=false;ADM=!!r.admin;const sv=(r.progress&&r.progress.done)||[];setDone(sv);if(r.progress&&r.progress.doneAt)ls(KEY+'-at',r.progress.doneAt)}else if(r.notOwned){NOTOWN=true;WHO=r.name}else ls(TK,null)}catch(e){}}
