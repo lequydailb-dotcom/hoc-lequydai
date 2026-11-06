@@ -103,12 +103,12 @@ footer img{height:30px;margin-bottom:8px}
 <script src="lessons.js?v=20261106"></script>
 <script>
 const C=window.COURSE;document.getElementById('zl').href=C.zalo;
-const KEY='tang-done',TK='vh-token';let FULL=null,WHO='',NOTOWN=false;
+const KEY='tang-done',TK='vh-token';let FULL=null,WHO='',NOTOWN=false,ADM=false;ADM=!!r.admin;
 function ls(k,v){try{if(v===undefined)return localStorage.getItem(k);if(v===null)localStorage.removeItem(k);else localStorage.setItem(k,v)}catch(e){return window['__'+k]}}
 async function api(body){const r=await fetch(window.API_URL,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify(body)});return r.json()}
-async function boot(){const t=ls(TK);if(t){try{const r=await api({action:'content',token:t,course:'tang'});if(r.ok){FULL=r.lessons;WHO=r.name;NOTOWN=false;const sv=(r.progress&&r.progress.done)||[];setDone(sv);if(r.progress&&r.progress.doneAt)ls(KEY+'-at',r.progress.doneAt)}else if(r.notOwned){NOTOWN=true;WHO=r.name}else ls(TK,null)}catch(e){}}
+async function boot(){const t=ls(TK);if(t){try{const r=await api({action:'content',token:t,course:'tang'});if(r.ok){FULL=r.lessons;WHO=r.name;NOTOWN=false;ADM=!!r.admin;const sv=(r.progress&&r.progress.done)||[];setDone(sv);if(r.progress&&r.progress.doneAt)ls(KEY+'-at',r.progress.doneAt)}else if(r.notOwned){NOTOWN=true;WHO=r.name}else ls(TK,null)}catch(e){}}
  document.getElementById('out').style.display=(FULL||NOTOWN)?'inline-block':'none';render()}
-function logout(){ls(TK,null);FULL=null;NOTOWN=false;document.getElementById('out').style.display='none';go('');render()}
+function logout(){ls(TK,null);FULL=null;NOTOWN=false;ADM=!!r.admin;document.getElementById('out').style.display='none';go('');render()}
 async function doLogin(ev){ev.preventDefault();const f=ev.target,m=f.querySelector('.msg'),b=f.querySelector('button');m.className='msg';m.textContent='Đang đăng nhập…';b.disabled=true;
  try{const r=await api({action:'login',email:f.email.value,password:f.pw.value});if(!r.ok){m.textContent=r.msg;b.disabled=false;return}ls(TK,r.token);m.className='msg ok';m.textContent='Đăng nhập thành công!';await boot()}catch(e){m.textContent='Không kết nối được, anh/chị thử lại.';b.disabled=false}}
 async function doReset(){const f=document.getElementById('lf'),m=f.querySelector('.msg');if(!f.email.value){m.textContent='Nhập email đã đăng ký trước, rồi bấm lại "Quên mật khẩu".';return}
@@ -125,7 +125,7 @@ function setDone(a){window.__d=a;try{localStorage.setItem(KEY,JSON.stringify(a))
 const pad=n=>String(n).padStart(2,'0');
 const SLUG='tang',PID='tang',NL=6;
 function toast(m){const t=document.getElementById('toast');t.textContent=m;t.style.display='block';clearTimeout(window.__tt);window.__tt=setTimeout(()=>t.style.display='none',3500)}
-function unlocked(i){const d=getDone();return i===1||d.includes(i)||d.includes(i-1)}
+function unlocked(i){const d=getDone();return ADM||i===1||d.includes(i)||d.includes(i-1)}
 function lab(i){return 'Bài '+pad(i)}
 function doneAt(){return ls(KEY+'-at')||''}
 let __sync=null;function syncProg(){clearTimeout(__sync);__sync=setTimeout(async()=>{const t=ls(TK);if(!t)return;try{const r=await api({action:'progress',token:t,course:PID,done:getDone()});if(r&&r.doneAt)ls(KEY+'-at',r.doneAt)}catch(e){}},400)}

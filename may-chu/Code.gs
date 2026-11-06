@@ -276,7 +276,7 @@ function login_(email, password) {
   if (hash_(r[5], String(password || '')) !== r[4]) return { ok: false, msg: 'Sai mật khẩu. Anh/chị bấm "Quên mật khẩu" để nhận mật khẩu mới qua email.' };
   const token = Utilities.getUuid() + Utilities.getUuid().slice(0, 8);
   sh.getRange(i, 7, 1, 2).setValues([[token, new Date(Date.now() + CFG.TOKEN_DAYS * 86400000)]]);
-  return { ok: true, token: token, name: r[1], courses: String(r[10] || 'vanhanh').split(',') };
+  return { ok: true, token: token, name: r[1], courses: ownedOf_(r[0], r[10]), admin: isAdmin_(r[0], r[10]) };
 }
 
 /* Trang chủ hoc.lequydai.com: biết học viên đang sở hữu khoá nào */
@@ -287,7 +287,7 @@ function me_(token) {
   for (let i = 1; i < v.length; i++) {
     if (v[i][6] === token) {
       if (v[i][9] !== 'HOẠT ĐỘNG' || new Date(v[i][7]) < new Date()) return { ok: false, login: true };
-      return { ok: true, name: v[i][1], courses: String(v[i][10] || 'vanhanh').split(',').map(x => x.trim()) };
+      return { ok: true, name: v[i][1], courses: ownedOf_(v[i][0], v[i][10]), admin: isAdmin_(v[i][0], v[i][10]) };
     }
   }
   return { ok: false, login: true };
@@ -301,19 +301,28 @@ function content_(token, course) {
   for (let i = 1; i < v.length; i++) {
     if (v[i][6] === token) {
       if (v[i][9] !== 'HOẠT ĐỘNG' || new Date(v[i][7]) < new Date()) return { ok: false, login: true };
-      const owned = String(v[i][10] || 'vanhanh').split(',').map(x => x.trim());
+      const owned = ownedOf_(v[i][0], v[i][10]), adm = isAdmin_(v[i][0], v[i][10]);
       if (owned.indexOf(pid) < 0) return { ok: false, notOwned: true, name: v[i][1] };
       const L = JSON.parse(JSON.stringify(lessons_(pid)));
       Object.keys(L).forEach(k => { const q = quizPublic_(pid, k); if (q) L[k].quiz = q; });
-      touch_(v[i][0], v[i][1], pid);
+      if (!adm) touch_(v[i][0], v[i][1], pid);
       const pr = getProgress_(v[i][0], pid);
-      return { ok: true, name: v[i][1], courses: owned, lessons: L, progress: { done: pr.done, doneAt: pr.doneAt } };
+      return { ok: true, name: v[i][1], admin: adm, courses: owned, lessons: L, progress: { done: pr.done, doneAt: pr.doneAt } };
     }
   }
   return { ok: false, login: true };
 }
 
 /* ===================== TIẾN ĐỘ HỌC + TRẮC NGHIỆM + NHẮC HỌC ===================== */
+/* Tài khoản admin: đăng nhập bằng email trong ADMINS (hoặc ghi chữ admin ở cột Khoá học) là mở được mọi khoá, mọi bài */
+const ADMINS = ['lequydailb@gmail.com'];
+function isAdmin_(email, ownedStr) {
+  return ADMINS.indexOf(String(email || '').trim().toLowerCase()) >= 0 || /(^|,)\s*admin\s*(,|$)/.test(String(ownedStr || ''));
+}
+function ownedOf_(email, ownedStr) {
+  if (isAdmin_(email, ownedStr)) return Object.keys(PRODUCTS);
+  return String(ownedStr || 'vanhanh').split(',').map(x => x.trim());
+}
 const TOTAL = { vanhanh: 16, vibe: 19, donggoi: 14, tang: 6 };
 const PHEAD = ['Email', 'Họ tên', 'Khoá học', 'Bài đã xong', 'Số bài xong', '% hoàn thành', 'Cập nhật', 'Hoàn thành khoá', 'Lần vào học cuối', 'Nhắc lần cuối', 'Số lần nhắc'];
 function progressSheet_() {
@@ -348,7 +357,7 @@ function student_(token, course) {
   for (let i = 1; i < v.length; i++) {
     if (v[i][6] !== token) continue;
     if (v[i][9] !== 'HOẠT ĐỘNG' || new Date(v[i][7]) < new Date()) return { err: { ok: false, login: true } };
-    const owned = String(v[i][10] || 'vanhanh').split(',').map(x => x.trim());
+    const owned = ownedOf_(v[i][0], v[i][10]);
     if (owned.indexOf(pid) < 0) return { err: { ok: false, notOwned: true } };
     return { email: v[i][0], name: v[i][1], pid: pid };
   }
@@ -428,7 +437,7 @@ function remindDaily_() {
   let sent = 0;
   for (let i = 1; i < stu.length; i++) {
     const email = stu[i][0], name = stu[i][1];
-    if (!email || stu[i][9] !== 'HOẠT ĐỘNG') continue;
+    if (!email || stu[i][9] !== 'HOẠT ĐỘNG' || isAdmin_(email, stu[i][10])) continue;
     String(stu[i][10] || 'vanhanh').split(',').map(x => x.trim()).forEach(pid => {
       if (!PRODUCTS[pid] || !TOTAL[pid] || PRODUCTS[pid].free) return;
       const p = progressRow_(email, name, pid), v = p.vals;
@@ -615,4 +624,15 @@ function log_(what, detail) {
 /* Chạy tay để thử: tạo 1 đơn thử với email của anh */
 function testOrder() {
   Logger.log(JSON.stringify(createOrder_({ name: 'Đơn thử', email: Session.getActiveUser().getEmail(), phone: '0972782782' })));
+}
+
+
+/* Chạy một lần: tạo tài khoản admin nếu email chưa có, gửi mật khẩu về chính email đó */
+function taoAdmin() {
+  const email = ADMINS[0];
+  if (findStudent_(email) > 0) { log_('admin', 'đã có tài khoản ' + email + ' (quên mật khẩu thì bấm "Quên mật khẩu" ở trang đăng nhập)'); return 'ĐÃ CÓ'; }
+  const pw = createAccount_(email, 'Đại Lê', '', 'ADMIN', 'tang');
+  MailApp.sendEmail(email, 'Tài khoản admin hoc.lequydai.com', 'Đăng nhập tại https://hoc.lequydai.com/ bằng email này.\nMật khẩu: ' + pw + '\nĐăng nhập xong là xem được tất cả khoá học, mọi bài không bị khoá.');
+  log_('admin', 'đã tạo tài khoản ' + email);
+  return 'ĐÃ TẠO';
 }
