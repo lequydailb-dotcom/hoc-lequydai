@@ -108,7 +108,7 @@ function ls(k,v){try{if(v===undefined)return localStorage.getItem(k);if(v===null
 async function api(body){const r=await fetch(window.API_URL,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify(body)});return r.json()}
 async function boot(){const t=ls(TK);if(t){try{const r=await api({action:'content',token:t,course:'donggoi'});if(r.ok){FULL=r.lessons;WHO=r.name;NOTOWN=false;ADM=!!r.admin;const sv=(r.progress&&r.progress.done)||[];setDone(sv);if(r.progress&&r.progress.doneAt)ls(KEY+'-at',r.progress.doneAt)}else if(r.notOwned){NOTOWN=true;WHO=r.name}else ls(TK,null)}catch(e){}}
  document.getElementById('out').style.display=(FULL||NOTOWN)?'inline-block':'none';render()}
-function logout(){ls(TK,null);FULL=null;NOTOWN=false;ADM=!!r.admin;document.getElementById('out').style.display='none';go('');render()}
+function logout(){ls(TK,null);FULL=null;NOTOWN=false;ADM=false;document.getElementById('out').style.display='none';go('');render()}
 async function doLogin(ev){ev.preventDefault();const f=ev.target,m=f.querySelector('.msg'),b=f.querySelector('button');m.className='msg';m.textContent='Đang đăng nhập…';b.disabled=true;
  try{const r=await api({action:'login',email:f.email.value,password:f.pw.value});if(!r.ok){m.textContent=r.msg;b.disabled=false;return}ls(TK,r.token);m.className='msg ok';m.textContent='Đăng nhập thành công!';await boot()}catch(e){m.textContent='Không kết nối được, anh/chị thử lại.';b.disabled=false}}
 async function doReset(){const f=document.getElementById('lf'),m=f.querySelector('.msg');if(!f.email.value){m.textContent='Nhập email đã đăng ký trước, rồi bấm lại "Quên mật khẩu".';return}
@@ -125,7 +125,7 @@ function setDone(a){window.__d=a;try{localStorage.setItem(KEY,JSON.stringify(a))
 const pad=n=>String(n).padStart(2,'0');
 const SLUG='dong-goi',PID='donggoi',NL=14;
 function toast(m){const t=document.getElementById('toast');t.textContent=m;t.style.display='block';clearTimeout(window.__tt);window.__tt=setTimeout(()=>t.style.display='none',3500)}
-function unlocked(i){const d=getDone();return ADM||i===1||d.includes(i)||d.includes(i-1)}
+function unlocked(i){const d=getDone();return (ADM&&ls('adm-open')==='1')||i===1||d.includes(i)||d.includes(i-1)}
 function lab(i){return C.lessons[i].day}
 function doneAt(){return ls(KEY+'-at')||''}
 let __sync=null;function syncProg(){clearTimeout(__sync);__sync=setTimeout(async()=>{const t=ls(TK);if(!t)return;try{const r=await api({action:'progress',token:t,course:PID,done:getDone()});if(r&&r.doneAt)ls(KEY+'-at',r.doneAt)}catch(e){}},400)}
@@ -172,7 +172,7 @@ function sidebar(){const d=getDone(),p=Math.round(d.length/14*100);
  ${d.length>=NL?`<button class="btn y" onclick="go('chung-nhan')">🎓 Nhận chứng nhận</button>`:`<button class="btn y" onclick="go('bai-'+${nextIdx()})">${d.length?'Học tiếp':'Bắt đầu khoá học'}</button>`}
  ${WHO?`<div class="small" style="margin-top:10px">Xin chào <b>${WHO}</b> 👋</div>`:''}<div style="margin-top:16px;font-weight:800">Người đồng hành</div><div class="teacher"><img src="/img/dai-1.jpg" alt="Đại Lê"><div><b>ĐẠI LÊ AI</b><div class="small">hoc.lequydai.com</div></div></div>
  <a class="btn" href="${C.zalo}" target="_blank" rel="noopener">Vào nhóm Zalo hỏi đáp</a></div></aside>`}
-function nextIdx(){const d=getDone();for(let i=1;i<=14;i++)if(!d.includes(i))return i;return 1}
+function nextIdx(){const d=getDone();for(let i=1;i<=NL;i++)if(!d.includes(i))return i;return 1}
 function home(){document.getElementById('crumb').innerHTML='<b>ĐÓNG GÓI KIẾN THỨC</b> · Thành khoá học bằng AI';
  let h=`<div class="hero"><img src="/dong-goi/img/hero.jpg?v=20261105dg" alt="ĐÓNG GÓI KIẾN THỨC THÀNH KHOÁ HỌC BẰNG AI – Biến kinh nghiệm thành khoá học"><button class="go" onclick="go('bai-'+${nextIdx()})">${getDone().length?'Học tiếp ▶':'Bắt đầu khoá học ▶'}</button></div><div class="introv"><h2>Video giới thiệu khoá học</h2><video  controls playsinline preload="metadata" poster="/video/poster-dong-goi.jpg?v=20261105dg"><source src="/video/gioi-thieu-dong-goi.mp4?v=20261105nam" type="video/mp4"></video></div><div class="grid"><main>`;
  const d=getDone();
@@ -195,4 +195,4 @@ function render(){const m=location.hash.match(/bai-(\d+)/);document.getElementBy
  document.querySelectorAll('pre').forEach(p=>{const b=document.createElement('button');b.className='cp';b.textContent='Chép';b.onclick=()=>{const t=p.childNodes[0].textContent;(navigator.clipboard?navigator.clipboard.writeText(t):Promise.reject()).then(()=>{b.textContent='Đã chép'},()=>{b.textContent='Bôi đen để chép'})};p.appendChild(b)})}
 window.addEventListener('hashchange',render);boot();
 </script>
-<div id="toast"></div></body></html>
+<div id="toast"></div><script>setInterval(function(){var b=document.getElementById('admt');if(typeof ADM!=='undefined'&&ADM){if(!b){b=document.createElement('button');b.id='admt';b.style.cssText='position:fixed;left:10px;bottom:10px;z-index:99;padding:8px 12px;border:0;border-radius:8px;background:#222;color:#ffd500;font:600 12px sans-serif;cursor:pointer';b.onclick=function(){ls('adm-open',ls('adm-open')==='1'?'0':'1');render()};document.body.appendChild(b)}b.textContent=ls('adm-open')==='1'?'Admin: đang mở hết bài (bấm để học như học viên)':'Admin: đang học như học viên (bấm để mở hết bài)'}else if(b)b.remove()},800)</script></body></html>

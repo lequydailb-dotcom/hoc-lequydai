@@ -636,3 +636,60 @@ function taoAdmin() {
   log_('admin', 'đã tạo tài khoản ' + email);
   return 'ĐÃ TẠO';
 }
+
+
+/* ===================== DUYỆT TAY (menu trong Google Sheet) ===================== */
+function onOpen() {
+  SpreadsheetApp.getUi().createMenu('ĐẠI LÊ AI')
+    .addItem('Duyệt tay đơn đang chọn', 'duyetTay')
+    .addItem('Mở thêm khoá cho học viên đang chọn', 'moThemKhoa')
+    .addSeparator()
+    .addItem('Bật / tắt tự động duyệt (SePay)', 'batTatTuDong')
+    .addToUi();
+}
+
+/* Chọn 1 dòng ở trang DON_HANG rồi bấm: đơn thành ĐÃ THANH TOÁN và cấp tài khoản ngay, không chờ tiền về */
+function duyetTay() {
+  const ui = SpreadsheetApp.getUi(), sh = SpreadsheetApp.getActiveSheet();
+  if (sh.getName() !== SH.ORDERS) { ui.alert('Mở trang DON_HANG, bấm vào dòng đơn cần duyệt rồi chọn lại.'); return; }
+  const r = sh.getActiveRange().getRow();
+  if (r < 2) { ui.alert('Bấm vào dòng đơn (không phải dòng tiêu đề).'); return; }
+  const v = sh.getRange(r, 1, 1, 11).getValues()[0];
+  if (v[6] === ST.DONE) { ui.alert('Đơn này đã cấp tài khoản rồi.'); return; }
+  const ok = ui.alert('Duyệt tay đơn ' + v[1] + ' của ' + v[2] + ' (' + v[3] + ')?', 'Hệ thống sẽ cấp tài khoản và gửi thư mật khẩu ngay.', ui.ButtonSet.YES_NO);
+  if (ok !== ui.Button.YES) return;
+  sh.getRange(r, 7).setValue(ST.PAID);
+  const lock = LockService.getScriptLock(); lock.waitLock(20000);
+  try { provisionPaid_(); } finally { lock.releaseLock(); }
+  log_('duyệt tay', v[1] + ' · ' + v[3]);
+  ui.alert('Xong. Đã cấp tài khoản cho ' + v[3] + '.');
+}
+
+/* Chọn 1 dòng ở trang HOC_VIEN rồi bấm: nhập mã khoá để mở thêm (vanhanh, vibe, donggoi, tang) */
+function moThemKhoa() {
+  const ui = SpreadsheetApp.getUi(), sh = SpreadsheetApp.getActiveSheet();
+  if (sh.getName() !== SH.STUDENTS) { ui.alert('Mở trang HOC_VIEN, bấm vào dòng học viên rồi chọn lại.'); return; }
+  const r = sh.getActiveRange().getRow();
+  if (r < 2) { ui.alert('Bấm vào dòng học viên (không phải dòng tiêu đề).'); return; }
+  const em = sh.getRange(r, 1).getValue(), cur = String(sh.getRange(r, 11).getValue() || '');
+  const a = ui.prompt('Mở thêm khoá cho ' + em, 'Đang có: ' + (cur || 'chưa có') + '\nGõ mã khoá cần mở: ' + Object.keys(PRODUCTS).join(', '), ui.ButtonSet.OK_CANCEL);
+  if (a.getSelectedButton() !== ui.Button.OK) return;
+  const pid = a.getResponseText().trim();
+  if (!PRODUCTS[pid]) { ui.alert('Mã khoá không đúng.'); return; }
+  const list = cur.split(',').map(x => x.trim()).filter(Boolean);
+  if (list.indexOf(pid) < 0) list.push(pid);
+  sh.getRange(r, 11).setValue(list.join(','));
+  log_('mở thêm khoá', em + ' · ' + pid);
+  ui.alert('Đã mở khoá ' + pid + ' cho ' + em + '.');
+}
+
+function batTatTuDong() {
+  const ui = SpreadsheetApp.getUi(), s = sheet_(SH.CONFIG), v = s.getDataRange().getValues();
+  for (let i = 1; i < v.length; i++) if (v[i][0] === 'TU_DONG_DUYET') {
+    const now = String(v[i][1]).trim() === 'TẮT' ? 'BẬT' : 'TẮT';
+    s.getRange(i + 1, 2).setValue(now);
+    ui.alert('Tự động duyệt: ' + now + (now === 'TẮT' ? '\nTiền về sẽ không tự cấp tài khoản, anh dùng "Duyệt tay đơn đang chọn".' : ''));
+    return;
+  }
+  ui.alert('Không thấy dòng TU_DONG_DUYET ở trang CAU_HINH.');
+}
