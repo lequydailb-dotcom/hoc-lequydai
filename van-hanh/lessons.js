@@ -2,12 +2,12 @@
 window.COURSE = {
  "title": "VẬN HÀNH AGENT",
  "subtitle": "Trợ lý AI làm việc tự động theo não của bạn",
- "app": "vanhanh.lequydai.com",
+ "app": "naoso.lequydai.com",
  "repo": "https://github.com/lequydailb-dotcom/vanhanh",
  "zalo": "https://zalo.me/g/a9my3sx1ov0fsihenx6e",
  "parts": [
   {
-   "name": "Phần 1: Làm quen và cài VẬN HÀNH",
+   "name": "Phần 1: Làm quen và cài NAOSO",
    "lessons": [
     1,
     2,
@@ -45,46 +45,46 @@ window.COURSE = {
  ],
  "lessons": {
   "1": {
-   "title": "VẬN HÀNH là gì: bộ não AI của riêng bạn",
-   "short": "VẬN HÀNH LÀ GÌ?",
+   "title": "NAOSO là gì: bộ não AI của riêng bạn",
+   "short": "NAOSO LÀ GÌ?",
    "tag": "Nhân viên AI khác ChatGPT ở đâu",
    "goal": "Bạn có một tờ giấy ghi 3 việc muốn giao cho nhân viên AI. Cả khoá học đi theo 3 việc này: học tới bài nào, giao được việc tới đó."
   },
   "2": {
-   "title": "Cài VẬN HÀNH lên máy tính",
-   "short": "CÀI VẬN HÀNH",
+   "title": "Cài NAOSO lên máy tính",
+   "short": "CÀI NAOSO",
    "tag": "Dán 1 dòng lệnh là xong",
-   "goal": "VẬN HÀNH nằm trên máy bạn và mở được bằng trình duyệt. Chỉ dán một dòng lệnh, máy tự cài phần còn lại."
+   "goal": "NAOSO nằm trên máy bạn và mở được bằng trình duyệt. Chỉ dán một dòng lệnh, máy tự cài phần còn lại."
   },
   "3": {
    "title": "Mở lần đầu: tài khoản, mật khẩu, xác thực 2 lớp",
    "short": "KHOÁ CỬA AN TOÀN",
    "tag": "Mật khẩu + xác thực 2 lớp",
-   "goal": "VẬN HÀNH có chủ và có khoá. Nó làm được rất nhiều việc trên máy bạn, nên ai mở được nó là người đó sai khiến được nó."
+   "goal": "NAOSO có chủ và có khoá. Nó làm được rất nhiều việc trên máy bạn, nên ai mở được nó là người đó sai khiến được nó."
   },
   "4": {
-   "title": "Chọn model AI cho VẬN HÀNH",
+   "title": "Chọn model AI cho NAOSO",
    "short": "CHỌN BỘ NÃO AI",
    "tag": "Claude, ChatGPT, Grok, Gemini",
-   "goal": "VẬN HÀNH đã nối một model AI và trả lời được. Bạn biết model nào làm việc chính, model nào làm việc nền."
+   "goal": "NAOSO đã nối một model AI và trả lời được. Bạn biết model nào làm việc chính, model nào làm việc nền."
   },
   "5": {
-   "title": "Nhắn cho VẬN HÀNH từ điện thoại: Zalo, Telegram",
+   "title": "Nhắn cho NAOSO từ điện thoại: Zalo, Telegram",
    "short": "NHẮN TỪ ĐIỆN THOẠI",
    "tag": "Giao việc như nhắn nhân viên",
-   "goal": "Bạn nhắn cho VẬN HÀNH từ điện thoại như nhắn cho nhân viên, và kết quả việc nền cũng báo về đó."
+   "goal": "Bạn nhắn cho NAOSO từ điện thoại như nhắn cho nhân viên, và kết quả việc nền cũng báo về đó."
   },
   "6": {
    "title": "Nạp kiến thức vào bộ não",
    "short": "NẠP KIẾN THỨC",
    "tag": "Đào tạo nhân viên mới",
-   "goal": "VẬN HÀNH biết bạn là ai, doanh nghiệp bán gì, giọng văn thế nào. Nhân viên mới phải được đào tạo, trợ lý AI cũng vậy."
+   "goal": "NAOSO biết bạn là ai, doanh nghiệp bán gì, giọng văn thế nào. Nhân viên mới phải được đào tạo, trợ lý AI cũng vậy."
   },
   "7": {
    "title": "Nối phần mềm: đọc số thật",
    "short": "NỐI PHẦN MỀM",
    "tag": "Báo cáo bằng số thật, không đoán",
-   "goal": "VẬN HÀNH đọc được dữ liệu từ ít nhất một phần mềm bạn đang dùng. Không có kết nối thì nó chỉ nói chung chung; có kết nối thì báo cáo bằng số thật."
+   "goal": "NAOSO đọc được dữ liệu từ ít nhất một phần mềm bạn đang dùng. Không có kết nối thì nó chỉ nói chung chung; có kết nối thì báo cáo bằng số thật."
   },
   "8": {
    "title": "Nhân viên AI đầu tiên: tạo Cộng sự",
@@ -123,16 +123,16 @@ window.COURSE = {
    "goal": "Bạn có một nhân viên chăm sóc khách trực Zalo hoặc Telegram, trả lời đúng bảng giá và câu hỏi thường gặp của bạn."
   },
   "14": {
-   "title": "Đưa VẬN HÀNH lên VPS chạy 24/7",
+   "title": "Đưa NAOSO lên VPS chạy 24/7",
    "short": "CHẠY 24/7 TRÊN VPS",
    "tag": "Tắt máy vẫn làm việc",
-   "goal": "VẬN HÀNH chạy cả khi bạn tắt máy: nhắc hẹn, việc nền, chatbot không bị lỡ, và mở được từ điện thoại bằng link https."
+   "goal": "NAOSO chạy cả khi bạn tắt máy: nhắc hẹn, việc nền, chatbot không bị lỡ, và mở được từ điện thoại bằng link https."
   },
   "15": {
    "title": "Tên miền riêng và thương hiệu của bạn",
    "short": "TÊN MIỀN RIÊNG",
-   "tag": "Ví dụ: vanhanh.lequydai.com",
-   "goal": "Trợ lý chạy ở địa chỉ của riêng bạn, có https, có tên và logo của bạn. Ví dụ bản của Đại đang chạy ở <b>vanhanh.lequydai.com</b>."
+   "tag": "Ví dụ: naoso.lequydai.com",
+   "goal": "Trợ lý chạy ở địa chỉ của riêng bạn, có https, có tên và logo của bạn. Ví dụ bản của Đại đang chạy ở <b>naoso.lequydai.com</b>."
   },
   "16": {
    "title": "Dùng trên điện thoại, sao lưu bộ não, kiểm tra cuối khoá",
