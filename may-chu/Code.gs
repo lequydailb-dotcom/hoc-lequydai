@@ -323,7 +323,7 @@ function ownedOf_(email, ownedStr) {
   if (isAdmin_(email, ownedStr)) return Object.keys(PRODUCTS);
   return String(ownedStr || 'vanhanh').split(',').map(x => x.trim());
 }
-const TOTAL = { vanhanh: 16, vibe: 19, donggoi: 14, tang: 6 };
+const TOTAL = { vanhanh: 16, vibe: 19, donggoi: 14, tang: 10 };
 const PHEAD = ['Email', 'Họ tên', 'Khoá học', 'Bài đã xong', 'Số bài xong', '% hoàn thành', 'Cập nhật', 'Hoàn thành khoá', 'Lần vào học cuối', 'Nhắc lần cuối', 'Số lần nhắc'];
 function progressSheet_() {
   let s = sheet_('TIEN_DO');
@@ -543,7 +543,7 @@ function sendFreeMail_(email, name, pw, pid) {
     ? row_('Email đăng nhập', esc_(email)) + row_('Mật khẩu', '<b style="font-size:18px;letter-spacing:1px">' + pw + '</b>')
     : row_('Email đăng nhập', esc_(email)) + row_('Mật khẩu', 'Dùng mật khẩu cũ của anh/chị (quên thì bấm "Quên mật khẩu")');
   const html = mailWrap_('Khoá tặng của bạn đã sẵn sàng 🎁',
-    '<p>Chào ' + esc_(name) + ', cảm ơn bạn đã đăng ký khoá tặng <b>' + P.name + '</b>. 6 bài ngắn, học xong bạn có video AI đầu tiên làm bằng Veo 3, kèm 40 câu lệnh cho 10 ngành.</p>' +
+    '<p>Chào ' + esc_(name) + ', cảm ơn bạn đã đăng ký khoá tặng <b>' + P.name + '</b>. 10 bài ngắn, học xong bạn có video AI đầu tiên làm bằng ChatGPT hoặc Gemini và Google Flow, kèm 50 câu lệnh cho 10 ngành.</p>' +
     '<table style="border-collapse:collapse;width:100%;font-size:15px">' + row_('Trang học', '<a href="' + url + '">' + url.replace('https://', '') + '</a>') + acc + '</table>' +
     '<p style="text-align:center;margin:22px 0"><a href="' + url + '" style="background:#FFC83D;color:#0d1838;font-weight:900;padding:14px 28px;border-radius:10px;text-decoration:none;display:inline-block">VÀO HỌC BÀI 1</a></p>' +
     '<p>Vào nhóm Zalo để gửi video của bạn cho Đại góp ý: <a href="' + CFG.ZALO_GROUP + '">' + CFG.ZALO_GROUP + '</a></p>', pid);
@@ -574,7 +574,7 @@ function sendFreeFollow_(email, name, pid, step, doneN) {
   let subject, inner;
   if (step === 3) {
     subject = first + ' ơi, video AI đầu tiên của bạn xong chưa?';
-    inner = '<p>Chào ' + esc_(first) + ',</p><p>' + (doneN ? 'Bạn đã học ' + doneN + '/6 bài khoá tặng. Còn chút nữa thôi là có video đầu tiên để đăng.' : 'Khoá tặng 6 bài vẫn đang chờ bạn. Bài 1 chỉ mất khoảng 5 phút: nhờ ChatGPT hoặc Gemini viết kịch bản 30 giây.') + '</p>' +
+    inner = '<p>Chào ' + esc_(first) + ',</p><p>' + (doneN ? 'Bạn đã học ' + doneN + '/10 bài khoá tặng'. Còn chút nữa thôi là có video đầu tiên để đăng.' : 'Khoá tặng 10 bài vẫn đang chờ bạn. Bài 1 chỉ mất khoảng 5 phút: chọn đường đi và mở sẵn 2 công cụ.') + '</p>' +
       btn(url, 'HỌC TIẾP KHOÁ TẶNG →') +
       '<p>Làm xong video, gửi link vào nhóm Zalo để Đại góp ý giúp bạn: <a href="' + CFG.ZALO_GROUP + '">' + CFG.ZALO_GROUP + '</a></p>';
   } else {
@@ -692,4 +692,13 @@ function batTatTuDong() {
     return;
   }
   ui.alert('Không thấy dòng TU_DONG_DUYET ở trang CAU_HINH.');
+}
+
+
+/* Chạy 1 lần khi đổi khoá tặng từ 6 lên 10 bài: xoá tiến độ cũ của khoá tặng */
+function resetTienDoTang() {
+  const s = progressSheet_(), v = s.getDataRange().getValues(); let n = 0;
+  for (let i = v.length - 1; i >= 1; i--) if (v[i][2] === 'tang') { s.deleteRow(i + 1); n++; }
+  log_('xoá tiến độ khoá tặng cũ', n + ' dòng');
+  return n;
 }

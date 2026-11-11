@@ -2,10 +2,10 @@
 <html lang="vi"><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>LÀM VIDEO AI ĐẦU TIÊN TRONG 30 PHÚT – Khoá tặng miễn phí | ĐẠI LÊ AI</title>
-<meta name="description" content="Khoá tặng miễn phí 6 bài: ChatGPT hoặc Gemini viết kịch bản, Gemini tạo nhân vật, Veo 3 trong Google Flow tạo video có tiếng nói, kèm 40 câu lệnh cho 10 ngành.">
+<meta name="description" content="Khoá tặng miễn phí 10 bài: ChatGPT hoặc Gemini viết kịch bản và tạo ảnh, Google Flow (Omni, Veo) tạo video có tiếng nói, kèm 50 câu lệnh cho 10 ngành.">
 <meta property="og:title" content="LÀM VIDEO AI ĐẦU TIÊN TRONG 30 PHÚT – Khoá tặng miễn phí">
-<meta property="og:description" content="6 bài ngắn, học xong có video AI đầu tiên và kế hoạch 7 ngày.">
-<meta property="og:image" content="/tang/img/hero.jpg?v=20261106">
+<meta property="og:description" content="10 bài ngắn, học xong có video AI đầu tiên và kế hoạch 7 ngày.">
+<meta property="og:image" content="/tang/img/hero.jpg?v=20261111">
 <link rel="icon" href="/tang/img/cover-square.jpg">
 <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 <style>
@@ -114,16 +114,16 @@ async function doLogin(ev){ev.preventDefault();const f=ev.target,m=f.querySelect
 async function doReset(){const f=document.getElementById('lf'),m=f.querySelector('.msg');if(!f.email.value){m.textContent='Nhập email đã đăng ký trước, rồi bấm lại "Quên mật khẩu".';return}
  m.className='msg';m.textContent='Đang gửi…';try{const r=await api({action:'reset',email:f.email.value});m.className='msg ok';m.textContent=r.msg}catch(e){m.textContent='Không kết nối được, anh/chị thử lại.'}}
 function gate(){document.getElementById('crumb').innerHTML='<b>KHOÁ TẶNG</b> · Khu vực học viên';
- let h=`<div class="hero"><img src="/tang/img/hero.jpg?v=20261106" alt="LÀM VIDEO AI ĐẦU TIÊN TRONG 30 PHÚT"></div><div class="introv"><h2>Xem thử bài 1</h2><video  controls playsinline preload="metadata" poster="/tang/img/hero.jpg?v=20261106"><source src="/video/bai/tang-01.mp4?v=20261106" type="video/mp4"></video></div><div class="gate"><main>`;
- h+=`<div class="part" style="padding:22px 24px"><h2 style="margin:0 0 6px;font-size:22px">Khoá tặng này dành cho ai?</h2><p style="margin:0 0 14px;line-height:1.6">Dành cho người bán hàng, làm dịch vụ, muốn có <b>video ngắn để đăng mỗi ngày</b> mà chưa biết bắt đầu từ đâu. Không cần biết dựng phim.</p><h2 style="margin:0 0 10px;font-size:20px">Học xong bạn có</h2><div class="gi"><div>✍️ Kịch bản 4 cảnh do ChatGPT hoặc Gemini viết</div><div>🧑 Ảnh nhân vật tạo bằng Gemini</div><div>🎬 Video có tiếng nói làm bằng Veo 3</div><div>📣 Video đã đăng, có từ khoá đón khách</div><div>🎁 40 câu lệnh Veo 3 cho 10 ngành</div><div>📅 Kế hoạch 7 ngày, 7 video</div></div><p class="small" style="margin-top:14px">6 bài ngắn, mỗi bài khoảng 7 phút. Miễn phí: đăng ký là nhận tài khoản học qua email.</p></div>`;
+ let h=`<div class="hero"><img src="/tang/img/hero.jpg?v=20261111" alt="LÀM VIDEO AI ĐẦU TIÊN TRONG 30 PHÚT"></div><div class="gate"><main>`;
+ h+=`<div class="part" style="padding:22px 24px"><h2 style="margin:0 0 6px;font-size:22px">Khoá tặng này dành cho ai?</h2><p style="margin:0 0 14px;line-height:1.6">Dành cho người bán hàng, làm dịch vụ, muốn có <b>video ngắn để đăng mỗi ngày</b> mà chưa biết bắt đầu từ đâu. Không cần biết dựng phim.</p><h2 style="margin:0 0 10px;font-size:20px">Học xong bạn có</h2><div class="gi"><div>✍️ Kịch bản 30 giây do ChatGPT hoặc Gemini viết</div><div>🧑 Ảnh nhân vật giữ nguyên xuyên suốt video</div><div>🎬 Video có tiếng nói làm bằng Google Flow (Omni, Veo)</div><div>📣 Video đã đăng, có từ khoá đón khách</div><div>🎁 50 câu lệnh làm sẵn cho 10 ngành</div><div>📅 Kế hoạch 7 ngày, 7 video</div></div><p class="small" style="margin-top:14px">10 bài ngắn, chọn đường 8, 10 hoặc 15 giây theo gói của bạn. Miễn phí: đăng ký là nhận tài khoản học qua email.</p></div>`;
 h+=`</main><aside>${NOTOWN?`<div class="login"><h2>Xin chào ${WHO} 👋</h2><div class="small">Tài khoản của anh/chị chưa nhận khoá tặng này. Đăng ký miễn phí bằng đúng email này là khoá tự mở.</div><button class="btn" onclick="logout()" style="background:#5d6785">Đăng nhập tài khoản khác</button></div>`:`<form class="login" id="lf" onsubmit="doLogin(event)"><h2>Đăng nhập để học</h2><div class="small">Dùng email và mật khẩu trong thư chào mừng.</div>
  <input name="email" type="email" placeholder="Email đã đăng ký" required autocomplete="email"><input name="pw" type="password" placeholder="Mật khẩu" required autocomplete="current-password">
  <button class="btn y" type="submit">VÀO HỌC</button><div class="msg"></div><a class="lk" onclick="doReset()">Quên mật khẩu?</a></form>`}
- <div class="buy">Chưa có tài khoản?<br>Khoá tặng <s style="color:#8a8a8a">386.000đ</s> <b>miễn phí</b>, 6 bài ngắn<a class="btn" href="/tang/dang-ky/">ĐĂNG KÝ NHẬN KHOÁ TẶNG</a></div></aside></div>`;return h}
+ <div class="buy">Chưa có tài khoản?<br>Khoá tặng <s style="color:#8a8a8a">386.000đ</s> <b>miễn phí</b>, 10 bài ngắn<a class="btn" href="/tang/dang-ky/">ĐĂNG KÝ NHẬN KHOÁ TẶNG</a></div></aside></div>`;return h}
 function getDone(){try{return JSON.parse(localStorage.getItem(KEY)||'[]')}catch(e){return window.__d||[]}}
 function setDone(a){window.__d=a;try{localStorage.setItem(KEY,JSON.stringify(a))}catch(e){}}
 const pad=n=>String(n).padStart(2,'0');
-const SLUG='tang',PID='tang',NL=6;
+const SLUG='tang',PID='tang',NL=10,NOVID=true;
 function toast(m){const t=document.getElementById('toast');t.textContent=m;t.style.display='block';clearTimeout(window.__tt);window.__tt=setTimeout(()=>t.style.display='none',3500)}
 function unlocked(i){const d=getDone();return (ADM&&ls('adm-open')==='1')||i===1||d.includes(i)||d.includes(i-1)}
 function lab(i){return 'Bài '+pad(i)}
@@ -133,16 +133,16 @@ function vk(i){return 'vp-'+SLUG+'-'+i}
 function vget(i){try{return JSON.parse(ls(vk(i))||'{}')}catch(e){return {}}}
 function vset(i,o){ls(vk(i),JSON.stringify(o))}
 function ck(i){try{return JSON.parse(ls('ck-'+SLUG+'-'+i)||'[]')}catch(e){return []}}
-function lessonReady(i,L){const v=vget(i),c=ck(i);return {video:!!v.w,pct:Math.min(100,Math.round(v.p||0)),checks:c.filter(Boolean).length,total:L.check.length}}
+function lessonReady(i,L){const v=vget(i),c=ck(i);return {video:NOVID||!!v.w,pct:Math.min(100,Math.round(v.p||0)),checks:c.filter(Boolean).length,total:L.check.length}}
 function updGate(i){const L={...C.lessons[i],...FULL[i]};const st=lessonReady(i,L);const g=document.getElementById('gk');if(!g)return;
- g.querySelector('.r1').className='r r1'+(st.video?' ok':'');g.querySelector('.r1 span').textContent=st.video?'Đã xem hết video':'Xem hết video hướng dẫn ('+st.pct+'%)';g.querySelector('.bar b').style.width=(st.video?100:st.pct)+'%';
+ g.querySelector('.r1').style.display=NOVID?'none':'';g.querySelector('.bar').style.display=NOVID?'none':'';g.querySelector('.r1').className='r r1'+(st.video?' ok':'');g.querySelector('.r1 span').textContent=st.video?'Đã xem hết video':'Xem hết video hướng dẫn ('+st.pct+'%)';g.querySelector('.bar b').style.width=(st.video?100:st.pct)+'%';
  g.querySelector('.r2').className='r r2'+(st.checks>=st.total?' ok':'');g.querySelector('.r2 span').textContent='Tích đủ ô tự kiểm tra ('+st.checks+'/'+st.total+')';
  const nq=(L.quiz||[]).length,ans=document.querySelectorAll('#qz input:checked').length;const r3=g.querySelector('.r3');if(r3){r3.style.display=nq?'flex':'none';r3.querySelector('span').textContent='Trả lời trắc nghiệm ('+ans+'/'+nq+' câu)';r3.className='r r3'+(nq&&ans>=nq?' ok':'')}
  const b=document.getElementById('cpl');if(b)b.disabled=!(st.video&&st.checks>=st.total&&ans>=nq)}
 function wire(i){const L={...C.lessons[i],...FULL[i]};const done=getDone().includes(i);
  document.querySelectorAll('.chk input').forEach((x,k)=>{const c=ck(i);x.checked=!!c[k]||done;x.onchange=()=>{const c=ck(i);c[k]=x.checked;ls('ck-'+SLUG+'-'+i,JSON.stringify(c));updGate(i)}});
  document.querySelectorAll('#qz input').forEach(x=>x.onchange=()=>{x.closest('.qq').classList.remove('bad');updGate(i)});
- const v=document.getElementById('lv');if(!v)return;const st=vget(i);let last=0;
+ const v=document.getElementById('lv');if(!v){updGate(i);return}const st=vget(i);let last=0;
  v.addEventListener('loadedmetadata',()=>{if(st.pos&&st.pos<v.duration-3)v.currentTime=st.pos},{once:true});
  v.addEventListener('error',()=>{const o=vget(i);o.w=1;vset(i,o);updGate(i)});
  v.addEventListener('seeking',()=>{const o=vget(i);if(done||o.w)return;const mx=o.m||0;if(v.currentTime>mx+1.5){v.currentTime=mx;const n=document.getElementById('vnote');n.style.display='block';setTimeout(()=>n.style.display='none',3500)}});
@@ -176,7 +176,7 @@ function sidebar(){const d=getDone(),p=Math.round(d.length/NL*100);
  <a class="btn" href="${C.zalo}" target="_blank" rel="noopener">Vào nhóm Zalo hỏi đáp</a></div></aside>`}
 function nextIdx(){const d=getDone();for(let i=1;i<=NL;i++)if(!d.includes(i))return i;return 1}
 function home(){document.getElementById('crumb').innerHTML='<b>KHOÁ TẶNG MIỄN PHÍ</b> · LÀM VIDEO AI ĐẦU TIÊN';
- let h=`<div class="hero"><img src="/tang/img/hero.jpg?v=20261106" alt="LÀM VIDEO AI ĐẦU TIÊN TRONG 30 PHÚT"><button class="go" onclick="go('bai-'+${nextIdx()})">${getDone().length?'Học tiếp ▶':'Bắt đầu khoá học ▶'}</button></div><div class="introv"><h2>Xem thử bài 1</h2><video  controls playsinline preload="metadata" poster="/tang/img/hero.jpg?v=20261106"><source src="/video/bai/tang-01.mp4?v=20261106" type="video/mp4"></video></div><div class="grid"><main>`;
+ let h=`<div class="hero"><img src="/tang/img/hero.jpg?v=20261111" alt="LÀM VIDEO AI ĐẦU TIÊN TRONG 30 PHÚT"><button class="go" onclick="go('bai-'+${nextIdx()})">${getDone().length?'Học tiếp ▶':'Bắt đầu khoá học ▶'}</button></div><div class="grid"><main>`;
  const d=getDone();
  C.parts.forEach(pt=>{h+=`<div class="part"><h2>${pt.name}</h2>`;pt.lessons.forEach(i=>{const L=C.lessons[i];
   {const ok=unlocked(i),dn=d.includes(i),cur=ok&&!dn;h+=`<div class="ls ${ok?'':'lockd'}" onclick="${ok?`go('bai-${i}')`:`toast('🔒 Hoàn thành bài trước để mở bài này nhé.')`}"><img src="/tang/img/bai-${pad(i)}.jpg" alt="Bài ${pad(i)}" loading="lazy"><div style="flex:1"><h3>Bài ${pad(i)}. ${L.title}</h3><p>Sau bài này: ${strip(L.goal)}</p></div>${cur?'<span class="now">Đang học</span>':''}<span class="dn ${dn?'on':''}"></span></div>`}});h+=`</div>`});
@@ -185,7 +185,7 @@ function lesson(i){const L0=C.lessons[i];if(!L0||!FULL||!FULL[i])return home();i
  const part=C.parts.find(p=>p.lessons.includes(i));
  document.getElementById('crumb').innerHTML=`<span style="cursor:pointer" onclick="go('')">KHOÁ TẶNG</span> / <b>Bài ${pad(i)}. ${L.title}</b>`;
  let h=`<div class="grid"><main><div class="lesson"><img class="cv" src="/tang/img/bai-${pad(i)}.jpg" alt="Bài ${pad(i)}"><div class="small">${part.name}</div><h1>Bài ${pad(i)}. ${L.title}</h1>
- <div class="goal"><b>Sau bài này bạn có:</b> ${L.goal}</div><div class="lv"><h3>🎬 Video hướng dẫn bài này</h3><video id="lv" controls playsinline controlslist="nodownload" preload="metadata" src="/video/bai/tang-${pad(i)}.mp4?v=20261106"></video><div class="vnote" id="vnote">Xem lần lượt nhé, chưa tua qua đoạn chưa xem được.</div></div>${L.html}
+ <div class="goal"><b>Sau bài này bạn có:</b> ${L.goal}</div>${NOVID?'':`<div class="lv"><h3>🎬 Video hướng dẫn bài này</h3><video id="lv" controls playsinline controlslist="nodownload" preload="metadata" src="/video/bai/tang-${pad(i)}.mp4?v=20261111"></video><div class="vnote" id="vnote">Xem lần lượt nhé, chưa tua qua đoạn chưa xem được.</div></div>`}${L.html}
  <div class="task"><h3>✍️ Bài tập</h3>${L.task}<h3 style="margin-top:14px!important">✅ Tự kiểm tra</h3><div class="chk">${L.check.map((c,k)=>`<label><input type="checkbox">${c}</label>`).join('')}</div></div>
  <p style="margin-top:18px"><b>${L.next}</b></p>
  ${!isDone&&L.quiz&&L.quiz.length?`<div class="qz" id="qz"><h3>📝 Trắc nghiệm nhanh</h3><div class="small">Trả lời đúng ${L.quiz.length} câu để mở bài tiếp theo.</div>${L.quiz.map((q,k)=>`<div class="qq" data-k="${k}"><b>${k+1}. ${q[0]}</b>${q[1].map((o,j)=>`<label><input type="radio" name="q${k}" value="${j}"><span>${o}</span></label>`).join('')}<div class="qw">Chưa đúng, xem lại bài rồi chọn lại nhé.</div></div>`).join('')}</div>`:''}
