@@ -309,7 +309,7 @@ function content_(token, course) {
       Object.keys(L).forEach(k => { const q = quizPublic_(pid, k); if (q) L[k].quiz = q; });
       if (!adm) touch_(v[i][0], v[i][1], pid);
       const pr = getProgress_(v[i][0], pid);
-      return { ok: true, name: v[i][1], admin: adm, courses: owned, lessons: L, progress: { done: pr.done, doneAt: pr.doneAt } };
+      return { ok: true, name: v[i][1], email: v[i][0], admin: adm, courses: owned, lessons: L, progress: { done: pr.done, doneAt: pr.doneAt } };
     }
   }
   return { ok: false, login: true };
