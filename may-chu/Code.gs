@@ -574,7 +574,7 @@ function sendFreeFollow_(email, name, pid, step, doneN) {
   let subject, inner;
   if (step === 3) {
     subject = first + ' ơi, video AI đầu tiên của bạn xong chưa?';
-    inner = '<p>Chào ' + esc_(first) + ',</p><p>' + (doneN ? 'Bạn đã học ' + doneN + '/10 bài khoá tặng'. Còn chút nữa thôi là có video đầu tiên để đăng.' : 'Khoá tặng 10 bài vẫn đang chờ bạn. Bài 1 chỉ mất khoảng 5 phút: chọn đường đi và mở sẵn 2 công cụ.') + '</p>' +
+    inner = '<p>Chào ' + esc_(first) + ',</p><p>' + (doneN ? 'Bạn đã học ' + doneN + '/10 bài khoá tặng. Còn chút nữa thôi là có video đầu tiên để đăng.' : 'Khoá tặng 10 bài vẫn đang chờ bạn. Bài 1 chỉ mất khoảng 5 phút: chọn đường đi và mở sẵn 2 công cụ.') + '</p>' +
       btn(url, 'HỌC TIẾP KHOÁ TẶNG →') +
       '<p>Làm xong video, gửi link vào nhóm Zalo để Đại góp ý giúp bạn: <a href="' + CFG.ZALO_GROUP + '">' + CFG.ZALO_GROUP + '</a></p>';
   } else {
