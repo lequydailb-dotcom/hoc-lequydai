@@ -88,6 +88,7 @@ function doPost(e) {
       case 'progress': return json_(saveProgress_(req.token, req.course));
       case 'quiz': return json_(submitQuiz_(req.token, req.course, req.lesson, req.answers));
       case 'reset': return json_(resetPassword_(req.email));
+      case 'changepw': return json_(changePassword_(req.token, req.oldPassword, req.newPassword));
       default: return json_({ ok: false, msg: 'Không rõ yêu cầu' });
     }
   } catch (err) {
@@ -602,6 +603,39 @@ function sendFreeFollow_(email, name, pid, step, doneN) {
       '<p>Nhóm Zalo: <a href="' + CFG.ZALO_GROUP + '">' + CFG.ZALO_GROUP + '</a></p>';
   }
   MailApp.sendEmail({ to: email, subject: subject, htmlBody: mailWrap_(subject, inner, pid), name: CFG.BRAND });
+}
+
+/* Đổi mật khẩu khi đã đăng nhập: kiểm tra mật khẩu cũ, đặt mật khẩu mới, cấp token mới (máy khác bị đăng xuất), gửi email báo */
+function changePassword_(token, oldPw, newPw) {
+  token = String(token || ''); oldPw = String(oldPw || ''); newPw = String(newPw || '');
+  if (token.length < 30) return { ok: false, login: true, msg: 'Phiên đăng nhập đã hết, anh/chị đăng nhập lại giúp em.' };
+  if (newPw.length < 8) return { ok: false, msg: 'Mật khẩu mới cần ít nhất 8 ký tự.' };
+  if (newPw.length > 100) return { ok: false, msg: 'Mật khẩu mới dài quá.' };
+  const lock = LockService.getScriptLock(); lock.waitLock(20000);
+  try {
+    const sh = sheet_(SH.STUDENTS);
+    const v = sh.getDataRange().getValues();
+    for (let i = 1; i < v.length; i++) {
+      if (v[i][6] !== token) continue;
+      if (v[i][9] !== 'HOẠT ĐỘNG' || new Date(v[i][7]) < new Date()) return { ok: false, login: true, msg: 'Phiên đăng nhập đã hết, anh/chị đăng nhập lại giúp em.' };
+      if (hash_(v[i][5], oldPw) !== v[i][4]) return { ok: false, msg: 'Mật khẩu hiện tại chưa đúng.' };
+      if (oldPw === newPw) return { ok: false, msg: 'Mật khẩu mới phải khác mật khẩu hiện tại.' };
+      const salt = Utilities.getUuid();
+      const nt = Utilities.getUuid() + Utilities.getUuid().slice(0, 8);
+      sh.getRange(i + 1, 5, 1, 4).setValues([[hash_(salt, newPw), salt, nt, new Date(Date.now() + CFG.TOKEN_DAYS * 86400000)]]);
+      try { sendPwChangedMail_(v[i][0], v[i][1]); } catch (e) { log_('lỗi gửi mail đổi mật khẩu', v[i][0] + ' ' + e); }
+      log_('tự đổi mật khẩu', v[i][0]);
+      return { ok: true, token: nt, msg: 'Đã đổi mật khẩu. Lần sau anh/chị đăng nhập bằng mật khẩu mới.' };
+    }
+    return { ok: false, login: true, msg: 'Phiên đăng nhập đã hết, anh/chị đăng nhập lại giúp em.' };
+  } finally { lock.releaseLock(); }
+}
+function sendPwChangedMail_(email, name) {
+  const html = mailWrap_('Mật khẩu vừa được đổi',
+    '<p>Chào ' + esc_(name) + ',</p><p>Mật khẩu tài khoản học tại <a href="' + CFG.SITE + '">' + CFG.SITE.replace('https://', '') + '</a> vừa được đổi lúc ' +
+    Utilities.formatDate(new Date(), 'Asia/Ho_Chi_Minh', 'HH:mm dd/MM/yyyy') + '. Các máy khác đang đăng nhập đã được đăng xuất.</p>' +
+    '<p style="color:#5d6785;font-size:13px">Nếu không phải anh/chị đổi, hãy bấm "Quên mật khẩu" ở trang đăng nhập để lấy mật khẩu mới ngay, và nhắn Zalo ' + CFG.ZALO_PHONE + '.</p>');
+  MailApp.sendEmail({ to: email, subject: '[' + CFG.BRAND + '] Mật khẩu vừa được đổi', htmlBody: html, name: CFG.BRAND });
 }
 
 function sendResetMail_(email, name, pw) {

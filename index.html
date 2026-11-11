@@ -61,6 +61,16 @@ form .btn{width:100%;margin-top:12px}
 footer{text-align:center;color:var(--mut);font-size:13px;padding:26px 20px 40px}
 footer img{height:26px;filter:invert(1) brightness(.3);margin-bottom:6px}
 @media(max-width:720px){.top .in{flex-direction:column-reverse;align-items:flex-start;padding:30px 20px 80px}.top img.me{width:110px}.loginbox{grid-template-columns:1fr}.hd .who{display:none}}
+#pwm{position:fixed;inset:0;background:rgba(7,13,32,.72);display:none;align-items:center;justify-content:center;z-index:99;padding:16px}
+#pwm.on{display:flex}#pwm .bx{background:#fff;color:#141b2f;border-radius:16px;max-width:400px;width:100%;padding:24px 22px;box-shadow:0 30px 80px rgba(0,0,0,.45)}
+#pwm h3{margin:0 0 4px;font-size:21px}#pwm p{margin:0 0 14px;color:#5d6785;font-size:14px}
+#pwm input{width:100%;box-sizing:border-box;padding:13px 14px;border:1.5px solid #e3e8f2;border-radius:10px;font-size:16px;margin-bottom:10px;font-family:inherit}
+#pwm .go{width:100%;background:#FFC83D;color:#0b1533;font-weight:900;border:0;border-radius:10px;padding:14px;font-size:16px;cursor:pointer}
+#pwm .er{font-size:14px;min-height:20px;margin-bottom:6px;color:#c62828}#pwm .er.ok{color:#16a34a}
+#pwm .x{float:right;background:none;border:0;font-size:24px;cursor:pointer;color:#5d6785;line-height:1}
+#pwm label{display:flex;gap:8px;align-items:center;font-size:14px;color:#5d6785;margin:-2px 0 12px}#pwm label input{width:auto;margin:0}
+.hd #hbtn{display:flex;gap:8px}
+@media(max-width:560px){.hd button,.hd a.btn2{padding:6px 10px;font-size:13px}}
 </style></head>
 <body>
 <header><div class="hd"><a href="https://lequydai.com/"><img src="/img/logo-am.png?v=20261105b" alt="ĐẠI LÊ AI"></a><div class="sp"></div><div class="who" id="who"></div><span id="hbtn"></span></div></header>
@@ -80,6 +90,10 @@ footer img{height:26px;filter:invert(1) brightness(.3);margin-bottom:6px}
 </div>
 <footer><img src="/img/logo-am.png?v=20261105b" alt="ĐẠI LÊ AI"><div>© 2026 ĐẠI LÊ AI · <a href="https://lequydai.com">Về Đại Lê AI</a> · Zalo 0972 782 782</div></footer>
 <script src="/config.js"></script>
+<div id="pwm"><div class="bx"><button class="x" type="button" onclick="closePw()" aria-label="Đóng">×</button><h3>Đổi mật khẩu</h3><p>Dùng chung cho mọi khoá học của anh/chị. Đổi xong, máy khác đang đăng nhập sẽ bị đăng xuất.</p>
+<form id="pwf" onsubmit="changePw(event)"><input name="old" type="password" placeholder="Mật khẩu hiện tại" autocomplete="current-password" required><input name="n1" type="password" placeholder="Mật khẩu mới (ít nhất 8 ký tự)" autocomplete="new-password" minlength="8" required><input name="n2" type="password" placeholder="Nhập lại mật khẩu mới" autocomplete="new-password" minlength="8" required>
+<label><input type="checkbox" onchange="document.querySelectorAll('#pwf input[type=password],#pwf input[type=text]').forEach(i=>i.type=this.checked?'text':'password')">Hiện mật khẩu</label>
+<div class="er" id="pwe"></div><button class="go" id="pwb" type="submit">ĐỔI MẬT KHẨU</button></form></div></div>
 <script>
 const COURSES=[
  {id:'tang',free:1,name:'🎁 LÀM VIDEO AI ĐẦU TIÊN TRONG 30 PHÚT',meta:'Khoá tặng miễn phí · 10 bài',desc:'ChatGPT hoặc Gemini viết kịch bản và tạo ảnh, Google Flow (Omni, Veo) tạo video có tiếng nói, rồi đăng lên đón khách. Tặng thêm 50 câu lệnh cho 10 ngành và kế hoạch 7 ngày.',img:'/tang/img/hero.jpg?v=20261106',learn:'/tang/',buy:'/tang/dang-ky/',price:'<s style="color:#8a8a8a;font-weight:700;font-size:14px;margin-right:6px">686.000đ</s>Miễn phí',total:6,done:'tang-done'},
@@ -104,15 +118,25 @@ function render(){
   </div></div>`}).join('');
  document.getElementById('loginbox').style.display=ME?'none':'grid';
  document.getElementById('who').innerHTML=ME?`Xin chào <b>${esc(ME.name)}</b> 👋`:'';
- document.getElementById('hbtn').innerHTML=ME?`<button onclick="logout()">Đăng xuất</button>`:`<a class="btn2 gold" href="#lf" onclick="document.getElementById('lf').email.focus()">Đăng nhập</a>`;
+ document.getElementById('hbtn').innerHTML=ME?`<button onclick="openPw()">🔑 Đổi mật khẩu</button><button onclick="logout()">Đăng xuất</button>`:`<a class="btn2 gold" href="#lf" onclick="document.getElementById('lf').email.focus()">Đăng nhập</a>`;
 }
 async function boot(){const h=location.hash;if(h.indexOf('#t=')===0&&h.length>40){ls(TK,h.slice(3));try{history.replaceState(null,'',location.pathname+location.search)}catch(e){}}render();const t=ls(TK);if(!t)return;
- try{const r=await api({action:'me',token:t});if(r.ok){ME=r}else if(r.login){ls(TK,null)}}catch(e){}render()}
+ try{const r=await api({action:'me',token:t});if(r.ok){ME=r}else if(r.login){ls(TK,null)}}catch(e){}render();if(ME&&location.hash==='#doi-mat-khau')openPw()}
 async function login(ev){ev.preventDefault();const f=ev.target,b=document.getElementById('lb'),m=document.getElementById('lm');m.className='msg';m.textContent='Đang đăng nhập…';b.disabled=true;
  try{const r=await api({action:'login',email:f.email.value,password:f.pw.value});b.disabled=false;if(!r.ok){m.textContent=r.msg;return}ls(TK,r.token);ME={name:r.name,courses:r.courses};m.textContent='';render();window.scrollTo({top:0,behavior:'smooth'})}
  catch(e){b.disabled=false;m.textContent='Không kết nối được, anh/chị thử lại.'}}
 async function forgot(){const f=document.getElementById('lf'),m=document.getElementById('lm');if(!f.email.value){m.className='msg';m.textContent='Anh/chị nhập email trước rồi bấm Quên mật khẩu.';f.email.focus();return}
  m.className='msg';m.textContent='Đang gửi…';try{const r=await api({action:'reset',email:f.email.value});m.className='msg ok';m.textContent=r.msg}catch(e){m.textContent='Không kết nối được, anh/chị thử lại.'}}
+function openPw(){const m=document.getElementById('pwm');document.getElementById('pwf').reset();document.getElementById('pwe').textContent='';document.getElementById('pwe').className='er';m.classList.add('on');setTimeout(()=>document.getElementById('pwf').old.focus(),50)}
+function closePw(){document.getElementById('pwm').classList.remove('on')}
+async function changePw(ev){ev.preventDefault();const f=ev.target,e=document.getElementById('pwe'),b=document.getElementById('pwb');e.className='er';
+ if(f.n1.value.length<8){e.textContent='Mật khẩu mới cần ít nhất 8 ký tự.';return}
+ if(f.n1.value!==f.n2.value){e.textContent='Hai lần nhập mật khẩu mới chưa khớp.';return}
+ e.textContent='Đang đổi…';b.disabled=true;
+ try{const r=await api({action:'changepw',token:ls(TK),oldPassword:f.old.value,newPassword:f.n1.value});b.disabled=false;
+  if(!r.ok){e.textContent=r.msg||'Chưa đổi được, anh/chị thử lại.';if(r.login){ls(TK,null);ME=null;render();setTimeout(closePw,1500)}return}
+  ls(TK,r.token);e.className='er ok';e.textContent=r.msg;f.reset();setTimeout(closePw,2200)}
+ catch(err){b.disabled=false;e.textContent='Không kết nối được, anh/chị thử lại.'}}
 function logout(){ls(TK,null);ME=null;render()}
 boot();
 </script>
