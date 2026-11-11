@@ -428,7 +428,7 @@ function importKhoaTang() {
 }
 /* Chạy 1 lần: nạp 14 bài + câu hỏi khoá LÀM VIDEO KHÔNG CẦN LÊN HÌNH */
 function importKhoaKhongLenHinh() {
-  const base = 'https://raw.githubusercontent.com/lequydailb-dotcom/hoc-lequydai/bcfb084/';
+  const base = 'https://raw.githubusercontent.com/lequydailb-dotcom/hoc-lequydai/26f045a/';
   const L = JSON.parse(UrlFetchApp.fetch(base + 'tmp-kl-lessons.json').getContentText('UTF-8'));
   const props = PropertiesService.getScriptProperties();
   Object.keys(L).forEach(i => props.setProperty('LES_khonglen_' + i, JSON.stringify(L[i])));
