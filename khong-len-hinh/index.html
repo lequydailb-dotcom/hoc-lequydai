@@ -96,7 +96,7 @@ footer img{height:30px;margin-bottom:8px}
 @media(max-width:860px){.grid{grid-template-columns:1fr}aside{order:-1}aside .box{position:static}.ls img{width:120px}.lesson{padding:18px}.hd .crumb{display:none}.hero .go{font-size:13px}}
 </style></head>
 <body>
-<header><div class="hd"><img src="/img/logo-am.png?v=20261105b" alt="ĐẠI LÊ AI" style="cursor:pointer" onclick="location.href='/'"><div class="crumb" id="crumb"></div><a class="zl" id="zl" target="_blank" rel="noopener">Nhóm Zalo học viên</a><button class="out" id="out" onclick="logout()">Đăng xuất</button></div></header>
+<header><div class="hd"><img src="/img/logo-am.png?v=20261105b" alt="ĐẠI LÊ AI" style="cursor:pointer" onclick="location.href='/'"><div class="crumb" id="crumb"></div><a class="zl" id="zl" target="_blank" rel="noopener">Nhóm Zalo học viên</a><a class="out" id="pwl" href="/#doi-mat-khau" style="text-decoration:none;display:none">🔑<span class="pwt"> Đổi mật khẩu</span></a><button class="out" id="out" onclick="logout()">Đăng xuất</button></div></header>
 <div class="wrap" id="app"></div>
 <footer><img src="/img/logo-am.png?v=20261105b" alt="ĐẠI LÊ AI"><div>LÀM VIDEO KHÔNG CẦN LÊN HÌNH · ĐẠI LÊ AI · <a href="/">Tất cả khoá học</a> </div><div style="margin-top:4px">© 2026 ĐẠI LÊ AI · hoc.lequydai.com</div></footer>
 <script src="/config.js"></script>
@@ -125,7 +125,7 @@ function setDone(a){window.__d=a;try{localStorage.setItem(KEY,JSON.stringify(a))
 const pad=n=>String(n).padStart(2,'0');
 const SLUG='khong-len-hinh',PID='khonglen',NL=14,NOVID=true;
 function toast(m){const t=document.getElementById('toast');t.textContent=m;t.style.display='block';clearTimeout(window.__tt);window.__tt=setTimeout(()=>t.style.display='none',3500)}
-function unlocked(i){const d=getDone();return (ADM&&ls('adm-open')==='1')||i===1||d.includes(i)||d.includes(i-1)}
+function unlocked(i){const d=getDone();return (ADM&&ls('adm-open')!=='0')||i===1||d.includes(i)||d.includes(i-1)}
 function lab(i){return 'Bài '+pad(i)}
 function doneAt(){return ls(KEY+'-at')||''}
 let __sync=null;function syncProg(){clearTimeout(__sync);__sync=setTimeout(async()=>{const t=ls(TK);if(!t)return;try{const r=await api({action:'progress',token:t,course:PID,done:getDone()});if(r&&r.doneAt)ls(KEY+'-at',r.doneAt)}catch(e){}},400)}
@@ -145,7 +145,7 @@ function wire(i){const L={...C.lessons[i],...FULL[i]};const done=getDone().inclu
  const v=document.getElementById('lv');if(!v){updGate(i);return}const st=vget(i);let last=0;
  v.addEventListener('loadedmetadata',()=>{if(st.pos&&st.pos<v.duration-3)v.currentTime=st.pos},{once:true});
  v.addEventListener('error',()=>{const o=vget(i);o.w=1;vset(i,o);updGate(i)});
- v.addEventListener('seeking',()=>{const o=vget(i);if(done||o.w)return;const mx=o.m||0;if(v.currentTime>mx+1.5){v.currentTime=mx;const n=document.getElementById('vnote');n.style.display='block';setTimeout(()=>n.style.display='none',3500)}});
+ v.addEventListener('seeking',()=>{const o=vget(i);if(done||o.w||(ADM&&ls('adm-open')!=='0'))return;const mx=o.m||0;if(v.currentTime>mx+1.5){v.currentTime=mx;const n=document.getElementById('vnote');n.style.display='block';setTimeout(()=>n.style.display='none',3500)}});
  v.addEventListener('timeupdate',()=>{const o=vget(i);if(!v.seeking&&v.currentTime<=(o.m||0)+2)o.m=Math.max(o.m||0,v.currentTime);o.pos=v.currentTime;if(v.duration){o.p=100*(o.m||0)/v.duration;if((o.m||0)>=v.duration*0.9)o.w=1}if(Date.now()-last>1500||o.w&&!st.w){last=Date.now();vset(i,o);st.w=o.w;updGate(i)}});
  v.addEventListener('ended',()=>{const o=vget(i);o.w=1;o.pos=0;vset(i,o);updGate(i)});
  updGate(i)}
@@ -201,4 +201,4 @@ window.addEventListener('hashchange',render);boot();
 var b=document.createElement('a');b.id='lgb';b.href='#dang-nhap';b.textContent='🔑 Đăng nhập';b.style.cssText='position:fixed;bottom:16px;right:16px;z-index:999;padding:10px 18px;font-size:15px;display:none;background:#FFC83D;color:#1A1A1A;font-weight:800;border-radius:999px;text-decoration:none;box-shadow:0 4px 14px rgba(0,0,0,.18)';b.onclick=function(ev){ev.preventDefault();f()};document.body.appendChild(b);
 setInterval(function(){b.style.display=document.getElementById('lf')?'block':'none'},700);
 function chk(){if(location.hash=='#dang-nhap')setTimeout(f,700)}window.addEventListener('load',chk);window.addEventListener('hashchange',chk)})();</script>
-<script>setInterval(function(){var b=document.getElementById('admt');if(typeof ADM!=='undefined'&&ADM){if(!b){b=document.createElement('button');b.id='admt';b.style.cssText='position:fixed;left:10px;bottom:10px;z-index:99;padding:8px 12px;border:0;border-radius:8px;background:#222;color:#ffd500;font:600 12px sans-serif;cursor:pointer';b.onclick=function(){ls('adm-open',ls('adm-open')==='1'?'0':'1');render()};document.body.appendChild(b)}b.textContent=ls('adm-open')==='1'?'Admin: đang mở hết bài (bấm để học như học viên)':'Admin: đang học như học viên (bấm để mở hết bài)'}else if(b)b.remove()},800)</script></body></html>
+<script>setInterval(function(){var b=document.getElementById('admt');if(typeof ADM!=='undefined'&&ADM){if(!b){b=document.createElement('button');b.id='admt';b.style.cssText='position:fixed;left:10px;bottom:10px;z-index:99;padding:8px 12px;border:0;border-radius:8px;background:#222;color:#ffd500;font:600 12px sans-serif;cursor:pointer';b.onclick=function(){ls('adm-open',ls('adm-open')!=='0'?'0':'1');render()};document.body.appendChild(b)}b.textContent=ls('adm-open')!=='0'?'Admin: đang mở hết bài (bấm để học như học viên)':'Admin: đang học như học viên (bấm để mở hết bài)'}else if(b)b.remove()},800)</script><style>@media(max-width:560px){.pwt{display:none}}</style><script>setInterval(function(){var o=document.getElementById("out"),p=document.getElementById("pwl");if(o&&p)p.style.display=getComputedStyle(o).display==="none"?"none":"inline-block"},700)</script></body></html>
