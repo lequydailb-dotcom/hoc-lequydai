@@ -12,7 +12,7 @@ const PRODUCTS = {
   vanhanh: { name: 'VẬN HÀNH AGENT', price: 1868000, prefix: 'VH', file: 'vanhanh-lessons.json', path: '/van-hanh/' },
   vibe: { name: '28 NGÀY VIBE CODING – Bot CSKH Zalo & Facebook', price: 2868000, prefix: 'VC', file: 'vibecoding-lessons.json', path: '/vibe-coding/' },
   donggoi: { name: 'ĐÓNG GÓI KIẾN THỨC THÀNH KHOÁ HỌC BẰNG AI', price: 3868000, prefix: 'DG', file: 'donggoi-lessons.json', path: '/dong-goi/' },
-  khonglen: { name: 'LÀM VIDEO KHÔNG CẦN LÊN HÌNH', price: 686000, prefix: 'KL', file: 'khonglen-lessons.json', path: '/khong-len-hinh/' },
+  khonglen: { name: 'LÀM VIDEO KHÔNG CẦN LÊN HÌNH', price: 1868000, prefix: 'KL', file: 'khonglen-lessons.json', path: '/khong-len-hinh/' },
   /* Khoá tặng miễn phí: đăng ký đủ thông tin là tự cấp tài khoản */
   tang: { name: 'LÀM VIDEO AI ĐẦU TIÊN TRONG 30 PHÚT', price: 0, prefix: 'TG', file: 'tang-lessons.json', path: '/tang/', free: true }
 };

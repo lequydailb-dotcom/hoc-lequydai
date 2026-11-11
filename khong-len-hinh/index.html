@@ -119,7 +119,7 @@ function gate(){document.getElementById('crumb').innerHTML='<b>VIDEO KHÔNG CẦ
 h+=`</main><aside>${NOTOWN?`<div class="login"><h2>Xin chào ${WHO} 👋</h2><div class="small">Tài khoản của anh/chị chưa mở khoá này. Đăng ký bằng đúng email này, thanh toán xong khoá sẽ tự mở.</div><button class="btn" onclick="logout()" style="background:#5d6785">Đăng nhập tài khoản khác</button></div>`:`<form class="login" id="lf" onsubmit="doLogin(event)"><h2>Đăng nhập để học</h2><div class="small">Dùng email và mật khẩu trong thư chào mừng.</div>
  <input name="email" type="email" placeholder="Email đã đăng ký" required autocomplete="email"><input name="pw" type="password" placeholder="Mật khẩu" required autocomplete="current-password">
  <button class="btn y" type="submit">VÀO HỌC</button><div class="msg"></div><a class="lk" onclick="doReset()">Quên mật khẩu?</a></form>`}
- <div class="buy">Chưa có tài khoản?<br>Trọn khoá 14 bài chỉ <b>686.000đ</b><a class="btn" href="/khong-len-hinh/dang-ky/">XEM KHOÁ HỌC & ĐĂNG KÝ</a></div></aside></div>`;return h}
+ <div class="buy">Chưa có tài khoản?<br>Trọn khoá 14 bài chỉ <b>1.868.000đ</b><a class="btn" href="/khong-len-hinh/dang-ky/">XEM KHOÁ HỌC & ĐĂNG KÝ</a></div></aside></div>`;return h}
 function getDone(){try{return JSON.parse(localStorage.getItem(KEY)||'[]')}catch(e){return window.__d||[]}}
 function setDone(a){window.__d=a;try{localStorage.setItem(KEY,JSON.stringify(a))}catch(e){}}
 const pad=n=>String(n).padStart(2,'0');
