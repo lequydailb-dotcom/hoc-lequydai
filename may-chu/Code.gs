@@ -12,6 +12,7 @@ const PRODUCTS = {
   vanhanh: { name: 'VẬN HÀNH AGENT', price: 1868000, prefix: 'VH', file: 'vanhanh-lessons.json', path: '/van-hanh/' },
   vibe: { name: '28 NGÀY VIBE CODING – Bot CSKH Zalo & Facebook', price: 2868000, prefix: 'VC', file: 'vibecoding-lessons.json', path: '/vibe-coding/' },
   donggoi: { name: 'ĐÓNG GÓI KIẾN THỨC THÀNH KHOÁ HỌC BẰNG AI', price: 3868000, prefix: 'DG', file: 'donggoi-lessons.json', path: '/dong-goi/' },
+  khonglen: { name: 'LÀM VIDEO KHÔNG CẦN LÊN HÌNH', price: 686000, prefix: 'KL', file: 'khonglen-lessons.json', path: '/khong-len-hinh/' },
   /* Khoá tặng miễn phí: đăng ký đủ thông tin là tự cấp tài khoản */
   tang: { name: 'LÀM VIDEO AI ĐẦU TIÊN TRONG 30 PHÚT', price: 0, prefix: 'TG', file: 'tang-lessons.json', path: '/tang/', free: true }
 };
@@ -323,7 +324,7 @@ function ownedOf_(email, ownedStr) {
   if (isAdmin_(email, ownedStr)) return Object.keys(PRODUCTS);
   return String(ownedStr || 'vanhanh').split(',').map(x => x.trim());
 }
-const TOTAL = { vanhanh: 16, vibe: 19, donggoi: 14, tang: 10 };
+const TOTAL = { vanhanh: 16, vibe: 19, donggoi: 14, khonglen: 14, tang: 10 };
 const PHEAD = ['Email', 'Họ tên', 'Khoá học', 'Bài đã xong', 'Số bài xong', '% hoàn thành', 'Cập nhật', 'Hoàn thành khoá', 'Lần vào học cuối', 'Nhắc lần cuối', 'Số lần nhắc'];
 function progressSheet_() {
   let s = sheet_('TIEN_DO');
@@ -422,6 +423,20 @@ function importKhoaTang() {
   let n = 0;
   Object.keys(q.tang).forEach(i => { props.setProperty('QUIZ_tang_' + i, JSON.stringify(q.tang[i])); n++; });
   log_('nạp khoá tặng', Object.keys(L).length + ' bài + ' + n + ' bộ câu hỏi');
+  return n;
+}
+/* Chạy 1 lần: nạp 14 bài + câu hỏi khoá LÀM VIDEO KHÔNG CẦN LÊN HÌNH */
+function importKhoaKhongLenHinh() {
+  const base = 'https://raw.githubusercontent.com/lequydailb-dotcom/hoc-lequydai/bcfb084/';
+  const L = JSON.parse(UrlFetchApp.fetch(base + 'tmp-kl-lessons.json').getContentText('UTF-8'));
+  const props = PropertiesService.getScriptProperties();
+  Object.keys(L).forEach(i => props.setProperty('LES_khonglen_' + i, JSON.stringify(L[i])));
+  props.setProperty('LES_khonglen_keys', JSON.stringify(Object.keys(L)));
+  CacheService.getScriptCache().remove('L_khonglen');
+  const q = JSON.parse(UrlFetchApp.fetch(base + 'tmp-kl-quiz.json').getContentText('UTF-8'));
+  let n = 0;
+  Object.keys(q.khonglen).forEach(i => { props.setProperty('QUIZ_khonglen_' + i, JSON.stringify(q.khonglen[i])); n++; });
+  log_('nạp khoá không lên hình', Object.keys(L).length + ' bài + ' + n + ' bộ câu hỏi');
   return n;
 }
 /* Email nhắc học: mỗi ngày 1 lần (sau 19h), học viên 3 ngày chưa vào học, tối đa 3 lần */
