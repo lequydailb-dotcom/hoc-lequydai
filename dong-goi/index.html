@@ -184,7 +184,7 @@ function lesson(i){const L0=C.lessons[i];if(!L0||!FULL||!FULL[i])return home();i
  const part=C.parts.find(p=>p.lessons.includes(i));
  document.getElementById('crumb').innerHTML=`<span style="cursor:pointer" onclick="go('')">ĐÓNG GÓI KIẾN THỨC</span> / <b>${L.day}. ${L.title}</b>`;
  let h=`<div class="grid"><main><div class="lesson"><img class="cv" src="/dong-goi/img/bai-${pad(i)}.jpg?v=20261114" alt="Bài ${pad(i)}"><div class="small">${part.name}</div><h1>${L.day}. ${L.title}</h1>
- <div class="goal"><b>Sau bài này bạn có:</b> ${L.goal}</div><div class="lv"><h3>🎬 Video hướng dẫn bài này</h3><video id="lv" controls playsinline controlslist="nodownload" preload="metadata" src="/video/bai/dong-goi-${pad(i)}.mp4?v=20261105dg"></video><div class="vnote" id="vnote">Xem lần lượt nhé, chưa tua qua đoạn chưa xem được.</div></div>${L.html}
+ <div class="goal"><b>Sau bài này bạn có:</b> ${L.goal}</div><div class="lv"><h3>🎬 Video hướng dẫn bài này</h3><video id="lv" controls playsinline controlslist="nodownload" preload="metadata" src="/video/bai/dong-goi-${pad(i)}.mp4?v=20261114"></video><div class="vnote" id="vnote">Xem lần lượt nhé, chưa tua qua đoạn chưa xem được.</div></div>${L.html}
  <div class="task"><h3>✍️ Bài tập</h3>${L.task}<h3 style="margin-top:14px!important">✅ Tự kiểm tra</h3><div class="chk">${L.check.map((c,k)=>`<label><input type="checkbox">${c}</label>`).join('')}</div></div>
  <p style="margin-top:18px"><b>${L.next}</b></p>
  ${!isDone&&L.quiz&&L.quiz.length?`<div class="qz" id="qz"><h3>📝 Trắc nghiệm nhanh</h3><div class="small">Trả lời đúng ${L.quiz.length} câu để mở bài tiếp theo.</div>${L.quiz.map((q,k)=>`<div class="qq" data-k="${k}"><b>${k+1}. ${q[0]}</b>${q[1].map((o,j)=>`<label><input type="radio" name="q${k}" value="${j}"><span>${o}</span></label>`).join('')}<div class="qw">Chưa đúng, xem lại bài rồi chọn lại nhé.</div></div>`).join('')}</div>`:''}
@@ -194,7 +194,7 @@ function lesson(i){const L0=C.lessons[i];if(!L0||!FULL||!FULL[i])return home();i
 function batdau(){document.getElementById('crumb').innerHTML=`<span style="cursor:pointer" onclick="go('')">ĐÓNG GÓI KIẾN THỨC</span> / <b>Bài 00. Bài bắt đầu</b>`;
  return `<div class="grid"><main><div class="lesson"><div class="small">Trước khi bắt đầu</div><h1>Bài 00. Bài bắt đầu: học theo quy trình</h1>
  <div class="goal"><b>Sau bài này bạn có:</b> cách học đúng của khoá này và khung câu hỏi để tự gỡ khi bị kẹt.</div>
- <div class="lv"><h3>🎬 Video bài bắt đầu</h3><video controls playsinline preload="metadata" poster="/video/poster-bat-dau-dong-goi.jpg?v=1" src="/video/bai/dong-goi-00.mp4?v=1"></video></div>
+ <div class="lv"><h3>🎬 Video bài bắt đầu</h3><video controls playsinline preload="metadata" poster="/video/poster-bat-dau-dong-goi.jpg?v=20261114" src="/video/bai/dong-goi-00.mp4?v=20261114"></video></div>
  <h2>Vì sao khoá này không có video quay màn hình bấm từng nút?</h2>
  <p>Mỗi bài là một bước trong quy trình, kèm câu lệnh chép sẵn. Việc của bạn là <b>chép đúng câu lệnh, dán vào</b>, rồi để hệ thống tự làm phần còn lại và tạo ra sản phẩm cho bạn. Video trong bài là <b>video minh hoạ từng bước</b>: để bạn biết mình đang ở đâu và kết quả đúng trông như thế nào.</p>
  <h2>Khi bị kẹt: hỏi ngược lại AI</h2>
