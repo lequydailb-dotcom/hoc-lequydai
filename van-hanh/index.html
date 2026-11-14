@@ -174,8 +174,9 @@ function sidebar(){const d=getDone(),p=Math.round(d.length/16*100);
  <a class="btn" href="${C.zalo}" target="_blank" rel="noopener">Vào nhóm Zalo hỏi đáp</a></div></aside>`}
 function nextIdx(){const d=getDone();for(let i=1;i<=NL;i++)if(!d.includes(i))return i;return 1}
 function home(){document.getElementById('crumb').innerHTML='<b>VẬN HÀNH AGENT</b> · Trợ lý AI làm việc tự động theo não của bạn';
- let h=`<div class="hero"><img src="/img/hero.jpg?v=20261105" alt="VẬN HÀNH AGENT – Trợ lý AI làm việc tự động theo não của bạn"><button class="go" onclick="go('bai-'+${nextIdx()})">${getDone().length?'Học tiếp ▶':'Bắt đầu khoá học ▶'}</button></div><div class="introv"><h2>Video giới thiệu khoá học</h2><video  controls playsinline preload="metadata" poster="/video/poster-van-hanh.jpg?v=20261105"><source src="/video/gioi-thieu-van-hanh-agent.mp4?v=20261105" type="video/mp4"></video></div><div class="grid"><main>`;
+ let h=`<div class="hero"><img src="/img/hero.jpg?v=20261105" alt="VẬN HÀNH AGENT – Trợ lý AI làm việc tự động theo não của bạn"><button class="go" onclick="go('${getDone().length?'bai-'+nextIdx():'bai-bat-dau'}')">${getDone().length?'Học tiếp ▶':'Bắt đầu khoá học ▶'}</button></div><div class="introv"><h2>Video giới thiệu khoá học</h2><video  controls playsinline preload="metadata" poster="/video/poster-van-hanh.jpg?v=20261105"><source src="/video/gioi-thieu-van-hanh-agent.mp4?v=20261105" type="video/mp4"></video></div><div class="grid"><main>`;
  const d=getDone();
+ h+=`<div class="part"><h2>Bài bắt đầu</h2><div class="ls" onclick="go('bai-bat-dau')"><img src="/video/poster-bat-dau-van-hanh.jpg?v=1" alt="Bài 00" loading="lazy"><div style="flex:1"><h3>Bài 00. Bài bắt đầu: học theo quy trình</h3><p>Xem trước khi học: vì sao khoá học theo quy trình chép câu lệnh, và cách hỏi ngược lại AI khi bị kẹt.</p></div><span class="now" style="${d.length?'display:none':''}">Xem trước</span></div></div>`;
  C.parts.forEach(pt=>{h+=`<div class="part"><h2>${pt.name}</h2>`;pt.lessons.forEach(i=>{const L=C.lessons[i];
   {const ok=unlocked(i),dn=d.includes(i),cur=ok&&!dn;h+=`<div class="ls ${ok?'':'lockd'}" onclick="${ok?`go('bai-${i}')`:`toast('🔒 Hoàn thành bài trước để mở bài này nhé.')`}"><img src="/img/bai-${pad(i)}.jpg" alt="Bài ${pad(i)}" loading="lazy"><div style="flex:1"><h3>Bài ${pad(i)}. ${L.title}</h3><p>Sau bài này: ${strip(L.goal)}</p></div>${cur?'<span class="now">Đang học</span>':''}<span class="dn ${dn?'on':''}"></span></div>`}});h+=`</div>`});
  h+=`</main>${sidebar()}</div>`;return h}
@@ -190,8 +191,23 @@ function lesson(i){const L0=C.lessons[i];if(!L0||!FULL||!FULL[i])return home();i
  ${isDone?'':`<div class="gk" id="gk"><h3>🔓 Để mở bài tiếp theo</h3><div class="r r1"><i>✓</i><span></span></div><div class="bar"><b></b></div><div class="r r2"><i>✓</i><span></span></div><div class="r r3"><i>✓</i><span></span></div></div>`}
  <div class="nav">${i>1?`<button class="btn" style="background:#5d6785" onclick="go('bai-${i-1}')">◀ ${lab(i-1)}</button>`:''}
  ${(!isDone&&ADM&&ls('adm-open')!=='0')?`<button class="btn" onclick="go('${i<NL?'bai-'+(i+1):'chung-nhan'}')">${i<NL?'Admin: xem '+lab(i+1)+' ▶':'Admin: xem chứng nhận 🎓'}</button>`:''}${isDone?`<button class="btn done" disabled style="opacity:1;cursor:default">✓ Đã hoàn thành</button>${i<NL?`<button class="btn" onclick="go('bai-${i+1}')">${lab(i+1)} ▶</button>`:`<button class="btn y" onclick="go('chung-nhan')">🎓 Nhận chứng nhận</button>`}`:`<button class="btn y" id="cpl" disabled onclick="complete(${i})">${i<NL?'Nộp bài & mở '+lab(i+1)+' ▶':'Nộp bài & hoàn thành khoá 🎓'}</button>`}</div></div></main>${sidebar()}</div>`;return h}
+function batdau(){document.getElementById('crumb').innerHTML=`<span style="cursor:pointer" onclick="go('')">VẬN HÀNH AGENT</span> / <b>Bài 00. Bài bắt đầu</b>`;
+ return `<div class="grid"><main><div class="lesson"><div class="small">Trước khi bắt đầu</div><h1>Bài 00. Bài bắt đầu: học theo quy trình</h1>
+ <div class="goal"><b>Sau bài này bạn có:</b> cách học đúng của khoá này và khung câu hỏi để tự gỡ khi bị kẹt.</div>
+ <div class="lv"><h3>🎬 Video bài bắt đầu</h3><video controls playsinline preload="metadata" poster="/video/poster-bat-dau-van-hanh.jpg?v=1" src="/video/bai/van-hanh-00.mp4?v=1"></video></div>
+ <h2>Vì sao khoá này không có video quay màn hình bấm từng nút?</h2>
+ <p>Mỗi bài là một bước trong quy trình, kèm câu lệnh chép sẵn. Việc của bạn là <b>chép đúng câu lệnh, dán vào</b>, rồi để hệ thống tự làm phần còn lại và tạo ra sản phẩm cho bạn. Video trong bài là <b>video minh hoạ từng bước</b>: để bạn biết mình đang ở đâu và kết quả đúng trông như thế nào.</p>
+ <h2>Khi bị kẹt: hỏi ngược lại AI</h2>
+ <p>Đây là kỹ năng quan trọng nhất của khoá. Chép lỗi (hoặc chụp màn hình), nói rõ mình đang làm bước nào, muốn ra kết quả gì, rồi hỏi ChatGPT hoặc Claude. Chưa được thì hỏi tiếp, dạy thêm cho AI về việc của bạn và yêu cầu nó làm lại.</p>
+ <p><b>Khung câu hỏi chép dùng ngay:</b></p><pre>Tôi đang cài NAOSO trên máy Windows,
+bài 02 của khoá VẬN HÀNH AGENT.
+Máy báo lỗi: [dán lỗi vào đây]
+Tôi muốn cài xong và mở được NAOSO.
+Hãy chỉ tôi từng bước, dễ hiểu.</pre>
+ <p>Đó là cách tư duy Vibe Coding: <b>bạn làm chủ, AI làm thợ</b>. Kẹt quá lâu thì nhắn nhóm Zalo học viên, luôn có người hỗ trợ.</p>
+ <div class="nav"><button class="btn y" onclick="go('bai-1')">Bắt đầu ${lab(1)} ▶</button></div></div></main>${sidebar()}</div>`}
 function toggle(i){complete(i)}
-function render(){const m=location.hash.match(/bai-(\d+)/);document.getElementById('app').innerHTML=!FULL?gate():location.hash.includes('chung-nhan')?cert():m?lesson(+m[1]):home();if(FULL&&m&&unlocked(+m[1]))setTimeout(()=>wire(+m[1]));window.scrollTo(0,0);
+function render(){const m=location.hash.match(/bai-(\d+)/);document.getElementById('app').innerHTML=!FULL?gate():location.hash.includes('bai-bat-dau')?batdau():location.hash.includes('chung-nhan')?cert():m?lesson(+m[1]):home();if(FULL&&m&&unlocked(+m[1]))setTimeout(()=>wire(+m[1]));window.scrollTo(0,0);
  document.querySelectorAll('pre').forEach(p=>{const b=document.createElement('button');b.className='cp';b.textContent='Chép';b.onclick=()=>{const t=p.childNodes[0].textContent;(navigator.clipboard?navigator.clipboard.writeText(t):Promise.reject()).then(()=>{b.textContent='Đã chép'},()=>{b.textContent='Bôi đen để chép'})};p.appendChild(b)})}
 window.addEventListener('hashchange',render);boot();
 </script>
