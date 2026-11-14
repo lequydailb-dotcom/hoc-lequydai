@@ -169,7 +169,7 @@ const strip=h=>h.replace(/<[^>]+>/g,'');
 function go(h){location.hash=h}
 function sidebar(){const d=getDone(),p=Math.round(d.length/16*100);
  return `<aside><div class="box"><img src="/img/cover-square.jpg" alt="VẬN HÀNH AGENT"><div class="prog"><i style="width:${p}%"></i></div><div class="small">${d.length}/16 bài đã hoàn thành · ${p}%</div>
- ${d.length>=NL?`<button class="btn y" onclick="go('chung-nhan')">🎓 Nhận chứng nhận</button>`:`<button class="btn y" onclick="go('bai-'+${nextIdx()})">${d.length?'Học tiếp':'Bắt đầu khoá học'}</button>`}
+ ${d.length>=NL?`<button class="btn y" onclick="go('chung-nhan')">🎓 Nhận chứng nhận</button>`:`<button class="btn y" onclick="go('${d.length?'bai-'+nextIdx():'bai-bat-dau'}')">${d.length?'Học tiếp':'Bắt đầu khoá học'}</button>`}
  ${WHO?`<div class="small" style="margin-top:10px">Xin chào <b>${WHO}</b> 👋</div>`:''}<div style="margin-top:16px;font-weight:800">Người đồng hành</div><div class="teacher"><img src="/img/dai-1.jpg" alt="Đại Lê"><div><b>ĐẠI LÊ AI</b><div class="small">hoc.lequydai.com</div></div></div>
  <a class="btn" href="${C.zalo}" target="_blank" rel="noopener">Vào nhóm Zalo hỏi đáp</a></div></aside>`}
 function nextIdx(){const d=getDone();for(let i=1;i<=NL;i++)if(!d.includes(i))return i;return 1}
@@ -189,7 +189,7 @@ function lesson(i){const L0=C.lessons[i];if(!L0||!FULL||!FULL[i])return home();i
  <p style="margin-top:18px"><b>${L.next}</b></p>
  ${!isDone&&L.quiz&&L.quiz.length?`<div class="qz" id="qz"><h3>📝 Trắc nghiệm nhanh</h3><div class="small">Trả lời đúng ${L.quiz.length} câu để mở bài tiếp theo.</div>${L.quiz.map((q,k)=>`<div class="qq" data-k="${k}"><b>${k+1}. ${q[0]}</b>${q[1].map((o,j)=>`<label><input type="radio" name="q${k}" value="${j}"><span>${o}</span></label>`).join('')}<div class="qw">Chưa đúng, xem lại bài rồi chọn lại nhé.</div></div>`).join('')}</div>`:''}
  ${isDone?'':`<div class="gk" id="gk"><h3>🔓 Để mở bài tiếp theo</h3><div class="r r1"><i>✓</i><span></span></div><div class="bar"><b></b></div><div class="r r2"><i>✓</i><span></span></div><div class="r r3"><i>✓</i><span></span></div></div>`}
- <div class="nav">${i>1?`<button class="btn" style="background:#5d6785" onclick="go('bai-${i-1}')">◀ ${lab(i-1)}</button>`:''}
+ <div class="nav">${i>1?`<button class="btn" style="background:#5d6785" onclick="go('bai-${i-1}')">◀ ${lab(i-1)}</button>`:`<button class="btn" style="background:#5d6785" onclick="go('bai-bat-dau')">◀ Bài 00</button>`}
  ${(!isDone&&ADM&&ls('adm-open')!=='0')?`<button class="btn" onclick="go('${i<NL?'bai-'+(i+1):'chung-nhan'}')">${i<NL?'Admin: xem '+lab(i+1)+' ▶':'Admin: xem chứng nhận 🎓'}</button>`:''}${isDone?`<button class="btn done" disabled style="opacity:1;cursor:default">✓ Đã hoàn thành</button>${i<NL?`<button class="btn" onclick="go('bai-${i+1}')">${lab(i+1)} ▶</button>`:`<button class="btn y" onclick="go('chung-nhan')">🎓 Nhận chứng nhận</button>`}`:`<button class="btn y" id="cpl" disabled onclick="complete(${i})">${i<NL?'Nộp bài & mở '+lab(i+1)+' ▶':'Nộp bài & hoàn thành khoá 🎓'}</button>`}</div></div></main>${sidebar()}</div>`;return h}
 function batdau(){document.getElementById('crumb').innerHTML=`<span style="cursor:pointer" onclick="go('')">VẬN HÀNH AGENT</span> / <b>Bài 00. Bài bắt đầu</b>`;
  return `<div class="grid"><main><div class="lesson"><div class="small">Trước khi bắt đầu</div><h1>Bài 00. Bài bắt đầu: học theo quy trình</h1>
