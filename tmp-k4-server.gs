@@ -1,6 +1,6 @@
 /* Nạp 4 khoá mới (15-11-2026): VIẾT HAY BÁN ĐƯỢC, TỰ ĐỘNG VIẾT BÀI, EDIT VIDEO TỰ ĐỘNG, WEBSITE BÁN HÀNG TỰ ĐỘNG */
 function importKhoaK4() {
-  const base = 'https://raw.githubusercontent.com/lequydailb-dotcom/hoc-lequydai/K4HASH/';
+  const base = 'https://raw.githubusercontent.com/lequydailb-dotcom/hoc-lequydai/3dabad4/';
   const props = PropertiesService.getScriptProperties();
   const out = [];
   ['viethay', 'vietbai', 'editvideo', 'website'].forEach(function (pid) {
