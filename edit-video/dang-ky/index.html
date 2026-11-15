@@ -117,7 +117,7 @@ footer a{color:#fff}
 </div></section>
 
 <section id="mua"><div class="w">
- <div class="price"><div class="lbl">HỌC PHÍ TRỌN KHOÁ 12 BÀI</div><div class="big"><s style="color:#8a8a8a;font-weight:700;font-size:.55em;margin-right:10px">1.868.000đ</s>568.000đ</div><div style="font-size:14px;color:#c2410c;font-weight:700;margin-top:6px">🔥 Giá mở màn đến hết 31/12/2026</div><div style="color:var(--mut);font-size:16px;margin-top:6px">Chuyển khoản một lần · Nhận tài khoản qua email</div></div>
+ <div class="price"><div class="lbl">HỌC PHÍ TRỌN KHOÁ 12 BÀI</div><div class="big"><s style="color:#8a8a8a;font-weight:700;font-size:.55em;margin-right:10px">1.868.000đ</s>568.000đ</div><div style="font-size:14px;color:#c2410c;font-weight:700;margin-top:6px">🔥 Giá mở màn đến hết 31/12/2026</div><div style="color:var(--mut);font-size:16px;margin-top:6px">Chuyển khoản một lần · Nhận tài khoản qua email</div></div><p style="text-align:center;margin:14px 0 0;font-size:16px">💡 Muốn học nhiều khoá? <a href="/combo/" style="color:#c2410c;font-weight:800">Xem gói combo tiết kiệm đến 49%</a></p>
  <h2 style="margin-top:36px;text-align:center">3 bước để vào học</h2>
  <ol class="steps"><li>Điền họ tên, email, số điện thoại bên dưới.</li><li>Quét mã QR bằng app ngân hàng (số tiền và nội dung đã điền sẵn).</li><li>Vài phút sau tiền vào, email tài khoản học tự gửi về - anh/chị vào hoc.lequydai.com/edit-video là học.</li></ol>
 
@@ -126,6 +126,8 @@ footer a{color:#fff}
    <label for="n">Họ và tên</label><input id="n" name="name" required autocomplete="name" placeholder="Nguyễn Văn A">
    <label for="e">Email (nhận tài khoản học)</label><input id="e" name="email" type="email" required autocomplete="email" placeholder="email@gmail.com">
    <label for="p">Số điện thoại / Zalo</label><input id="p" name="phone" type="tel" required autocomplete="tel" placeholder="09xx xxx xxx">
+   <label for="c">Mã giảm giá (nếu có)</label><input id="c" name="coupon" autocomplete="off" placeholder="Học viên cũ nhập HOCVIENCU" style="text-transform:uppercase" onblur="xemMa()">
+   <div id="cm" style="font-size:15px;font-weight:700;margin-top:6px"></div>
    <button class="cta" type="submit" id="ob">Giữ chỗ và nhận mã QR thanh toán</button>
    <div class="err" id="oe"></div>
    <p class="safe">🔒 Thông tin chỉ dùng để cấp tài khoản học · ⚡ Mã QR hiện ngay sau khi bấm</p>
@@ -137,7 +139,7 @@ footer a{color:#fff}
     <tr><td>Ngân hàng</td><td id="bk"></td></tr>
     <tr><td>Số tài khoản</td><td><b id="ac"></b> <button class="cp" onclick="cp('ac',this)">Chép</button></td></tr>
     <tr><td>Chủ tài khoản</td><td id="ho"></td></tr>
-    <tr><td>Số tiền</td><td><b>568.000đ</b></td></tr>
+    <tr><td>Số tiền</td><td><b id="amt">568.000đ</b></td></tr>
     <tr><td>Nội dung</td><td><span class="code" id="cd"></span> <button class="cp" onclick="cp('cd',this)">Chép</button></td></tr>
    </table>
    <p style="font-size:16px">⚠ Ghi đúng nội dung <b class="code" id="cd2" style="font-size:16px"></b> (có cả chữ SEVQR) để hệ thống tự nhận ra đơn. Hướng dẫn chuyển khoản cũng đã gửi vào email của anh/chị.</p>
@@ -163,13 +165,19 @@ footer a{color:#fff}
 <script src="/config.js"></script>
 <script>
 const K='edit-video-order';
+function vnd(n){return Number(n).toLocaleString('vi-VN')+'đ'}
+async function xemMa(){const c=document.getElementById('c').value.trim(),m=document.getElementById('cm');if(!c){m.textContent='';return}
+ m.style.color='#5d6785';m.textContent='Đang kiểm tra mã...';
+ try{const r=await api({action:'coupon',course:'editvideo',coupon:c,email:document.getElementById('e').value});
+  if(r.ok){m.style.color='#1e8449';m.textContent='✅ Mã đúng: giảm '+r.pct+'%, còn '+vnd(r.amount)}else{m.style.color='#c0392b';m.textContent=r.msg}}catch(e){m.textContent=''}}
+
 function st(k,v){try{if(v===undefined)return localStorage.getItem(k);if(v===null)localStorage.removeItem(k);else localStorage.setItem(k,v)}catch(e){}}
 async function api(b){const r=await fetch(window.API_URL,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify(b)});return r.json()}
-function show(o){document.getElementById('of').style.display='none';const p=document.getElementById('pay');p.style.display='block';
+function show(o){if(o.amount)document.getElementById('amt').textContent=vnd(o.amount)+(o.pct?' (đã giảm '+o.pct+'%)':'');document.getElementById('of').style.display='none';const p=document.getElementById('pay');p.style.display='block';
  const memo='SEVQR '+o.code;document.getElementById('qr').src='https://qr.sepay.vn/img?acc='+o.acc+'&bank='+encodeURIComponent(o.bank)+'&amount='+o.amount+'&des='+encodeURIComponent(memo)+'&template=compact';document.getElementById('bk').textContent=o.bank;document.getElementById('ac').textContent=o.acc;document.getElementById('ho').textContent=o.holder;
  document.getElementById('cd').textContent=memo;document.getElementById('cd2').textContent=memo;poll(o.code)}
 async function order(ev){ev.preventDefault();const f=ev.target,b=document.getElementById('ob'),er=document.getElementById('oe');er.textContent='';b.disabled=true;b.textContent='Đang tạo mã QR...';
- try{const r=await api({action:'order',course:'editvideo',name:f.name.value,email:f.email.value,phone:f.phone.value});
+ try{const r=await api({action:'order',course:'editvideo',name:f.name.value,email:f.email.value,phone:f.phone.value,coupon:f.coupon.value});
   if(!r.ok){er.textContent=r.msg;b.disabled=false;b.textContent='Giữ chỗ và nhận mã QR thanh toán';return}
   st(K,JSON.stringify(r));show(r);document.getElementById('ck').scrollIntoView({behavior:'smooth'})}
  catch(e){er.textContent='Không kết nối được. Anh/chị thử lại hoặc nhắn Zalo 0972 782 782.';b.disabled=false;b.textContent='Giữ chỗ và nhận mã QR thanh toán'}}
