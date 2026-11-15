@@ -1,0 +1,181 @@
+<!doctype html>
+<html lang="vi"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>TỰ ĐỘNG VIẾT BÀI MỖI NGÀY BẰNG AI – Đăng ký | ĐẠI LÊ AI</title>
+<meta name="description" content="Dựng hệ thống AI viết bài trước cho bạn mỗi ngày, bạn chỉ đọc, duyệt và đăng. 12 bài cầm tay chỉ việc cùng ĐẠI LÊ AI.">
+<meta property="og:title" content="TỰ ĐỘNG VIẾT BÀI MỖI NGÀY BẰNG AI">
+<meta property="og:description" content="Dựng hệ thống AI viết bài trước cho bạn mỗi ngày, bạn chỉ đọc, duyệt và đăng.">
+<meta property="og:image" content="https://hoc.lequydai.com/viet-bai/img/hero.jpg?v=20261115k">
+<link rel="icon" href="/viet-bai/img/cover-square.jpg">
+<style>
+:root{--red:#D32F2F;--red2:#B71C1C;--y:#FFD700;--y2:#FFC107;--navy:#0d1838;--ink:#333;--mut:#666;--cream:#FFF8E1;--ok:#388E3C}
+*{box-sizing:border-box;margin:0}
+body{font-family:-apple-system,"Segoe UI",Roboto,Arial,sans-serif;color:var(--ink);font-size:19px;line-height:1.6;background:#fff}
+.w{max-width:720px;margin:auto;padding:0 20px}
+section{padding:60px 0}
+.top{background:linear-gradient(#fffbe6,#fff);padding-top:28px}
+.brand{display:flex;justify-content:center;margin-bottom:22px}.brand img{height:34px;background:var(--navy);padding:7px 12px;border-radius:8px}
+.pre{font-style:italic;font-size:17px;color:var(--mut);text-align:center;margin-bottom:14px}
+h1{font-size:44px;line-height:1.2;font-weight:800;color:var(--red);text-align:center;letter-spacing:-.5px}
+.hl{background:var(--y);color:#1A1A1A;padding:0 6px;border-radius:4px}
+.sub{font-size:24px;color:#444;text-align:center;margin-top:18px;font-weight:600}
+.heroimg{margin-top:28px;border-radius:14px;width:100%;display:block;aspect-ratio:16/9;background:#0b1533;box-shadow:0 10px 30px rgba(0,0,0,.15)}
+h2{font-size:30px;line-height:1.3;font-weight:800;color:var(--navy);margin-bottom:20px}
+p{margin-bottom:20px}
+.dark{background:var(--navy);color:#fff}.dark h2{color:var(--y)}.dark p,.dark li{color:#e8ecf7}
+.dark ul{padding-left:22px;margin-bottom:20px}.dark li{margin-bottom:10px}
+.cta{display:block;text-align:center;background:var(--y);color:var(--red);font-weight:900;font-size:24px;text-transform:uppercase;border:4px solid #1A1A1A;border-radius:12px;padding:22px 16px;text-decoration:none;box-shadow:0 6px 0 #1A1A1A,0 12px 24px rgba(0,0,0,.2);animation:pulse 1.5s infinite;margin:30px 0 14px;line-height:1.25;cursor:pointer;font-family:inherit;width:100%}
+.cta:hover{color:var(--red2)}
+@keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.03)}}
+.safe{text-align:center;font-size:15px;color:var(--mut)}
+.ticks{list-style:none;padding:0}.ticks li{padding-left:34px;position:relative;margin-bottom:12px}
+.ticks li:before{content:"✓";position:absolute;left:0;top:0;color:#fff;background:var(--ok);width:24px;height:24px;border-radius:50%;font-size:15px;font-weight:900;text-align:center;line-height:24px}
+.mech{display:grid;gap:14px}.mech div{background:#f4f6fb;border-left:5px solid var(--y2);border-radius:10px;padding:16px 18px}
+.mech b{color:var(--navy)}
+.pack{border:3px solid var(--navy);border-radius:14px;overflow:hidden}
+.pack .ph{background:var(--navy);color:var(--y);font-weight:900;padding:14px 18px;font-size:20px}
+.pack .row{padding:14px 18px;border-top:1px solid #e3e8f2}
+.pack .row b{color:var(--navy)}
+.part{font-size:16px;color:var(--mut);margin-top:4px}
+.price{text-align:center;background:var(--cream);border:3px dashed var(--y2);border-radius:14px;padding:26px 18px}
+.price .big{font-size:44px;font-weight:900;color:var(--red);line-height:1.1}
+.price .lbl{font-weight:800;color:#1A1A1A;font-size:18px}
+.note{background:#f4f6fb;border-radius:10px;padding:14px 18px;font-size:16px;color:#444}
+.steps{counter-reset:s;list-style:none;padding:0;margin:10px 0 0}
+.steps li{counter-increment:s;padding-left:46px;position:relative;margin-bottom:14px}
+.steps li:before{content:counter(s);position:absolute;left:0;top:-2px;width:34px;height:34px;border-radius:50%;background:var(--navy);color:var(--y);font-weight:900;text-align:center;line-height:34px}
+.who{display:flex;gap:18px;align-items:center;background:#f4f6fb;border-radius:14px;padding:16px}
+.who img{width:110px;height:110px;object-fit:cover;object-position:60% 25%;border-radius:50%;flex:none}
+/* checkout */
+#mua{background:#f4f6fb}
+.box{background:#fff;border-radius:16px;padding:24px;box-shadow:0 8px 30px rgba(13,24,56,.12);border:1px solid #e3e8f2}
+.box label{display:block;font-weight:700;font-size:16px;margin:14px 0 6px;color:var(--navy)}
+.box input{width:100%;padding:14px;border:2px solid #dfe5f1;border-radius:10px;font-size:18px;font-family:inherit}
+.box input:focus{outline:none;border-color:var(--y2)}
+.err{color:var(--red);font-size:15px;min-height:20px;margin-top:10px}
+.pay{display:none;text-align:center}
+.pay img{width:260px;max-width:100%;border-radius:12px;border:1px solid #e3e8f2}
+.pay table{width:100%;border-collapse:collapse;margin:14px 0;font-size:17px;text-align:left}
+.pay td{padding:9px 10px;border:1px solid #e3e8f2}.pay td:first-child{color:var(--mut);width:42%}
+.code{color:var(--red);font-weight:900;font-size:22px;letter-spacing:1px}
+.cp{background:var(--navy);color:#fff;border:0;border-radius:6px;padding:4px 10px;font-size:13px;cursor:pointer;margin-left:6px;font-family:inherit}
+.wait{display:flex;align-items:center;justify-content:center;gap:10px;color:var(--navy);font-weight:700;font-size:16px;margin-top:8px}
+.spin{width:18px;height:18px;border:3px solid #dfe5f1;border-top-color:var(--navy);border-radius:50%;animation:sp 1s linear infinite}@keyframes sp{to{transform:rotate(360deg)}}
+.done{display:none;text-align:center}.done .ic{font-size:56px}
+.ps p{font-size:18px}.ps b{color:var(--red)}
+footer{background:var(--navy);color:#c9d4f2;text-align:center;padding:26px 16px;font-size:14px}
+footer a{color:#fff}
+@media(max-width:768px){body{font-size:17px}h1{font-size:32px}.sub{font-size:20px}h2{font-size:25px}.cta{font-size:20px;padding:18px 12px}section{padding:40px 0}.price .big{font-size:36px}.who{flex-direction:column;text-align:center}}
+</style></head>
+<body>
+<section class="top"><div class="w">
+ <div class="brand"><a href="https://lequydai.com/"><img src="/img/logo-am.png?v=20261105b" alt="ĐẠI LÊ AI"></a></div>
+ <p class="pre">Dành cho người kinh doanh một mình muốn có bài đăng đều mỗi ngày mà không phải ngồi viết hàng giờ...</p>
+ <h1>Dựng hệ thống để <span class="hl">AI viết bài trước cho bạn mỗi ngày</span>, bạn chỉ việc đọc, duyệt và đăng</h1>
+ <p class="sub">Kho nguồn trên Google Drive, lịch đăng trên Google Sheet, trợ lý AI viết đúng giọng bạn, viết trước 3 ngày, tự nhắc, blog tự đăng. 12 bài, làm theo là có hệ thống chạy thật.</p>
+ <video class="heroimg" controls playsinline preload="metadata" poster="/video/poster-viet-bai.jpg?v=20261115k"><source src="/video/gioi-thieu-viet-bai.mp4?v=20261115k" type="video/mp4"></video>
+ <a class="cta" href="#mua">Tôi muốn bắt đầu ngay – Đăng ký khoá TỰ ĐỘNG VIẾT BÀI MỖI NGÀY</a>
+ <p class="safe">🔒 Chuyển khoản QR an toàn · ⚡ Tự nhận tài khoản học qua email sau vài phút</p>
+</div></section>
+
+<section class="dark"><div class="w">
+ <h2>Bạn có đang thế này không?</h2>
+ <ul><li>Mỗi ngày mất cả tiếng ngồi nghĩ và viết một bài.</li><li>Bận vài hôm là kênh im lặng, mất đà tương tác.</li><li>Ý tưởng hay đọc được ở đâu đó rồi quên mất.</li><li>Nhờ AI viết thì phải dặn lại từ đầu mỗi lần.</li></ul>
+ <h2>Bạn không thiếu cố gắng. Bạn thiếu một quy trình.</h2>
+ <p>Khoá này đưa bạn đi theo đúng quy trình Đại Lê đang dùng mỗi ngày, chia thành 4 chặng, mỗi bài làm ra một thứ dùng được ngay. Không học lý thuyết dài dòng, chép câu lệnh, làm theo, có kết quả.</p>
+</div></section>
+
+<section><div class="w">
+ <h2>Vì sao Đại Lê làm khoá TỰ ĐỘNG VIẾT BÀI MỖI NGÀY</h2>
+ <p>Đây là việc Đại làm thật mỗi ngày cho kênh và sản phẩm của mình, giờ gói lại thành từng bước để bạn làm theo. Có một ví dụ xuyên suốt dễ hình dung: <b>Chị Thu, dạy tiếng Anh cho trẻ em</b> (nhân vật ví dụ). Bài nào cũng có câu lệnh mẫu dùng được với <b>ChatGPT hoặc Claude</b>.</p>
+ <div class="who"><img src="/img/dai-1.jpg" alt="Đại Lê"><div><b>ĐẠI LÊ AI</b><br><span style="color:var(--mut);font-size:16px">Từng làm nhiều nghề – mua bán máy vi tính, điện thoại, xe máy, ô tô, bất động sản, chứng khoán, kinh doanh online. Không phải dân kỹ thuật, giờ dùng AI để làm nội dung, công cụ và bán hàng tự động.</span></div></div>
+</div></section>
+
+<section style="padding-top:0"><div class="w">
+ <h2>4 chặng của khoá học</h2>
+ <div class="mech"><div><b>Chặng 1 · KHO.</b> Nguồn và lịch: Bản đồ hệ thống viết bài tự động · Kho nguồn trên Google Drive: bộ não thứ hai · Lịch đăng bài trên Google Sheet.</div><div><b>Chặng 2 · TRỢ LÝ VIẾT.</b> Viết đúng giọng, đủ bộ: Trợ lý viết bài riêng trong Dự án · Gói bài mỗi ngày: bài, chú thích, danh sách kiểm tra · Ảnh minh hoạ cho bài bằng AI.</div><div><b>Chặng 3 · TỰ CHẠY.</b> Viết trước, tự nhắc, tự đăng: Viết trước 3 ngày và bước duyệt trên điện thoại · Tác vụ hẹn giờ: AI tự viết mỗi sáng · Blog tự đăng bằng Google Sheet và Blogger.</div><div><b>Chặng 4 · NHÂN.</b> Nhiều kênh, đo và giữ nhịp: Một bài thành nhiều kênh và Zalo · Đo kết quả mỗi tuần và cải thiện · Nhịp 15 phút mỗi ngày và tự nhắc khi thiếu.</div></div>
+</div></section>
+
+<section style="padding-top:0"><div class="w">
+ <h2>Học xong bạn sẽ có</h2>
+ <ul class="ticks"><li>Sơ đồ hệ thống của riêng bạn: kho nguồn, lịch, trợ lý viết, duyệt, đăng</li><li>Một thư mục kho nguồn trên Google Drive, có sẵn 30 mẩu ý tưởng đã phân loại</li><li>Một Google Sheet lịch đăng 30 ngày có cột trạng thái đổi màu, mở được trên điện thoại</li><li>Một Dự án trong ChatGPT hoặc Claude có hồ sơ giọng, quy tắc và bài mẫu, viết đúng ý ngay lần đầu</li><li>Một mẫu gói bài hoàn chỉnh: bài đọc, bản để chép, chú thích ngắn và danh sách tự kiểm tra</li><li>Câu lệnh tạo ảnh minh hoạ đúng phong cách của bạn và bộ 10 ảnh cho các bài sắp đăng</li><li>Nhịp làm việc: luôn có sẵn bài của 3 ngày tới, bạn duyệt trên điện thoại bằng cách đổi màu</li><li>Một tác vụ hẹn giờ mỗi sáng tự viết bài ngày thứ 3 và nhắc bạn bài nào còn thiếu</li><li>Một blog miễn phí trên Blogger, bài ĐÃ DUYỆT trong Google Sheet tự đăng lên blog</li><li>Mỗi bài gốc tự có thêm phiên bản cho kênh khác: video ngắn, tin Zalo, bài blog</li><li>Cột số liệu trong lịch và buổi xem lại 15 phút mỗi tuần, biết bài nào hiệu quả để làm thêm</li><li>Quy trình 15 phút mỗi ngày và lời nhắc tự động khi lịch còn thiếu bài hoặc thiếu ảnh</li></ul>
+ <a class="cta" href="#mua">Đăng ký khoá TỰ ĐỘNG VIẾT BÀI MỖI NGÀY ngay</a>
+ <p class="safe">🔒 Chuyển khoản QR an toàn · ⚡ Tự nhận tài khoản học qua email sau vài phút</p>
+</div></section>
+
+<section style="padding-top:0"><div class="w">
+ <h2>Trong khoá có gì</h2>
+ <div class="pack">
+  <div class="ph">TỰ ĐỘNG VIẾT BÀI MỖI NGÀY BẰNG AI – 12 bài, 4 chặng</div>
+  <div class="row"><b>Chặng 1 · KHO</b><div class="part">Bản đồ hệ thống viết bài tự động · Kho nguồn trên Google Drive: bộ não thứ hai · Lịch đăng bài trên Google Sheet</div></div><div class="row"><b>Chặng 2 · TRỢ LÝ VIẾT</b><div class="part">Trợ lý viết bài riêng trong Dự án · Gói bài mỗi ngày: bài, chú thích, danh sách kiểm tra · Ảnh minh hoạ cho bài bằng AI</div></div><div class="row"><b>Chặng 3 · TỰ CHẠY</b><div class="part">Viết trước 3 ngày và bước duyệt trên điện thoại · Tác vụ hẹn giờ: AI tự viết mỗi sáng · Blog tự đăng bằng Google Sheet và Blogger</div></div><div class="row"><b>Chặng 4 · NHÂN</b><div class="part">Một bài thành nhiều kênh và Zalo · Đo kết quả mỗi tuần và cải thiện · Nhịp 15 phút mỗi ngày và tự nhắc khi thiếu</div></div>
+  <div class="row">✓ <b>Bài 00 bắt đầu</b> và mỗi bài có <b>video minh hoạ từng bước</b>, câu lệnh mẫu dùng với ChatGPT hoặc Claude, bài tập, trắc nghiệm và ô tự kiểm tra</div>
+  <div class="row">✓ <b>Tài khoản học riêng</b> tại hoc.lequydai.com, học trên máy tính hoặc điện thoại</div>
+  <div class="row">✓ <b>Giấy chứng nhận</b> khi hoàn thành khoá</div>
+  <div class="row">✓ <b>Nhóm Zalo học viên</b> để hỏi đáp khi bị vướng</div>
+ </div>
+ <p class="note" style="margin-top:20px">Khoá học dạy cách làm, không hứa hẹn thu nhập. Bạn cần tài khoản ChatGPT hoặc Claude (bản miễn phí vẫn học được) và máy tính hoặc điện thoại có mạng.</p>
+</div></section>
+
+<section id="mua"><div class="w">
+ <div class="price"><div class="lbl">HỌC PHÍ TRỌN KHOÁ 12 BÀI</div><div class="big"><s style="color:#8a8a8a;font-weight:700;font-size:.55em;margin-right:10px">3.868.000đ</s>1.868.000đ</div><div style="color:var(--mut);font-size:16px;margin-top:6px">Chuyển khoản một lần · Nhận tài khoản qua email</div></div>
+ <h2 style="margin-top:36px;text-align:center">3 bước để vào học</h2>
+ <ol class="steps"><li>Điền họ tên, email, số điện thoại bên dưới.</li><li>Quét mã QR bằng app ngân hàng (số tiền và nội dung đã điền sẵn).</li><li>Vài phút sau tiền vào, email tài khoản học tự gửi về - anh/chị vào hoc.lequydai.com/viet-bai là học.</li></ol>
+
+ <div class="box" id="ck">
+  <form id="of" onsubmit="order(event)">
+   <label for="n">Họ và tên</label><input id="n" name="name" required autocomplete="name" placeholder="Nguyễn Văn A">
+   <label for="e">Email (nhận tài khoản học)</label><input id="e" name="email" type="email" required autocomplete="email" placeholder="email@gmail.com">
+   <label for="p">Số điện thoại / Zalo</label><input id="p" name="phone" type="tel" required autocomplete="tel" placeholder="09xx xxx xxx">
+   <button class="cta" type="submit" id="ob">Giữ chỗ và nhận mã QR thanh toán</button>
+   <div class="err" id="oe"></div>
+   <p class="safe">🔒 Thông tin chỉ dùng để cấp tài khoản học · ⚡ Mã QR hiện ngay sau khi bấm</p>
+  </form>
+  <div class="pay" id="pay">
+   <h2 style="font-size:24px;margin-bottom:10px">Quét mã để thanh toán</h2>
+   <img id="qr" alt="Mã QR chuyển khoản">
+   <table>
+    <tr><td>Ngân hàng</td><td id="bk"></td></tr>
+    <tr><td>Số tài khoản</td><td><b id="ac"></b> <button class="cp" onclick="cp('ac',this)">Chép</button></td></tr>
+    <tr><td>Chủ tài khoản</td><td id="ho"></td></tr>
+    <tr><td>Số tiền</td><td><b>1.868.000đ</b></td></tr>
+    <tr><td>Nội dung</td><td><span class="code" id="cd"></span> <button class="cp" onclick="cp('cd',this)">Chép</button></td></tr>
+   </table>
+   <p style="font-size:16px">⚠ Ghi đúng nội dung <b class="code" id="cd2" style="font-size:16px"></b> (có cả chữ SEVQR) để hệ thống tự nhận ra đơn. Hướng dẫn chuyển khoản cũng đã gửi vào email của anh/chị.</p>
+   <div class="wait"><span class="spin"></span> Đang chờ tiền vào... (trang tự cập nhật)</div>
+  </div>
+  <div class="done" id="done">
+   <div class="ic">🎉</div><h2 style="font-size:26px">Đã nhận thanh toán!</h2>
+   <p>Email chứa tài khoản học đang trên đường tới hộp thư của anh/chị (xem cả mục Spam/Quảng cáo nếu chưa thấy).</p>
+   <a class="cta" href="/viet-bai/">Vào trang học ngay</a>
+  </div>
+ </div>
+ <p class="safe" style="margin-top:16px">Cần hỗ trợ: Zalo <b>0972 782 782</b></p>
+</div></section>
+
+<section class="ps"><div class="w">
+ <p><b>P.S.</b> Mỗi bài làm ra một thứ dùng được ngay. Học xong 12 bài, bạn có cả một quy trình chạy mỗi ngày cho riêng mình.</p><p><b>P.P.S.</b> Bắt đầu từ Bài 00 chỉ mất vài phút. Quyết định là của bạn.</p>
+ <a class="cta" href="#mua">Tôi sẵn sàng – Đăng ký khoá TỰ ĐỘNG VIẾT BÀI MỖI NGÀY</a>
+ <p class="safe">🔒 Chuyển khoản QR an toàn · ⚡ Tự nhận tài khoản học qua email sau vài phút</p>
+</div></section>
+
+<footer>© 2026 ĐẠI LÊ AI · <a href="/viet-bai/">Đã có tài khoản? Đăng nhập học</a> · <a href="/dang-ky/">Khoá VẬN HÀNH AGENT</a> · <a href="/vibe-coding/dang-ky/">Khoá 28 NGÀY VIBE CODING</a> · Zalo 0972 782 782</footer>
+
+<script src="/config.js"></script>
+<script>
+const K='viet-bai-order';
+function st(k,v){try{if(v===undefined)return localStorage.getItem(k);if(v===null)localStorage.removeItem(k);else localStorage.setItem(k,v)}catch(e){}}
+async function api(b){const r=await fetch(window.API_URL,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify(b)});return r.json()}
+function show(o){document.getElementById('of').style.display='none';const p=document.getElementById('pay');p.style.display='block';
+ const memo='SEVQR '+o.code;document.getElementById('qr').src='https://qr.sepay.vn/img?acc='+o.acc+'&bank='+encodeURIComponent(o.bank)+'&amount='+o.amount+'&des='+encodeURIComponent(memo)+'&template=compact';document.getElementById('bk').textContent=o.bank;document.getElementById('ac').textContent=o.acc;document.getElementById('ho').textContent=o.holder;
+ document.getElementById('cd').textContent=memo;document.getElementById('cd2').textContent=memo;poll(o.code)}
+async function order(ev){ev.preventDefault();const f=ev.target,b=document.getElementById('ob'),er=document.getElementById('oe');er.textContent='';b.disabled=true;b.textContent='Đang tạo mã QR...';
+ try{const r=await api({action:'order',course:'vietbai',name:f.name.value,email:f.email.value,phone:f.phone.value});
+  if(!r.ok){er.textContent=r.msg;b.disabled=false;b.textContent='Giữ chỗ và nhận mã QR thanh toán';return}
+  st(K,JSON.stringify(r));show(r);document.getElementById('ck').scrollIntoView({behavior:'smooth'})}
+ catch(e){er.textContent='Không kết nối được. Anh/chị thử lại hoặc nhắn Zalo 0972 782 782.';b.disabled=false;b.textContent='Giữ chỗ và nhận mã QR thanh toán'}}
+let timer;function poll(code){clearTimeout(timer);timer=setTimeout(async()=>{try{const r=await api({action:'status',code});
+ if(r.ok&&r.paid){st(K,null);document.getElementById('pay').style.display='none';document.getElementById('done').style.display='block';return}}catch(e){}poll(code)},6000)}
+function cp(id,b){const t=document.getElementById(id).textContent;(navigator.clipboard?navigator.clipboard.writeText(t):Promise.reject()).then(()=>b.textContent='Đã chép',()=>b.textContent='Bôi đen để chép')}
+try{const o=JSON.parse(st(K)||'null');if(o&&o.code)show(o)}catch(e){}
+</script>
+</body></html>
