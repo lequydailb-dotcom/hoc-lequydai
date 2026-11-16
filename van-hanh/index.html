@@ -94,7 +94,7 @@ table{border-collapse:collapse;width:100%;margin:10px 0;font-size:15px}td,th{bor
 footer{background:var(--navy);color:#C3D8D0;text-align:center;padding:26px 16px;font-size:14px}
 footer img{height:30px;margin-bottom:8px}
 @media(max-width:860px){.grid{grid-template-columns:1fr}aside{order:-1}aside .box{position:static}.ls img{width:120px}.lesson{padding:18px}.hd .crumb{display:none}.hero .go{font-size:13px}}
-</style></head>
+.hero .go{position:static;display:block;width:100%;border-radius:0;font-size:17px;padding:14px}@media(max-width:860px){.grid.bai aside{order:2}.hero .go{font-size:16px}}</style></head>
 <body>
 <style>#wm{position:fixed;inset:0;pointer-events:none;z-index:9999;opacity:.07;background-repeat:repeat;display:none}
 .khoa-chon #app{-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
@@ -195,7 +195,7 @@ function home(){document.getElementById('crumb').innerHTML='<b>VẬN HÀNH AGENT
 function lesson(i){const L0=C.lessons[i];if(!L0||!FULL||!FULL[i])return home();if(!unlocked(i)){setTimeout(()=>{toast('🔒 Học lần lượt nhé: hoàn thành bài trước để mở bài này.');go('bai-'+nextIdx())});return ''}const L={...L0,...FULL[i]};const d=getDone(),isDone=d.includes(i);
  const part=C.parts.find(p=>p.lessons.includes(i));
  document.getElementById('crumb').innerHTML=`<span style="cursor:pointer" onclick="go('')">VẬN HÀNH AGENT</span> / <b>Bài ${pad(i)}. ${L.title}</b>`;
- let h=`<div class="grid"><main><div class="lesson"><img class="cv" src="/img/bai-${pad(i)}.jpg?v=20261116t" alt="Bài ${pad(i)}"><div class="small">${part.name}</div><h1>Bài ${pad(i)}. ${L.title}</h1>
+ let h=`<div class="grid bai"><main><div class="lesson"><img class="cv" src="/img/bai-${pad(i)}.jpg?v=20261116t" alt="Bài ${pad(i)}"><div class="small">${part.name}</div><h1>Bài ${pad(i)}. ${L.title}</h1>
  <div class="goal"><b>Sau bài này bạn có:</b> ${L.goal}</div><div class="lv"><h3>🎬 Video hướng dẫn bài này</h3><video id="lv" controls playsinline controlslist="nodownload" preload="metadata" src="${L.vid||''}"></video><div class="vnote" id="vnote">Xem lần lượt nhé, chưa tua qua đoạn chưa xem được.</div></div>${L.html}
  <div class="task"><h3>✍️ Bài tập</h3>${L.task}<h3 style="margin-top:14px!important">✅ Tự kiểm tra</h3><div class="chk">${L.check.map((c,k)=>`<label><input type="checkbox">${c}</label>`).join('')}</div></div>
  <p style="margin-top:18px"><b>${L.next}</b></p>
