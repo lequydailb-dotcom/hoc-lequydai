@@ -100,6 +100,18 @@ footer img{height:30px;margin-bottom:8px}
 .khoa-chon #app{-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
 .khoa-chon #app pre,.khoa-chon #app code,.khoa-chon #app textarea,.khoa-chon #app input{-webkit-user-select:text;user-select:text}</style>
 <div id="wm" aria-hidden="true"></div>
+<script>(function(){function hex(b){return [].map.call(new Uint8Array(b),function(x){return ('0'+x.toString(16)).slice(-2)}).join('')}
+function sha(s){return crypto.subtle.digest('SHA-256',new TextEncoder().encode(s))}
+var kho={};
+async function mo(v){var d=v.getAttribute('data-vs');if(!d||v.__d===d)return;v.__d=d;
+ if(d.indexOf('enc:')!==0){v.src=d;return}
+ try{var t=d.slice(4);if(!kho[t]){kho[t]=(async function(){var ten=hex(await sha('f'+t)).slice(0,24),k=await crypto.subtle.importKey('raw',await sha('k'+t),'AES-GCM',false,['decrypt']);
+   var buf=await (await fetch('/video/e/'+ten+'.bin')).arrayBuffer();var ro=await crypto.subtle.decrypt({name:'AES-GCM',iv:new Uint8Array(buf,0,12)},k,new Uint8Array(buf,12));
+   return URL.createObjectURL(new Blob([ro],{type:'video/mp4'}))})()}
+  var u=await kho[t];if(v.__d===d)v.src=u}catch(e){delete kho[d.slice(4)];v.__d='';console.log('video',e)}}
+function quet(){[].forEach.call(document.querySelectorAll('video[data-vs]'),mo)}
+new MutationObserver(quet).observe(document.documentElement,{childList:true,subtree:true});document.addEventListener('DOMContentLoaded',quet)})();</script>
+
 <script>(function(){var of=window.fetch;window.fetch=function(){return of.apply(this,arguments).then(function(res){try{res.clone().json().then(function(d){if(d&&d.ok&&d.email&&d.lessons)danDau(d.email)}).catch(function(){})}catch(e){}return res})};
 function danDau(em){var c=document.createElement('canvas');c.width=420;c.height=220;var x=c.getContext('2d');x.translate(210,110);x.rotate(-0.4);x.font='600 18px sans-serif';x.fillStyle='#0E3B3A';x.textAlign='center';x.fillText(em,0,0);x.fillText('ĐẠI LÊ AI · hoc.lequydai.com',0,26);
 var w=document.getElementById('wm');w.style.backgroundImage='url('+c.toDataURL()+')';w.style.display='block';document.body.classList.add('khoa-chon')}
@@ -196,7 +208,7 @@ function lesson(i){const L0=C.lessons[i];if(!L0||!FULL||!FULL[i])return home();i
  const part=C.parts.find(p=>p.lessons.includes(i));
  document.getElementById('crumb').innerHTML=`<span style="cursor:pointer" onclick="go('')">28 NGÀY VIBE CODING</span> / <b>${L.day}. ${L.title}</b>`;
  let h=`<div class="grid bai"><main><div class="lesson"><img class="cv" src="/vibe-coding/img/bai-${pad(i)}.jpg?v=20261116t" alt="Bài ${pad(i)}"><div class="small">${part.name}</div><h1>${L.day}. ${L.title}</h1>
- <div class="goal"><b>Sau bài này bạn có:</b> ${L.goal}</div><div class="lv"><h3>🎬 Video hướng dẫn bài này</h3><video id="lv" controls playsinline controlslist="nodownload" preload="metadata" src="${L.vid||''}"></video><div class="vnote" id="vnote">Xem lần lượt nhé, chưa tua qua đoạn chưa xem được.</div></div>${L.html}
+ <div class="goal"><b>Sau bài này bạn có:</b> ${L.goal}</div><div class="lv"><h3>🎬 Video hướng dẫn bài này</h3><video id="lv" controls playsinline controlslist="nodownload" preload="metadata" data-vs="${L.vid||''}"></video><div class="vnote" id="vnote">Xem lần lượt nhé, chưa tua qua đoạn chưa xem được.</div></div>${L.html}
  <div class="task"><h3>✍️ Bài tập</h3>${L.task}<h3 style="margin-top:14px!important">✅ Tự kiểm tra</h3><div class="chk">${L.check.map((c,k)=>`<label><input type="checkbox">${c}</label>`).join('')}</div></div>
  <p style="margin-top:18px"><b>${L.next}</b></p>
  ${!isDone&&L.quiz&&L.quiz.length?`<div class="qz" id="qz"><h3>📝 Trắc nghiệm nhanh</h3><div class="small">Trả lời đúng ${L.quiz.length} câu để mở bài tiếp theo.</div>${L.quiz.map((q,k)=>`<div class="qq" data-k="${k}"><b>${k+1}. ${q[0]}</b>${q[1].map((o,j)=>`<label><input type="radio" name="q${k}" value="${j}"><span>${o}</span></label>`).join('')}<div class="qw">Chưa đúng, xem lại bài rồi chọn lại nhé.</div></div>`).join('')}</div>`:''}
