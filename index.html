@@ -1,15 +1,15 @@
 <!doctype html>
 <html lang="vi"><head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta charset="utf-8"><meta name="theme-color" content="#0E3B3A"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Khoá học của Đại Lê AI – Tự làm ra sản phẩm với AI</title>
 <meta name="description" content="Các khoá học cầm tay chỉ việc của Đại Lê AI: VẬN HÀNH AGENT và 28 NGÀY VIBE CODING. Đăng nhập một lần, học mọi khoá bạn đã sở hữu.">
 <meta property="og:title" content="Khoá học của Đại Lê AI">
 <meta property="og:description" content="Tự làm ra sản phẩm với AI, ngay cả khi bạn không phải lập trình viên.">
-<meta property="og:image" content="/img/hero.jpg?v=20261105">
-<link rel="icon" href="/img/cover-square.jpg">
+<meta property="og:image" content="/img/hero.jpg?v=20261116r">
+<link rel="icon" href="/img/cover-square.jpg?v=20261116r">
 <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 <style>
-:root{--navy:#0d1838;--navy2:#16285a;--gold:#FFC83D;--ink:#1b2236;--mut:#5d6785;--bg:#f4f6fb;--line:#e3e8f2;--ok:#16a34a;--red:#D32F2F}
+:root{--navy:#0E3B3A;--navy2:#16524F;--gold:#FD7800;--ink:#1D3432;--mut:#4E6461;--bg:#F4EFE4;--line:#E0D8C6;--ok:#16a34a;--red:#C2410C}
 *{box-sizing:border-box;margin:0}
 body{font-family:'Be Vietnam Pro',system-ui,sans-serif;background:var(--bg);color:var(--ink);line-height:1.6}
 a{color:inherit}
@@ -17,7 +17,7 @@ header{background:var(--navy);position:sticky;top:0;z-index:20;box-shadow:0 2px 
 .hd{max-width:1180px;margin:auto;display:flex;align-items:center;gap:14px;padding:10px 20px}
 .hd img{height:28px}
 .hd .sp{flex:1}
-.hd .who{color:#c9d4f2;font-size:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.hd .who{color:#C3D8D0;font-size:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .hd .who b{color:#fff}
 .hd button,.hd a.btn2{background:transparent;color:#fff;border:1px solid rgba(255,255,255,.35);font:inherit;font-size:14px;font-weight:700;padding:7px 14px;border-radius:8px;cursor:pointer;text-decoration:none;white-space:nowrap}
 .hd .gold{background:var(--gold);color:var(--navy);border-color:var(--gold)}
@@ -25,16 +25,16 @@ header{background:var(--navy);position:sticky;top:0;z-index:20;box-shadow:0 2px 
 .top .in{max-width:1180px;margin:auto;padding:46px 20px 90px;display:flex;gap:32px;align-items:center}
 .top h1{font-size:clamp(26px,4vw,42px);line-height:1.2;font-weight:900}
 .top h1 span{color:var(--gold)}
-.top p{color:#c9d4f2;font-size:17px;margin-top:12px;max-width:620px}
+.top p{color:#C3D8D0;font-size:17px;margin-top:12px;max-width:620px}
 .top img.me{width:170px;border-radius:16px;flex:none;border:3px solid rgba(255,200,61,.6)}
 .wrap{max-width:1180px;margin:-60px auto 0;padding:0 20px 60px}
 .cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:24px}
-.card{background:#fff;border:1px solid var(--line);border-radius:18px;overflow:hidden;display:flex;flex-direction:column;box-shadow:0 8px 28px rgba(13,24,56,.08)}
+.card{background:#fff;border:1px solid var(--line);border-radius:18px;overflow:hidden;display:flex;flex-direction:column;box-shadow:0 8px 28px rgba(14,59,58,.08)}
 .card .pic{position:relative;background:var(--navy)}
 .card .pic img{width:100%;display:block}
 .badge{position:absolute;top:12px;left:12px;font-size:13px;font-weight:800;padding:5px 12px;border-radius:20px}
 .badge.own{background:var(--ok);color:#fff}
-.badge.lock{background:rgba(13,24,56,.85);color:#fff}
+.badge.lock{background:rgba(14,59,58,.85);color:#fff}
 .card .bd{padding:20px 22px 22px;display:flex;flex-direction:column;flex:1}
 .card h2{font-size:21px;line-height:1.3}
 .card .meta{font-size:13px;color:var(--mut);margin:6px 0 10px;font-weight:600}
@@ -55,7 +55,7 @@ form .btn{width:100%;margin-top:12px}
 .vids{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-top:28px}.vids .vc{background:#fff;border:1px solid var(--line);border-radius:18px;padding:14px}.vids video{width:100%;display:block;border-radius:12px;aspect-ratio:16/9;background:#000}.vids .vt{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:12px 6px 4px;flex-wrap:wrap}.vids .vt a{color:var(--navy);font-weight:800}.vids h3{grid-column:1/-1;font-size:20px}@media(max-width:720px){.vids{grid-template-columns:1fr}}
 .soonh{margin:44px 0 6px;font-size:24px;color:var(--navy)}.soonp{color:var(--mut);margin-bottom:18px;font-size:15px}
 .cards.soon{grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:18px}
-.scov{position:relative;aspect-ratio:16/9;background:linear-gradient(135deg,#0d1838,#1d3170);display:grid;place-items:center;font-size:58px}
+.scov{position:relative;aspect-ratio:16/9;background:linear-gradient(135deg,#0E3B3A,#1d3170);display:grid;place-items:center;font-size:58px}
 .badge.soon{background:#FD7800;color:#fff}
 .card.soonc h2{font-size:18px}.card.soonc .btn{font-size:14px;padding:10px 16px}
 footer{text-align:center;color:var(--mut);font-size:13px;padding:26px 20px 40px}
@@ -63,12 +63,12 @@ footer img{height:26px;filter:invert(1) brightness(.3);margin-bottom:6px}
 @media(max-width:720px){.top .in{flex-direction:column-reverse;align-items:flex-start;padding:30px 20px 80px}.top img.me{width:110px}.loginbox{grid-template-columns:1fr}.hd .who{display:none}}
 #pwm{position:fixed;inset:0;background:rgba(7,13,32,.72);display:none;align-items:center;justify-content:center;z-index:99;padding:16px}
 #pwm.on{display:flex}#pwm .bx{background:#fff;color:#141b2f;border-radius:16px;max-width:400px;width:100%;padding:24px 22px;box-shadow:0 30px 80px rgba(0,0,0,.45)}
-#pwm h3{margin:0 0 4px;font-size:21px}#pwm p{margin:0 0 14px;color:#5d6785;font-size:14px}
-#pwm input{width:100%;box-sizing:border-box;padding:13px 14px;border:1.5px solid #e3e8f2;border-radius:10px;font-size:16px;margin-bottom:10px;font-family:inherit}
-#pwm .go{width:100%;background:#FFC83D;color:#0b1533;font-weight:900;border:0;border-radius:10px;padding:14px;font-size:16px;cursor:pointer}
+#pwm h3{margin:0 0 4px;font-size:21px}#pwm p{margin:0 0 14px;color:#4E6461;font-size:14px}
+#pwm input{width:100%;box-sizing:border-box;padding:13px 14px;border:1.5px solid #E0D8C6;border-radius:10px;font-size:16px;margin-bottom:10px;font-family:inherit}
+#pwm .go{width:100%;background:#FD7800;color:#0B302F;font-weight:900;border:0;border-radius:10px;padding:14px;font-size:16px;cursor:pointer}
 #pwm .er{font-size:14px;min-height:20px;margin-bottom:6px;color:#c62828}#pwm .er.ok{color:#16a34a}
-#pwm .x{float:right;background:none;border:0;font-size:24px;cursor:pointer;color:#5d6785;line-height:1}
-#pwm label{display:flex;gap:8px;align-items:center;font-size:14px;color:#5d6785;margin:-2px 0 12px}#pwm label input{width:auto;margin:0}
+#pwm .x{float:right;background:none;border:0;font-size:24px;cursor:pointer;color:#4E6461;line-height:1}
+#pwm label{display:flex;gap:8px;align-items:center;font-size:14px;color:#4E6461;margin:-2px 0 12px}#pwm label input{width:auto;margin:0}
 .hd #hbtn{display:flex;gap:8px}
 @media(max-width:560px){.hd button,.hd a.btn2{padding:6px 10px;font-size:13px}}
 </style></head>
@@ -80,7 +80,7 @@ footer img{height:26px;filter:invert(1) brightness(.3);margin-bottom:6px}
 </div><img class="me" src="/img/dai-1.jpg" alt="Đại Lê"></div></section>
 <div class="wrap">
 <div class="cards" id="cards"></div>
-<a href="/combo/" style="display:block;margin:22px 0 6px;background:linear-gradient(90deg,#0d1838,#16285a);color:#fff;border-radius:14px;padding:18px 20px;text-decoration:none;border:2px solid #FFC83D"><b style="color:#FFC83D;font-size:20px">🎁 GÓI COMBO: TIẾT KIỆM ĐẾN 49%</b><br><span style="font-size:15px">Combo Nội dung 1.268.000đ · Combo Video AI 868.000đ · Combo Bán hàng 2.268.000đ · Trọn bộ 8 khoá 3.868.000đ</span><br><span style="color:#FFC83D;font-weight:800;font-size:15px">Xem các gói →</span></a>
+<a href="/combo/" style="display:block;margin:22px 0 6px;background:linear-gradient(90deg,#0E3B3A,#16524F);color:#fff;border-radius:14px;padding:18px 20px;text-decoration:none;border:2px solid #FD7800"><b style="color:#FD7800;font-size:20px">🎁 GÓI COMBO: TIẾT KIỆM ĐẾN 49%</b><br><span style="font-size:15px">Combo Nội dung 1.268.000đ · Combo Video AI 868.000đ · Combo Bán hàng 2.268.000đ · Trọn bộ 8 khoá 3.868.000đ</span><br><span style="color:#FD7800;font-weight:800;font-size:15px">Xem các gói →</span></a>
 
 <div class="vids"><h3>Video giới thiệu khoá học</h3><div class="vc"><video controls playsinline preload="metadata" poster="https://hoc.lequydai.com/video/poster-van-hanh.jpg?v=20261105"><source src="https://hoc.lequydai.com/video/gioi-thieu-van-hanh-agent.mp4?v=20261105" type="video/mp4"></video><div class="vt"><b>VẬN HÀNH AGENT</b><a href="/dang-ky/">Xem khoá →</a></div></div><div class="vc"><video controls playsinline preload="metadata" poster="https://hoc.lequydai.com/video/poster-vibe-coding.jpg?v=20261105"><source src="https://hoc.lequydai.com/video/gioi-thieu-28-ngay-vibe-coding.mp4?v=20261105" type="video/mp4"></video><div class="vt"><b>28 NGÀY VIBE CODING</b><a href="/vibe-coding/dang-ky/">Xem khoá →</a></div></div><div class="vc"><video controls playsinline preload="metadata" poster="https://hoc.lequydai.com/video/poster-dong-goi.jpg?v=20261114"><source src="https://hoc.lequydai.com/video/gioi-thieu-dong-goi.mp4?v=20261114" type="video/mp4"></video><div class="vt"><b>ĐÓNG GÓI KIẾN THỨC</b><a href="/dong-goi/dang-ky/">Xem khoá →</a></div></div></div>
 <div class="loginbox" id="loginbox">
@@ -97,16 +97,16 @@ footer img{height:26px;filter:invert(1) brightness(.3);margin-bottom:6px}
 <div class="er" id="pwe"></div><button class="go" id="pwb" type="submit">ĐỔI MẬT KHẨU</button></form></div></div>
 <script>
 const COURSES=[
- {id:'bangay',free:1,name:'🎁 3 NGÀY LÀM RA SẢN PHẨM ĐẦU TIÊN VỚI AI',meta:'Khoá tặng miễn phí · 6 bài trong 3 ngày',desc:'Mỗi ngày làm ra một sản phẩm thật với ChatGPT hoặc Claude: trợ lý AI riêng nhớ thông tin shop, trang web có link gửi khách, quà tặng số để có người quan tâm. Tặng 30 câu lệnh chép sẵn.',img:'/ba-ngay/img/hero.jpg?v=20261115',learn:'/ba-ngay/',buy:'/ba-ngay/dang-ky/',price:'Miễn phí',total:6,done:'ba-ngay-done'},
- {id:'tang',free:1,name:'🎁 LÀM VIDEO AI ĐẦU TIÊN TRONG 30 PHÚT',meta:'Khoá tặng miễn phí · 10 bài',desc:'ChatGPT hoặc Gemini viết kịch bản và tạo ảnh, Google Flow (Omni, Veo) tạo video có tiếng nói, rồi đăng lên đón khách. Tặng thêm 50 câu lệnh cho 10 ngành và kế hoạch 7 ngày.',img:'/tang/img/hero.jpg?v=20261106',learn:'/tang/',buy:'/tang/dang-ky/',price:'<s style="color:#8a8a8a;font-weight:700;font-size:14px;margin-right:6px">686.000đ</s>Miễn phí',total:6,done:'tang-done'},
- {id:'vanhanh',name:'VẬN HÀNH AGENT',meta:'16 bài · Cầm tay chỉ việc',desc:'Dựng đội nhân viên AI tự làm việc cho bạn: cài app NAOSO, giao việc, hẹn giờ, chatbot khách hàng và chạy 24/7 với tên miền riêng.',img:'/img/hero.jpg?v=20261105',learn:'/van-hanh/',buy:'/dang-ky/',price:'<s style="color:#8a8a8a;font-weight:700;font-size:14px;margin-right:6px">1.868.000đ</s>868.000đ',total:16,done:'vanhanh-agent-done'},
- {id:'vibe',name:'28 NGÀY VIBE CODING',meta:'28 ngày · Bot CSKH Zalo & Facebook',desc:'Tự làm bot chăm sóc khách hàng tự trả lời trên Zalo và Facebook bằng AI, không cần biết code. Mỗi ngày một bước nhỏ, làm là chạy.',img:'/vibe-coding/img/hero.jpg?v=20261105',learn:'/vibe-coding/',buy:'/vibe-coding/dang-ky/',price:'<s style="color:#8a8a8a;font-weight:700;font-size:14px;margin-right:6px">2.868.000đ</s>1.868.000đ',total:19,done:'vibe-coding-done'},
- {id:'donggoi',name:'ĐÓNG GÓI KIẾN THỨC',meta:'18 bài · Đóng gói và bán khoá học tự động',desc:'Biến kinh nghiệm bạn đang có thành một khoá học hoàn chỉnh với ChatGPT hoặc Claude: tìm chủ đề, dựng bài, quay video, làm video không cần quay, viết trang bán và cài bán tự động.',img:'/dong-goi/img/hero.jpg?v=20261114',learn:'/dong-goi/',buy:'/dong-goi/dang-ky/',price:'<s style="color:#8a8a8a;font-weight:700;font-size:14px;margin-right:6px">3.868.000đ</s>1.868.000đ',total:18,done:'dong-goi-done'},
- {id:'khonglen',name:'LÀM VIDEO KHÔNG CẦN LÊN HÌNH',meta:'14 bài · Chỉ cần thu âm giọng',desc:'Làm video đăng mỗi ngày mà không cần lên hình: thu âm giọng, ghép hình quay sẵn, video Veo 3 và nguồn miễn phí, đăng đón khách bằng từ khoá, xây bộ não thứ hai cho nội dung.',img:'/khong-len-hinh/img/hero.jpg?v=20261112',learn:'/khong-len-hinh/',buy:'/khong-len-hinh/dang-ky/',price:'<s style="color:#8a8a8a;font-weight:700;font-size:14px;margin-right:6px">1.868.000đ</s>568.000đ',total:14,done:'khong-len-hinh-done'},
- {id:'viethay',name:'VIẾT HAY BÁN ĐƯỢC – VIẾT NỘI DUNG CÓ KHÁCH NHẮN BẰNG AI',meta:'12 bài · Viết nội dung có khách nhắn',desc:'Viết bài, kịch bản video và bài bán hàng nghe như người thật, có khách nhắn tin.',img:'/viet-hay/img/hero.jpg?v=20261115k',learn:'/viet-hay/',buy:'/viet-hay/dang-ky/',price:'<s style="color:#8a8a8a;font-weight:700;font-size:14px;margin-right:6px">868.000đ</s>368.000đ',total:12,done:'viet-hay-done'},
- {id:'vietbai',name:'TỰ ĐỘNG VIẾT BÀI MỖI NGÀY BẰNG AI',meta:'12 bài · AI viết trước, bạn duyệt',desc:'Dựng hệ thống AI viết bài trước cho bạn mỗi ngày, bạn chỉ đọc, duyệt và đăng.',img:'/viet-bai/img/hero.jpg?v=20261115k',learn:'/viet-bai/',buy:'/viet-bai/dang-ky/',price:'<s style="color:#8a8a8a;font-weight:700;font-size:14px;margin-right:6px">1.868.000đ</s>568.000đ',total:12,done:'viet-bai-done'},
- {id:'editvideo',name:'EDIT VIDEO TỰ ĐỘNG BẰNG AI',meta:'12 bài · Edit nhanh, đều mỗi ngày',desc:'Từ video quay điện thoại thành video đăng được: cắt, tiếng, phụ đề, tiêu đề, logo, nhanh và đều.',img:'/edit-video/img/hero.jpg?v=20261115k',learn:'/edit-video/',buy:'/edit-video/dang-ky/',price:'<s style="color:#8a8a8a;font-weight:700;font-size:14px;margin-right:6px">1.868.000đ</s>568.000đ',total:12,done:'edit-video-done'},
- {id:'website',name:'WEBSITE BÁN HÀNG TỰ ĐỘNG',meta:'12 bài · Tự xác nhận thanh toán',desc:'Tự làm trang bán có đặt hàng, mã QR thanh toán tự xác nhận và email báo đơn, không cần biết code.',img:'/website-ban-hang/img/hero.jpg?v=20261115k',learn:'/website-ban-hang/',buy:'/website-ban-hang/dang-ky/',price:'<s style="color:#8a8a8a;font-weight:700;font-size:14px;margin-right:6px">2.868.000đ</s>868.000đ',total:12,done:'website-ban-hang-done'},
+ {id:'bangay',free:1,name:'🎁 3 NGÀY LÀM RA SẢN PHẨM ĐẦU TIÊN VỚI AI',meta:'Khoá tặng miễn phí · 6 bài trong 3 ngày',desc:'Mỗi ngày làm ra một sản phẩm thật với ChatGPT hoặc Claude: trợ lý AI riêng nhớ thông tin shop, trang web có link gửi khách, quà tặng số để có người quan tâm. Tặng 30 câu lệnh chép sẵn.',img:'/ba-ngay/img/hero.jpg?v=20261116r',learn:'/ba-ngay/',buy:'/ba-ngay/dang-ky/',price:'Miễn phí',total:6,done:'ba-ngay-done'},
+ {id:'tang',free:1,name:'🎁 LÀM VIDEO AI ĐẦU TIÊN TRONG 30 PHÚT',meta:'Khoá tặng miễn phí · 10 bài',desc:'ChatGPT hoặc Gemini viết kịch bản và tạo ảnh, Google Flow (Omni, Veo) tạo video có tiếng nói, rồi đăng lên đón khách. Tặng thêm 50 câu lệnh cho 10 ngành và kế hoạch 7 ngày.',img:'/tang/img/hero.jpg?v=20261116r',learn:'/tang/',buy:'/tang/dang-ky/',price:'<s style="color:#8a8a8a;font-weight:700;font-size:14px;margin-right:6px">686.000đ</s>Miễn phí',total:6,done:'tang-done'},
+ {id:'vanhanh',name:'VẬN HÀNH AGENT',meta:'16 bài · Cầm tay chỉ việc',desc:'Dựng đội nhân viên AI tự làm việc cho bạn: cài app NAOSO, giao việc, hẹn giờ, chatbot khách hàng và chạy 24/7 với tên miền riêng.',img:'/img/hero.jpg?v=20261116r',learn:'/van-hanh/',buy:'/dang-ky/',price:'<s style="color:#8a8a8a;font-weight:700;font-size:14px;margin-right:6px">1.868.000đ</s>868.000đ',total:16,done:'vanhanh-agent-done'},
+ {id:'vibe',name:'28 NGÀY VIBE CODING',meta:'28 ngày · Bot CSKH Zalo & Facebook',desc:'Tự làm bot chăm sóc khách hàng tự trả lời trên Zalo và Facebook bằng AI, không cần biết code. Mỗi ngày một bước nhỏ, làm là chạy.',img:'/vibe-coding/img/hero.jpg?v=20261116r',learn:'/vibe-coding/',buy:'/vibe-coding/dang-ky/',price:'<s style="color:#8a8a8a;font-weight:700;font-size:14px;margin-right:6px">2.868.000đ</s>1.868.000đ',total:19,done:'vibe-coding-done'},
+ {id:'donggoi',name:'ĐÓNG GÓI KIẾN THỨC',meta:'18 bài · Đóng gói và bán khoá học tự động',desc:'Biến kinh nghiệm bạn đang có thành một khoá học hoàn chỉnh với ChatGPT hoặc Claude: tìm chủ đề, dựng bài, quay video, làm video không cần quay, viết trang bán và cài bán tự động.',img:'/dong-goi/img/hero.jpg?v=20261116r',learn:'/dong-goi/',buy:'/dong-goi/dang-ky/',price:'<s style="color:#8a8a8a;font-weight:700;font-size:14px;margin-right:6px">3.868.000đ</s>1.868.000đ',total:18,done:'dong-goi-done'},
+ {id:'khonglen',name:'LÀM VIDEO KHÔNG CẦN LÊN HÌNH',meta:'14 bài · Chỉ cần thu âm giọng',desc:'Làm video đăng mỗi ngày mà không cần lên hình: thu âm giọng, ghép hình quay sẵn, video Veo 3 và nguồn miễn phí, đăng đón khách bằng từ khoá, xây bộ não thứ hai cho nội dung.',img:'/khong-len-hinh/img/hero.jpg?v=20261116r',learn:'/khong-len-hinh/',buy:'/khong-len-hinh/dang-ky/',price:'<s style="color:#8a8a8a;font-weight:700;font-size:14px;margin-right:6px">1.868.000đ</s>568.000đ',total:14,done:'khong-len-hinh-done'},
+ {id:'viethay',name:'VIẾT HAY BÁN ĐƯỢC – VIẾT NỘI DUNG CÓ KHÁCH NHẮN BẰNG AI',meta:'12 bài · Viết nội dung có khách nhắn',desc:'Viết bài, kịch bản video và bài bán hàng nghe như người thật, có khách nhắn tin.',img:'/viet-hay/img/hero.jpg?v=20261116r',learn:'/viet-hay/',buy:'/viet-hay/dang-ky/',price:'<s style="color:#8a8a8a;font-weight:700;font-size:14px;margin-right:6px">868.000đ</s>368.000đ',total:12,done:'viet-hay-done'},
+ {id:'vietbai',name:'TỰ ĐỘNG VIẾT BÀI MỖI NGÀY BẰNG AI',meta:'12 bài · AI viết trước, bạn duyệt',desc:'Dựng hệ thống AI viết bài trước cho bạn mỗi ngày, bạn chỉ đọc, duyệt và đăng.',img:'/viet-bai/img/hero.jpg?v=20261116r',learn:'/viet-bai/',buy:'/viet-bai/dang-ky/',price:'<s style="color:#8a8a8a;font-weight:700;font-size:14px;margin-right:6px">1.868.000đ</s>568.000đ',total:12,done:'viet-bai-done'},
+ {id:'editvideo',name:'EDIT VIDEO TỰ ĐỘNG BẰNG AI',meta:'12 bài · Edit nhanh, đều mỗi ngày',desc:'Từ video quay điện thoại thành video đăng được: cắt, tiếng, phụ đề, tiêu đề, logo, nhanh và đều.',img:'/edit-video/img/hero.jpg?v=20261116r',learn:'/edit-video/',buy:'/edit-video/dang-ky/',price:'<s style="color:#8a8a8a;font-weight:700;font-size:14px;margin-right:6px">1.868.000đ</s>568.000đ',total:12,done:'edit-video-done'},
+ {id:'website',name:'WEBSITE BÁN HÀNG TỰ ĐỘNG',meta:'12 bài · Tự xác nhận thanh toán',desc:'Tự làm trang bán có đặt hàng, mã QR thanh toán tự xác nhận và email báo đơn, không cần biết code.',img:'/website-ban-hang/img/hero.jpg?v=20261116r',learn:'/website-ban-hang/',buy:'/website-ban-hang/dang-ky/',price:'<s style="color:#8a8a8a;font-weight:700;font-size:14px;margin-right:6px">2.868.000đ</s>868.000đ',total:12,done:'website-ban-hang-done'},
 ];
 const TK='vh-token';let ME=null;
 function ls(k,v){try{if(v===undefined)return localStorage.getItem(k);if(v===null)localStorage.removeItem(k);else localStorage.setItem(k,v)}catch(e){if(v===undefined)return window['__'+k];window['__'+k]=v}}
