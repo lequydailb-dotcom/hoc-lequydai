@@ -166,9 +166,9 @@ footer a{color:#fff}
 <script>
 const K='viet-hay-order';
 function vnd(n){return Number(n).toLocaleString('vi-VN')+'đ'}
-async function xemMa(){const c=document.getElementById('c').value.trim(),m=document.getElementById('cm');if(!c){m.textContent='';return}
+let mq=0;async function xemMa(){const q=++mq,c=document.getElementById('c').value.trim(),m=document.getElementById('cm');if(!c){m.textContent='';return}
  m.style.color='#5d6785';m.textContent='Đang kiểm tra mã...';
- try{const r=await api({action:'coupon',course:'viethay',coupon:c,email:document.getElementById('e').value});
+ try{const r=await api({action:'coupon',course:'viethay',coupon:c,email:document.getElementById('e').value});if(q!==mq)return;
   if(r.ok){m.style.color='#1e8449';m.textContent='✅ Mã đúng: giảm '+r.pct+'%, còn '+vnd(r.amount)}else{m.style.color='#c0392b';m.textContent=r.msg}}catch(e){m.textContent=''}}
 
 function st(k,v){try{if(v===undefined)return localStorage.getItem(k);if(v===null)localStorage.removeItem(k);else localStorage.setItem(k,v)}catch(e){}}
