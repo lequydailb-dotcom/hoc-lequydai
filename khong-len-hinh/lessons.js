@@ -2,7 +2,7 @@
 window.COURSE = {
  "id": "khonglen",
  "title": "LÀM VIDEO KHÔNG CẦN LÊN HÌNH",
- "subtitle": "Chỉ cần thu âm giọng: ghép hình có sẵn, video Veo 3 và nguồn miễn phí thành video đăng mỗi ngày. 14 bài, đi từng bước.",
+ "subtitle": "Chỉ cần thu âm giọng: ghép hình có sẵn, video Veo 3 và nguồn miễn phí thành video đăng mỗi ngày. 20 bài, đi từng bước.",
  "zalo": "https://zalo.me/g/a9my3sx1ov0fsihenx6e",
  "parts": [
   {
@@ -37,6 +37,17 @@ window.COURSE = {
     12,
     13,
     14
+   ]
+  },
+  {
+   "name": "Nâng cao: giữ chân, chuỗi 28 ngày, quà tặng",
+   "lessons": [
+    15,
+    16,
+    17,
+    18,
+    19,
+    20
    ]
   }
  ],
@@ -124,6 +135,42 @@ window.COURSE = {
    "short": "XÀO CHẺ + LỊCH 30 NGÀY",
    "tag": "Một ý, nhiều video, kênh nào cũng có việc làm",
    "goal": "Bạn biết xào chẻ một chủ đề ra nhiều video khác nhau và có lịch 30 ngày của riêng mình."
+  },
+  "15": {
+   "title": "10 mẫu câu móc cho 3 giây đầu",
+   "short": "10 MẪU CÂU MÓC",
+   "tag": "Ba giây đầu quyết định người ta xem tiếp hay lướt",
+   "goal": "Bạn có 10 câu móc viết sẵn cho chủ đề của mình và biết chọn câu nào cho video nào."
+  },
+  "16": {
+   "title": "Chuỗi 28 ngày: lạnh, ấm, nóng, bán",
+   "short": "CHUỖI 28 NGÀY",
+   "tag": "Không phải video nào cũng bán, nhưng cả chuỗi phải dẫn tới bán",
+   "goal": "Bạn có bảng 28 tiêu đề chia 4 tuần cho một sản phẩm, mỗi video có việc riêng của nó."
+  },
+  "17": {
+   "title": "Giữ nhân vật AI không lệch mặt, lệch áo",
+   "short": "NHÂN VẬT KHÔNG LỆCH",
+   "tag": "Một người xuyên suốt thì video mới giống phim",
+   "goal": "Bạn có ảnh nhân vật chuẩn và bộ câu lệnh giữ đúng mặt, đúng áo qua mọi cảnh."
+  },
+  "18": {
+   "title": "Kết video có lời hẹn ngày mai",
+   "short": "LỜI HẸN NGÀY MAI",
+   "tag": "Kết phẳng thì người xem đi luôn, kết có hẹn thì họ quay lại",
+   "goal": "Bạn có 3 mẫu câu kết gồm lời kêu gọi theo từ khoá và lời hẹn cho video hôm sau."
+  },
+  "19": {
+   "title": "Quà tặng đúng lời hứa và gửi riêng",
+   "short": "QUÀ ĐÚNG LỜI HỨA",
+   "tag": "Hứa quà trong video thì quà phải có trước khi đăng",
+   "goal": "Bạn có một món quà làm xong, một bản hướng dẫn dùng và quy trình gửi riêng cho người bình luận."
+  },
+  "20": {
+   "title": "Quy trình 8 bước và vòng phản biện",
+   "short": "8 BƯỚC + PHẢN BIỆN",
+   "tag": "Trước khi đăng, cho AI đóng vai người xem khó tính",
+   "goal": "Bạn có quy trình 8 bước cho một video mới và một câu lệnh phản biện để soát kịch bản trước khi làm."
   }
  }
 };

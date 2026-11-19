@@ -36,6 +36,17 @@ window.COURSE = {
     11,
     12
    ]
+  },
+  {
+   "name": "Chặng 5 · NÂNG CAO: sản phẩm, màn hình, thương hiệu",
+   "lessons": [
+    13,
+    14,
+    15,
+    16,
+    17,
+    18
+   ]
   }
  ],
  "lessons": {
@@ -122,6 +133,48 @@ window.COURSE = {
    "tag": "Thông số xuất đúng cho từng kênh, chú thích làm sẵn và lịch đăng không trùng lặp.",
    "goal": "Thông số xuất đúng cho từng kênh, chú thích làm sẵn và lịch đăng không trùng lặp.",
    "day": "Bài 12"
+  },
+  "13": {
+   "title": "Video giới thiệu sản phẩm quay thật",
+   "short": "VIDEO SẢN PHẨM",
+   "tag": "Một video 20 đến 30 giây giới thiệu sản phẩm của bạn: cảnh ngắn 3 đến 4 giây, chữ nổi đúng chỗ, kết bằng lời kêu gọi.",
+   "goal": "Một video 20 đến 30 giây giới thiệu sản phẩm của bạn: cảnh ngắn 3 đến 4 giây, chữ nổi đúng chỗ, kết bằng lời kêu gọi.",
+   "day": "Bài 13"
+  },
+  "14": {
+   "title": "Video quay màn hình thành video dọc",
+   "short": "QUAY MÀN HÌNH",
+   "tag": "Một video dọc 9:16 dựng từ đoạn quay màn hình: màn hình rõ chữ, mặt bạn nằm gọn trong vòng tròn góc dưới.",
+   "goal": "Một video dọc 9:16 dựng từ đoạn quay màn hình: màn hình rõ chữ, mặt bạn nằm gọn trong vòng tròn góc dưới.",
+   "day": "Bài 14"
+  },
+  "15": {
+   "title": "Video ngang dài thành video dọc kiểu bản tin",
+   "short": "NGANG THÀNH DỌC",
+   "tag": "Một khung mẫu dọc 9:16 kiểu bản tin: video ngang ở trên, hai tiêu đề, thanh tiến độ, dùng lại cho mọi video dài.",
+   "goal": "Một khung mẫu dọc 9:16 kiểu bản tin: video ngang ở trên, hai tiêu đề, thanh tiến độ, dùng lại cho mọi video dài.",
+   "day": "Bài 15"
+  },
+  "16": {
+   "title": "Một video dài cắt thành năm video ngắn",
+   "short": "MỘT THÀNH NĂM",
+   "tag": "Năm video ngắn cắt từ một video dài, mỗi video có tiêu đề riêng, câu mở riêng và lời kêu gọi riêng.",
+   "goal": "Năm video ngắn cắt từ một video dài, mỗi video có tiêu đề riêng, câu mở riêng và lời kêu gọi riêng.",
+   "day": "Bài 16"
+  },
+  "17": {
+   "title": "Bộ nhận diện cho video của bạn",
+   "short": "BỘ NHẬN DIỆN",
+   "tag": "Một bộ nhận diện video một trang: 3 màu, kiểu chữ, vị trí logo, mẫu thẻ kết, áp dụng cho mọi video từ nay.",
+   "goal": "Một bộ nhận diện video một trang: 3 màu, kiểu chữ, vị trí logo, mẫu thẻ kết, áp dụng cho mọi video từ nay.",
+   "day": "Bài 17"
+  },
+  "18": {
+   "title": "Giao việc edit cho AI và bảng chấm 10 điểm",
+   "short": "GIAO VIỆC + CHẤM ĐIỂM",
+   "tag": "Một bản giao việc edit dùng lại được và một bảng chấm 10 điểm để soát mọi video trước khi đăng.",
+   "goal": "Một bản giao việc edit dùng lại được và một bảng chấm 10 điểm để soát mọi video trước khi đăng.",
+   "day": "Bài 18"
   }
  }
 };
