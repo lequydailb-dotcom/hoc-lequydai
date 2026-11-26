@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+Disallow: /video/
+Sitemap: https://hoc.lequydai.com/sitemap.xml
